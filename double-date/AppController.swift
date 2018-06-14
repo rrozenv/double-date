@@ -23,7 +23,7 @@ final class AppController: UIViewController {
     private let disposeBag = DisposeBag()
     private let userService = UserService()
     private let errorTracker = ErrorTracker()
-    private var actingVC: UIViewController!
+    private var actingVC: UIViewController = UIViewController()
     private var rootRouter: Navigateable = InitalRouter()
     
     //MARK: - Public Props
@@ -54,12 +54,15 @@ final class AppController: UIViewController {
         errorTracker.asObservable()
             .subscribe(onNext: { [unowned self] in
                 print("Error: \($0.localizedDescription)")
-                self.actingVC = self.rootRouter.navVc
-                self.addChild(self.actingVC, frame: self.view.frame, animated: true)
+                self.switchToRouter(self.rootRouter)
             })
             .disposed(by: disposeBag)
         
         fetchCurrentUser()
+    }
+    
+    func toInitalFlow() {
+        
     }
     
 }
@@ -102,10 +105,10 @@ extension AppController {
         }
     }
 
-    private func switchToViewController(_ viewController: UIViewController) {
+    private func switchToRouter(_ router: Navigateable) {
         self.removeChild(actingVC, completion: nil)
-        self.actingVC = viewController
-        self.addChild(viewController, frame: view.frame, animated: true)
+        self.actingVC = router.navVc
+        self.addChild(self.actingVC, frame: self.view.frame, animated: true)
     }
     
 }
