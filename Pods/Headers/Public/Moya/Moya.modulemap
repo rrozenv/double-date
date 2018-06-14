@@ -1,0 +1,6 @@
+module Moya [system] {
+  umbrella header "Moya-umbrella.h"
+
+  export *
+  module * { export * }
+}

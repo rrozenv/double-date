@@ -1,0 +1,6 @@
+module Pods_double_date [system] {
+  umbrella header "Pods-double-date-umbrella.h"
+
+  export *
+  module * { export * }
+}
