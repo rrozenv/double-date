@@ -1,0 +1,6 @@
+module RxAlamofire [system] {
+  umbrella header "RxAlamofire-umbrella.h"
+
+  export *
+  module * { export * }
+}

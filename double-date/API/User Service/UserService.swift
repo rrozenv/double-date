@@ -12,31 +12,14 @@ import RxSwift
 
 struct UserService {
     
-    let provider = MoyaProvider<API>()
-    
-//    func allUsers() -> Observable<[User]> {
-//        return provider.rx
-//            .request(.users(.allUsers)).asObservable()
-//            .map(to: [User.self])
-//    }
+    let network = Network<User>(Secrets.baseURL)
     
     func getCurrentUser() -> Observable<User> {
-        return provider.rx
-            .request(.users(.me)).asObservable()
-            .map(User.self)
+        return network.getItem("users", itemId: "me")
     }
     
-    func create(user: JSONDictionary) -> Observable<User> {
-        return provider.rx
-            .request(.users(.createUser(user))).asObservable()
-            .do(onNext: { response in
-                let urlResponse = response.response
-                guard let token = urlResponse?.allHeaderFields["x-auth-token"] as? String else {
-                    return
-                }
-                print("token: \(token)")
-            })
-            .map(User.self)
+    func createUser(params: [String: Any]) -> Observable<User> {
+        return network.postItem("users", parameters: params)
     }
     
 }

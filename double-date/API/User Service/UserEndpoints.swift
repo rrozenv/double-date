@@ -1,5 +1,5 @@
 //
-//  API.swift
+//  UserEndpoints.swift
 //  double-date
 //
 //  Created by Robert Rozenvasser on 6/13/18.
@@ -9,17 +9,13 @@
 import Foundation
 import Moya
 
-enum API {
-    case users(Users)
-    
-    enum Users {
-        case me
-        case allUsers
-        case createUser(JSONDictionary)
-    }
+enum UserEndpoints {
+    case me
+    case allUsers
+    case createUser(JSONDictionary)
 }
 
-extension API: TargetType {
+extension UserEndpoints: TargetType {
     
     // 3:
     var baseURL: URL {
@@ -29,36 +25,27 @@ extension API: TargetType {
     // 4:
     var path: String {
         switch self {
-        case .users(let path):
-            switch path {
-            case .me: return "/me"
-            case .allUsers: return "/users"
-            case .createUser(_): return "/users"
-            }
+        case .me: return "users/me"
+        case .allUsers: return "/users"
+        case .createUser(_): return "/users"
         }
     }
     
     // 5:
     var method: Moya.Method {
         switch self {
-        case .users(let path):
-            switch path {
-            case .me: return .get
-            case .allUsers: return .get
-            case .createUser(_): return .post
-            }
+        case .me: return .get
+        case .allUsers: return .get
+        case .createUser(_): return .post
         }
     }
     
     // 6:
     var parameters: [String: Any] {
         switch self {
-        case .users(let path):
-            switch path {
-            case .me: return [:]
-            case .allUsers: return [:]
-            case .createUser(let body): return body
-            }
+        case .me: return [:]
+        case .allUsers: return [:]
+        case .createUser(let body): return body
         }
     }
     
@@ -68,7 +55,7 @@ extension API: TargetType {
     
     // 7:
     var parameterEncoding: ParameterEncoding {
-       return JSONEncoding.default
+        return JSONEncoding.default
     }
     
     // 8:

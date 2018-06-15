@@ -28,6 +28,11 @@ PODS:
     - Moya/Core
     - RxSwift (~> 4.0)
   - Result (3.2.4)
+  - RxAlamofire (4.2.0):
+    - RxAlamofire/Core (= 4.2.0)
+  - RxAlamofire/Core (4.2.0):
+    - Alamofire (~> 4.5)
+    - RxSwift (~> 4)
   - RxCocoa (4.1.2):
     - RxSwift (~> 4.0)
   - RxOptional (3.4.0):
@@ -44,6 +49,7 @@ DEPENDENCIES:
   - GoogleSignIn
   - Kingfisher (~> 4.0)
   - Moya/RxSwift
+  - RxAlamofire
   - RxCocoa (~> 4.0)
   - RxOptional
   - RxSwift (~> 4.0)
@@ -60,6 +66,7 @@ SPEC REPOS:
     - Kingfisher
     - Moya
     - Result
+    - RxAlamofire
     - RxCocoa
     - RxOptional
     - RxSwift
@@ -75,12 +82,13 @@ SPEC CHECKSUMS:
   Kingfisher: da6b005aa96d37698e3e4f1ccfe96a5b9bbf27d6
   Moya: a725035953bc1c0eb1be505ab903984501d82440
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  RxAlamofire: 87a9c588541210cc3e4a1f843ccc3ecf3eb98b31
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
   RxOptional: fabc37fc8e3cf4c336ebaeb5c92b576c64b2e6c5
   RxSwift: e49536837d9901277638493ea537394d4b55f570
   RxSwiftExt: 64b7140124629a6a084159735f3714f0fb1c61d6
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: 53581e49d0b1c2b9b56e35aac4b2c94e1b05c30d
+PODFILE CHECKSUM: 9bb1c88c25d5278648c5151473292925b284fc78
 
 COCOAPODS: 1.5.0

@@ -17,8 +17,8 @@ enum RootRouter {
 
 final class AppController: UIViewController {
     
+    //var viewModel: AppViewModel!
     static let shared = AppController()
-    
     //MARK: - Private Props
     private let disposeBag = DisposeBag()
     private let userService = UserService()
@@ -29,40 +29,42 @@ final class AppController: UIViewController {
     //MARK: - Public Props
     var currentUser = Variable<User?>(nil)
     
-    private init() {
+    init() {
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+//
     override func viewDidLoad() {
         super.viewDidLoad()
         UIApplication.shared.isStatusBarHidden = true
+        actingVC.view.backgroundColor = .white
+        bindViewModel()
         addNotificationObservers()
-        
-        currentUser.asObservable()
-            .filterNil().take(1)
-            .subscribe(onNext: { _ in
-                print("I'm inside current user")
-//                self.actingVC = self.createHomeViewController()
-//                self.addChild(self.actingVC, frame: self.view.frame, animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        errorTracker.asObservable()
-            .subscribe(onNext: { [unowned self] in
-                print("Error: \($0.localizedDescription)")
-                self.switchToRouter(self.rootRouter)
-            })
-            .disposed(by: disposeBag)
-        
-        fetchCurrentUser()
     }
     
-    func toInitalFlow() {
-        
+    func bindViewModel() {
+        self.switchToRouter(self.rootRouter)
+//        
+//        currentUser.asObservable()
+//            .filterNil().take(1)
+//            .subscribe(onNext: { _ in
+//                print("I'm inside current user")
+//                //                self.actingVC = self.createHomeViewController()
+//                //                self.addChild(self.actingVC, frame: self.view.frame, animated: true)
+//            })
+//            .disposed(by: disposeBag)
+//
+//        errorTracker.asDriver()
+//            .drive(onNext: { [unowned self] error in
+//                print("ERRORRRORROR: \(error)")
+//                self.switchToRouter(self.rootRouter)
+//            })
+//            .disposed(by: disposeBag)
+//
+//        fetchCurrentUser()
     }
     
 }
@@ -81,12 +83,14 @@ extension AppController {
 extension AppController {
     
     private func fetchCurrentUser() {
-        userService.getCurrentUser()
-            .trackError(errorTracker)
-            .subscribe(onNext: { [unowned self] in
-                self.currentUser.value = $0
-            })
-            .disposed(by: disposeBag)
+//       userService.getCurrentUser()
+//            .trackError(errorTracker)
+//            .asDriverOnErrorJustComplete()
+//            .drive(onNext: {
+//                print("Feteched user: \($0)")
+//                self.currentUser.value = $0
+//            })
+//            .disposed(by: disposeBag)
     }
     
 }
@@ -98,8 +102,8 @@ extension AppController {
         switch notification.name {
         case Notification.Name.createHomeVc: break
             //switchToViewController(self.createHomeViewController())
-        case Notification.Name.logout: break
-            //switchToViewController(self.toOnboardingFlow())
+        case Notification.Name.logout:
+            switchToRouter(InitalRouter())
         default:
             fatalError("\(#function) - Unable to match notficiation name.")
         }

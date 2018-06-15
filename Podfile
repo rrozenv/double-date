@@ -10,4 +10,5 @@ target 'double-date' do
   pod 'Moya/RxSwift'
   pod 'RxOptional'
   pod 'GoogleSignIn'
+  pod 'RxAlamofire'
 end

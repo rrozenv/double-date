@@ -17,9 +17,9 @@ enum Gender: String, Codable {
 struct User: Codable {
     let _id: String
     let email: String
-    var firstName: String = ""
-    var lastName: String = ""
-    var gender: Gender = .male
-    var occupation: String = ""
-    var companyName: String = ""
+//    var firstName: String = ""
+//    var lastName: String = ""
+//    var gender: Gender = .male
+//    var occupation: String = ""
+//    var companyName: String = ""
 }

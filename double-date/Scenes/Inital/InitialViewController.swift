@@ -32,6 +32,10 @@ final class InitialViewController: UIViewController, BindableType {
         let continueTapped$ = continueButton.rx.tap.asObservable()
         viewModel.bindContinueButton(continueTapped$)
     }
+
+}
+
+extension InitialViewController {
     
     private func createContinueButton() {
         continueButton = UIButton().rxStyle(title: "Continue", font: FontBook.AvenirMedium.of(size: 14), backColor: Palette.aqua.color, titleColor: .white)

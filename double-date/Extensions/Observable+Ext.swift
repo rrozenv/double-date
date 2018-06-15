@@ -42,3 +42,84 @@ extension ObservableType {
         return map { _ in }
     }
 }
+
+struct CustomError: Error, Codable {
+    let message: String
+}
+
+enum NetworkError: Error, CustomStringConvertible {
+   case serverFailed
+   case decodingError
+   case custom(CustomError)
+    
+    var description: String {
+        switch self {
+        case .custom(let err):
+            return err.message
+        default:
+            return "Unknown error"
+        }
+    }
+}
+
+extension ObservableType {
+    
+    public func mapObject<T: Codable>(type: T.Type) -> Observable<T> {
+        return flatMap { data -> Observable<T> in
+            let responseTuple = data as? (HTTPURLResponse, Data)
+
+            guard let jsonData = responseTuple?.1 else {
+                throw NSError(
+                    domain: "",
+                    code: -1,
+                    userInfo: [NSLocalizedDescriptionKey: "Could not decode object"]
+                )
+            }
+            
+            let decoder = JSONDecoder()
+            
+            do {
+                let object = try decoder.decode(T.self, from: jsonData)
+                return Observable.just(object)
+            } catch {
+                do {
+                    let error = try decoder.decode(CustomError.self, from: jsonData)
+                    return Observable.error(NetworkError.custom(error))
+                } catch {
+                    return Observable.error(NetworkError.decodingError)
+                }
+            }
+            
+        }
+    }
+    
+    public func mapArray<T: Codable>(type: T.Type) -> Observable<[T]> {
+        return flatMap { data -> Observable<[T]> in
+            let responseTuple = data as? (HTTPURLResponse, Data)
+            
+            guard let jsonData = responseTuple?.1 else {
+                throw NSError(
+                    domain: "",
+                    code: -1,
+                    userInfo: [NSLocalizedDescriptionKey: "Could not decode object"]
+                )
+            }
+            
+            let decoder = JSONDecoder()
+            
+            do {
+                let objects = try decoder.decode([T].self, from: jsonData)
+                return Observable.just(objects)
+            } catch {
+                do {
+                    let error = try decoder.decode(CustomError.self, from: jsonData)
+                    return Observable.error(error)
+                } catch {
+                    return Observable.error(CustomError(message: "Unknown error"))
+                }
+            }
+            
+        }
+    }
+}
+

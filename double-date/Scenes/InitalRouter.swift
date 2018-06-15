@@ -15,6 +15,7 @@ final class InitalRouter: Routable {
     enum Screen {
         case inital
         case signup
+        case userList
     }
     
     //MARK: - Private Props
@@ -36,6 +37,7 @@ final class InitalRouter: Routable {
         switch screen {
         case .inital: toInitalScene()
         case .signup: toSignup()
+        case .userList: toUserList()
         }
     }
     
@@ -48,11 +50,20 @@ extension InitalRouter {
         var vm = InitialViewModel()
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
-        navVc.pushViewController(vc, animated: true)
+        navVc.pushViewController(vc, animated: false)
     }
     
     private func toSignup() {
-        print("Going to Signup")
+        let vc = SignupViewController()
+        vc.delegate = self
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toUserList() {
+        var vc = UsersViewController()
+        var vm = UsersViewModel()
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
     }
     
 }
@@ -64,6 +75,19 @@ extension InitalRouter: InitalViewModelDelegate {
     }
     
 }
+
+extension InitalRouter: SignupViewControllerDelegate {
+    
+    func didCreateUser() {
+        NotificationCenter.default.post(name: .createHomeVc, object: nil)
+    }
+    
+}
+
+
+
+
+
 
 final class SignupInfo {
     var firstName: String?
