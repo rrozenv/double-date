@@ -20,16 +20,13 @@ final class InitalRouter: Routable {
     
     //MARK: - Private Props
     private let disposeBag = DisposeBag()
-    private var signupInfo = SignupInfo()
-    private var userService: UserService
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
     let screenOrder: [Screen] = [.inital, .signup]
     var screenIndex = 0
     
-    init(userService: UserService = UserService()) {
-        self.userService = userService
+    init() {
         self.navigateTo(screen: .inital)
     }
     
@@ -39,6 +36,10 @@ final class InitalRouter: Routable {
         case .signup: toSignup()
         case .userList: toUserList()
         }
+    }
+    
+    deinit {
+        debugPrint("InitalRouter deinit")
     }
     
 }
@@ -61,7 +62,7 @@ extension InitalRouter {
     
     private func toUserList() {
         var vc = UsersViewController()
-        var vm = UsersViewModel()
+        let vm = UsersViewModel()
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: true)
     }
@@ -86,27 +87,4 @@ extension InitalRouter: SignupViewControllerDelegate {
 
 
 
-
-
-
-final class SignupInfo {
-    var firstName: String?
-    var lastName: String?
-    var city: String?
-    var phoneNumber: String?
-    
-    init() {
-        self.firstName = nil
-        self.lastName = nil
-        self.city = nil
-        self.phoneNumber = nil
-    }
-    
-    init(firstName: String?, lastName: String, city: String?, phoneNumber: String?) {
-        self.firstName = firstName
-        self.lastName = lastName
-        self.city = city
-        self.phoneNumber = phoneNumber
-    }
-}
 

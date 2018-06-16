@@ -27,11 +27,11 @@ extension CustomNavBarViewable where Self: UIViewController {
     
     private func setupNavView() {
         view.addSubview(navView)
-//        navView.snp.makeConstraints { (make) in
-//            make.left.right.equalTo(view)
-//            make.height.equalTo(Constants.CUSTOM_NAV_HEIGHT)
-//            make.topEqualTo(view)
-//        }
+        navView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view)
+            make.height.equalTo(60)
+            make.topEqualTo(view)
+        }
     }
     
     private func setupNavBarBackgroundView() {

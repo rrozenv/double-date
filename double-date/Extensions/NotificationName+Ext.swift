@@ -13,6 +13,7 @@ import RxSwift
 // MARK: - Notification Extension
 extension Notification.Name {
     static let createHomeVc = Notification.Name("createHomeVc")
+    static let createOnboarding = Notification.Name("createOnboarding")
     static let logout = Notification.Name("logout")
     static let userDidUpdate = Notification.Name("userDidUpdate")
     static let changedSubmissionStatusInDetail = Notification.Name("changedSubmissionStatusInDetail")

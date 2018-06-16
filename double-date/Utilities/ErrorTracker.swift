@@ -7,72 +7,8 @@
 //
 
 import Foundation
-import RxAlamofire
-import Alamofire
-//import RxSwift
-//import RxCocoa
-//
-//final class ErrorTracker<E: Error>: SharedSequenceConvertibleType {
-//    typealias SharingStrategy = DriverSharingStrategy
-//    private let _subject = PublishSubject<E>()
-//
-//    func trackError<O: ObservableConvertibleType>(from source: O) -> Observable<O.E> {
-//        return source.asObservable().do(onNext: {
-//            self.onError(($0 as? E)!)
-//        })
-//    }
-//
-//    func asSharedSequence() -> SharedSequence<SharingStrategy, E> {
-//        return _subject.asObservable().asDriverOnErrorJustComplete()
-//    }
-//
-//    func asObservable() -> Observable<E> {
-//        return _subject.asObservable()
-//    }
-//
-//    private func onError(_ error: E) {
-//        _subject.onNext(error)
-//    }
-//
-//    deinit {
-//        _subject.onCompleted()
-//    }
-//}
-//
-//extension ObservableConvertibleType {
-//    func trackError(_ errorTracker: ErrorTracker<CustomError>) -> Observable<E> {
-//        return errorTracker.trackError(from: self)
-//    }
-//}
-
 import RxSwift
 import RxCocoa
-
-//final class ErrorTracker: SharedSequenceConvertibleType {
-//    typealias SharingStrategy = DriverSharingStrategy
-//    private let _subject = PublishSubject<Error>()
-//
-//    func trackError<O: ObservableConvertibleType>(from source: O) -> Observable<O.E> {
-//        return source.asObservable().do(onError: onError)
-//    }
-//
-//    func asSharedSequence() -> SharedSequence<SharingStrategy, Error> {
-//        return _subject.asObservable().asDriverOnErrorJustComplete()
-//    }
-//
-//    func asObservable() -> Observable<Error> {
-//        return _subject.asObservable()
-//    }
-//
-//    private func onError(_ error: Error) {
-//        _subject.onNext(error)
-//    }
-//
-//    deinit {
-//        _subject.onCompleted()
-//    }
-//}
-
 
 final class ErrorTracker: SharedSequenceConvertibleType {
     typealias SharingStrategy = DriverSharingStrategy
@@ -91,7 +27,10 @@ final class ErrorTracker: SharedSequenceConvertibleType {
     }
     
     private func onError(_ error: Error) {
-        let networkError = error as! NetworkError
+        guard let networkError = error as? NetworkError else {
+            _subject.onNext(NetworkError.serverFailed)
+            return
+        }
         _subject.onNext(networkError)
     }
     
@@ -106,35 +45,6 @@ extension ObservableType {
     }
 }
 
-extension ObservableType where E == (HTTPURLResponse, Data) {
-    
-    func logRequest() -> Self {
-        return self.do(onNext: { (response, data) in
-            debugPrint(response.debugDescription)
-        }) as! Self
-    }
-    
-}
-
-extension ObservableType where E == DataRequest {
-    
-    func logRequest() -> Self {
-        return self.do(onNext: { (request) in
-            print(request.request?.url ?? "")
-            
-        }) as! Self
-    }
-    
-}
-
-extension ObservableType where E == Request {
-    public func debugLog() -> Self {
-        #if DEBUG
-            debugPrint(self)
-        #endif
-        return self
-    }
-}
 
 
 

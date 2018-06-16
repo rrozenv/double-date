@@ -38,13 +38,18 @@
 		98300A6C20D1FF9000D7C4BA /* InitalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */; };
 		98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */; };
 		98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6F20D20F1F00D7C4BA /* Routable.swift */; };
-		98300A7220D2182200D7C4BA /* UserEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A7120D2182200D7C4BA /* UserEndpoints.swift */; };
 		989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D420D3EB2800AD9F9F /* UserListViewModel.swift */; };
 		989963D720D3EB3500AD9F9F /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D620D3EB3500AD9F9F /* UserListViewController.swift */; };
 		989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */; };
 		98B8B78420D303D4004BD6A1 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B8B78320D303D4004BD6A1 /* SignupViewController.swift */; };
 		98B8B78620D303E3004BD6A1 /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B8B78520D303E3004BD6A1 /* SignupViewModel.swift */; };
 		98B8B78820D30D9E004BD6A1 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B8B78720D30D9E004BD6A1 /* Network.swift */; };
+		98F77F2620D5921E005F4B66 /* OnboardingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2520D5921E005F4B66 /* OnboardingRouter.swift */; };
+		98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2920D59314005F4B66 /* StyledTextField.swift */; };
+		98F77F2C20D5936C005F4B66 /* EnterNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2B20D5936C005F4B66 /* EnterNameViewModel.swift */; };
+		98F77F2E20D59475005F4B66 /* ButtonLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2D20D59475005F4B66 /* ButtonLabel.swift */; };
+		98F77F3020D59497005F4B66 /* EnterNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2F20D59497005F4B66 /* EnterNameViewController.swift */; };
+		98F77F3220D59571005F4B66 /* BackButtonNavView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F3120D59571005F4B66 /* BackButtonNavView.swift */; };
 		F2C4933BEDC11436495EE52E /* libPods-double-date.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F068FD1222170AB1E2442072 /* libPods-double-date.a */; };
 /* End PBXBuildFile section */
 
@@ -103,13 +108,18 @@
 		98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitalRouter.swift; sourceTree = "<group>"; };
 		98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		98300A6F20D20F1F00D7C4BA /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
-		98300A7120D2182200D7C4BA /* UserEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserEndpoints.swift; sourceTree = "<group>"; };
 		989963D420D3EB2800AD9F9F /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		989963D620D3EB3500AD9F9F /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkActivityLogger.swift; sourceTree = "<group>"; };
 		98B8B78320D303D4004BD6A1 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		98B8B78520D303E3004BD6A1 /* SignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewModel.swift; sourceTree = "<group>"; };
 		98B8B78720D30D9E004BD6A1 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		98F77F2520D5921E005F4B66 /* OnboardingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRouter.swift; sourceTree = "<group>"; };
+		98F77F2920D59314005F4B66 /* StyledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledTextField.swift; sourceTree = "<group>"; };
+		98F77F2B20D5936C005F4B66 /* EnterNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewModel.swift; sourceTree = "<group>"; };
+		98F77F2D20D59475005F4B66 /* ButtonLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonLabel.swift; sourceTree = "<group>"; };
+		98F77F2F20D59497005F4B66 /* EnterNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewController.swift; sourceTree = "<group>"; };
+		98F77F3120D59571005F4B66 /* BackButtonNavView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButtonNavView.swift; sourceTree = "<group>"; };
 		999279DFC7C0E1A1AC287809 /* Pods-double-date.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-double-date.debug.xcconfig"; path = "Pods/Target Support Files/Pods-double-date/Pods-double-date.debug.xcconfig"; sourceTree = "<group>"; };
 		F068FD1222170AB1E2442072 /* libPods-double-date.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-double-date.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F51F2B788A4F68569394B3BD /* Pods-double-date.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-double-date.release.xcconfig"; path = "Pods/Target Support Files/Pods-double-date/Pods-double-date.release.xcconfig"; sourceTree = "<group>"; };
@@ -186,8 +196,10 @@
 				98300A3220D1F01500D7C4BA /* Secrets.swift */,
 				98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */,
 				98300A5E20D1F77800D7C4BA /* AppController.swift */,
+				98F77F2420D58F5B005F4B66 /* Root Routers */,
 				98300A6320D1FE8700D7C4BA /* Scenes */,
 				98300A6220D1FE6F00D7C4BA /* Models */,
+				98F77F2820D592FE005F4B66 /* Views */,
 				98300A6020D1F82300D7C4BA /* API */,
 				98300A5020D1F66500D7C4BA /* Generic Protocols */,
 				98300A5520D1F6CD00D7C4BA /* Utilities */,
@@ -278,10 +290,10 @@
 		98300A6320D1FE8700D7C4BA /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				98F77F2720D5925C005F4B66 /* Name Entry */,
 				989963D320D3EB1300AD9F9F /* User List */,
 				98300A6420D1FE9400D7C4BA /* Inital */,
 				98B8B78220D303B2004BD6A1 /* Sign up */,
-				98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -299,7 +311,6 @@
 			isa = PBXGroup;
 			children = (
 				98300A3420D1F1A700D7C4BA /* UserService.swift */,
-				98300A7120D2182200D7C4BA /* UserEndpoints.swift */,
 			);
 			path = "User Service";
 			sourceTree = "<group>";
@@ -320,6 +331,34 @@
 				98B8B78520D303E3004BD6A1 /* SignupViewModel.swift */,
 			);
 			path = "Sign up";
+			sourceTree = "<group>";
+		};
+		98F77F2420D58F5B005F4B66 /* Root Routers */ = {
+			isa = PBXGroup;
+			children = (
+				98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */,
+				98F77F2520D5921E005F4B66 /* OnboardingRouter.swift */,
+			);
+			path = "Root Routers";
+			sourceTree = "<group>";
+		};
+		98F77F2720D5925C005F4B66 /* Name Entry */ = {
+			isa = PBXGroup;
+			children = (
+				98F77F2B20D5936C005F4B66 /* EnterNameViewModel.swift */,
+				98F77F2F20D59497005F4B66 /* EnterNameViewController.swift */,
+			);
+			path = "Name Entry";
+			sourceTree = "<group>";
+		};
+		98F77F2820D592FE005F4B66 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				98F77F2920D59314005F4B66 /* StyledTextField.swift */,
+				98F77F2D20D59475005F4B66 /* ButtonLabel.swift */,
+				98F77F3120D59571005F4B66 /* BackButtonNavView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -498,11 +537,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98F77F3220D59571005F4B66 /* BackButtonNavView.swift in Sources */,
 				98300A2F20D1EDB000D7C4BA /* User.swift in Sources */,
 				98300A6A20D1FF4C00D7C4BA /* InitialViewModel.swift in Sources */,
 				98300A5D20D1F73E00D7C4BA /* Palette.swift in Sources */,
+				98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */,
+				98F77F2E20D59475005F4B66 /* ButtonLabel.swift in Sources */,
 				98300A5220D1F69300D7C4BA /* KeyboardAvoidable.swift in Sources */,
-				98300A7220D2182200D7C4BA /* UserEndpoints.swift in Sources */,
+				98F77F3020D59497005F4B66 /* EnterNameViewController.swift in Sources */,
 				98300A5F20D1F77800D7C4BA /* AppController.swift in Sources */,
 				98B8B78620D303E3004BD6A1 /* SignupViewModel.swift in Sources */,
 				98300A6C20D1FF9000D7C4BA /* InitalRouter.swift in Sources */,
@@ -510,6 +552,7 @@
 				98300A5720D1F6FB00D7C4BA /* ActivityIndicator.swift in Sources */,
 				98300A4E20D1F64B00D7C4BA /* UITextField+Ext.swift in Sources */,
 				98300A4C20D1F64B00D7C4BA /* UIViewController+Ext.swift in Sources */,
+				98F77F2620D5921E005F4B66 /* OnboardingRouter.swift in Sources */,
 				98300A5B20D1F72900D7C4BA /* FontBook.swift in Sources */,
 				989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */,
 				98300A5420D1F6B800D7C4BA /* Observable+Ext.swift in Sources */,
@@ -523,6 +566,7 @@
 				98300A4920D1F64B00D7C4BA /* UIDevice+Ext.swift in Sources */,
 				98300A4D20D1F64B00D7C4BA /* UITextView+Ext.swift in Sources */,
 				989963D720D3EB3500AD9F9F /* UserListViewController.swift in Sources */,
+				98F77F2C20D5936C005F4B66 /* EnterNameViewModel.swift in Sources */,
 				98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */,
 				98300A4F20D1F64B00D7C4BA /* UIStackView+Ext.swift in Sources */,
 				989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */,

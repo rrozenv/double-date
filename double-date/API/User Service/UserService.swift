@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Moya
 import RxSwift
 
 struct UserService {
@@ -22,33 +21,9 @@ struct UserService {
         return network.postItem("users", parameters: params)
     }
     
-}
-
-public extension ObservableType where E == Moya.Response {
-    
-    public func map<T>(to type: T.Type, using decoder: JSONDecoder = JSONDecoder()) -> Observable<T> where T: Swift.Decodable {
-        return map {
-            try $0.map(type, using: decoder)
-        }
-    }
-    
-    public func mapOptional<T>(to type: T.Type, using decoder: JSONDecoder = JSONDecoder()) -> Observable<T?> where T: Swift.Decodable {
-        return flatMap { response -> Observable<T?> in
-            do {
-                return Observable.just(try response.map(to: type, using: decoder))
-            } catch {
-                return Observable.just(nil)
-            }
-        }
+    func findUserBy(email: String) -> Observable<User?> {
+        return network.getOptionalItem("users", itemId: email)
     }
     
 }
 
-public extension Moya.Response {
-    
-    public func map<T>(to type: T.Type, using decoder: JSONDecoder = JSONDecoder()) throws -> T where T: Swift.Decodable {
-        let decoder = decoder
-        return try decoder.decode(type, from: data)
-    }
-    
-}

@@ -27,6 +27,8 @@ extension Routable {
     
     func toNextScreen() {
         print("going to next screen")
+        print("Index \(screenIndex)")
+        print("Order \(screenOrder.count - 1)")
         guard screenIndex < screenOrder.count - 1 else {
             print("No more screens") ; return
         }
@@ -41,6 +43,7 @@ extension Routable {
             return
         }
         screenIndex -= 1
+        print("New Index \(screenIndex)")
         navVc.popViewController(animated: true)
     }
     

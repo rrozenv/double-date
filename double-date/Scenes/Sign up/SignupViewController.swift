@@ -36,11 +36,11 @@ final class SignupViewController: UIViewController, BindableType {
         setupGoogleButton()
     }
     
-    deinit { print("InitialViewController deinit") }
+    deinit { print("SignupViewController deinit") }
     
     func bindViewModel() {
-        errorTracker.asObservable()
-            .subscribe(onNext: {
+        errorTracker.asDriver()
+            .drive(onNext: {
                 print("Error: \($0)")
             })
             .disposed(by: disposeBag)
@@ -80,22 +80,9 @@ extension SignupViewController: GIDSignInDelegate {
                 .drive(onNext: { [weak self] in
                     print("Success creating user: \($0)")
                     AppController.shared.currentUser.value = $0
-                    self?.delegate?.didCreateUser()
+                    NotificationCenter.default.post(name: .createOnboarding, object: nil)
                 })
                 .disposed(by: disposeBag)
-            
-//            self.userService.create(user: [
-//                    "name": fullName ?? "No Name",
-//                    "email": email ?? "No email",
-//                    "googleToken": idToken ?? "No Token"
-//                ])
-//                .trackError(errorTracker)
-//                .subscribe(onNext: { [weak self] in
-//                    print("Success creating user: \($0)")
-//                    AppController.shared.currentUser.value = $0
-//                    self?.delegate?.didCreateUser()
-//                })
-//                .disposed(by: disposeBag)
         }
     }
     
@@ -129,7 +116,7 @@ extension SignupViewController {
         
         view.addSubview(googleButton)
         googleButton.snp.makeConstraints { (make) in
-            make.width.equalTo(view).multipliedBy(0.8)
+            //make.width.equalTo(view).multipliedBy(0.8)
             make.center.equalTo(view)
             make.height.equalTo(56)
         }

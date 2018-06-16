@@ -38,6 +38,14 @@ final class Network<T: Codable> {
             .mapObject(type: T.self)
     }
     
+    func getOptionalItem(_ path: String, itemId: String) -> Observable<T?> {
+        let absolutePath = "\(endPoint)/\(path)/\(itemId)"
+        return manager.rx
+            .responseData(.get, absolutePath)
+            .observeOn(scheduler)
+            .mapOptionalObject(type: T.self)
+    }
+    
     func postItem(_ path: String, parameters: [String: Any]) -> Observable<T> {
         let absolutePath = "\(endPoint)/\(path)"
         print(parameters)

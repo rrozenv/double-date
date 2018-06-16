@@ -56,6 +56,7 @@ enum NetworkError: Error, CustomStringConvertible {
         switch self {
         case .custom(let err):
             return err.message
+        case .serverFailed: return "Server failed"
         default:
             return "Unknown error"
         }
@@ -88,6 +89,30 @@ extension ObservableType {
                 } catch {
                     return Observable.error(NetworkError.decodingError)
                 }
+            }
+            
+        }
+    }
+    
+    public func mapOptionalObject<T: Codable>(type: T.Type) -> Observable<T?> {
+        return flatMap { data -> Observable<T?> in
+            let responseTuple = data as? (HTTPURLResponse, Data)
+            
+            guard let jsonData = responseTuple?.1 else {
+                throw NSError(
+                    domain: "",
+                    code: -1,
+                    userInfo: [NSLocalizedDescriptionKey: "Could not decode object"]
+                )
+            }
+            
+            let decoder = JSONDecoder()
+            
+            do {
+                let object = try decoder.decode(T.self, from: jsonData)
+                return Observable.just(object)
+            } catch {
+                return Observable.just(nil)
             }
             
         }
