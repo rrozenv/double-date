@@ -77,7 +77,7 @@ extension SignupViewController: GIDSignInDelegate {
                 ])
                 .trackNetworkError(errorTracker)
                 .asDriverOnErrorJustComplete()
-                .drive(onNext: { [weak self] in
+                .drive(onNext: {
                     print("Success creating user: \($0)")
                     AppController.shared.currentUser.value = $0
                     NotificationCenter.default.post(name: .createOnboarding, object: nil)

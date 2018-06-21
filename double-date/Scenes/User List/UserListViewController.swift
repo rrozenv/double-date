@@ -10,7 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxOptional
-import Moya
 
 class UsersViewController: UIViewController, BindableType {
     

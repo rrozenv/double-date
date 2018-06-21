@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.7.2)
+  - Differentiator (3.0.2)
   - GoogleSignIn (4.1.2):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
     - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
@@ -21,19 +22,16 @@ PODS:
   - GTMSessionFetcher/Full (1.1.15):
     - GTMSessionFetcher/Core (= 1.1.15)
   - Kingfisher (4.7.0)
-  - Moya/Core (11.0.2):
-    - Alamofire (~> 4.1)
-    - Result (~> 3.0)
-  - Moya/RxSwift (11.0.2):
-    - Moya/Core
-    - RxSwift (~> 4.0)
-  - Result (3.2.4)
   - RxAlamofire (4.2.0):
     - RxAlamofire/Core (= 4.2.0)
   - RxAlamofire/Core (4.2.0):
     - Alamofire (~> 4.5)
     - RxSwift (~> 4)
   - RxCocoa (4.1.2):
+    - RxSwift (~> 4.0)
+  - RxDataSources (3.0.2):
+    - Differentiator (~> 3.0)
+    - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
   - RxOptional (3.4.0):
     - RxCocoa (~> 4.0)
@@ -48,9 +46,9 @@ PODS:
 DEPENDENCIES:
   - GoogleSignIn
   - Kingfisher (~> 4.0)
-  - Moya/RxSwift
   - RxAlamofire
   - RxCocoa (~> 4.0)
+  - RxDataSources (~> 3.0)
   - RxOptional
   - RxSwift (~> 4.0)
   - RxSwiftExt
@@ -59,15 +57,15 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
+    - Differentiator
     - GoogleSignIn
     - GoogleToolboxForMac
     - GTMOAuth2
     - GTMSessionFetcher
     - Kingfisher
-    - Moya
-    - Result
     - RxAlamofire
     - RxCocoa
+    - RxDataSources
     - RxOptional
     - RxSwift
     - RxSwiftExt
@@ -75,20 +73,20 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   Kingfisher: da6b005aa96d37698e3e4f1ccfe96a5b9bbf27d6
-  Moya: a725035953bc1c0eb1be505ab903984501d82440
-  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   RxAlamofire: 87a9c588541210cc3e4a1f843ccc3ecf3eb98b31
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
+  RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
   RxOptional: fabc37fc8e3cf4c336ebaeb5c92b576c64b2e6c5
   RxSwift: e49536837d9901277638493ea537394d4b55f570
   RxSwiftExt: 64b7140124629a6a084159735f3714f0fb1c61d6
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: 9bb1c88c25d5278648c5151473292925b284fc78
+PODFILE CHECKSUM: 6a59ddf0880d209dcaa5b8938884289030ea18cf
 
 COCOAPODS: 1.5.0

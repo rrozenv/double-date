@@ -7,7 +7,7 @@ target 'double-date' do
   pod 'RxCocoa', '~> 4.0'
   pod 'SnapKit', '~> 4.0.0'
   pod 'RxSwiftExt'
-  pod 'Moya/RxSwift'
+  pod 'RxDataSources', '~> 3.0'
   pod 'RxOptional'
   pod 'GoogleSignIn'
   pod 'RxAlamofire'
