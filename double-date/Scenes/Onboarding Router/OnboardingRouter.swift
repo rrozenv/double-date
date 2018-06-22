@@ -36,6 +36,7 @@ final class OnboardingRouter: Routable {
     enum Screen {
         case firstName
         case lastName
+        case phoneNumber
     }
     
     //MARK: - Private Props
@@ -44,16 +45,17 @@ final class OnboardingRouter: Routable {
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
-    let screenOrder: [Screen] = [.firstName, .lastName]
+    let screenOrder: [Screen] = [.phoneNumber]
     var screenIndex = 0
     
     init() {
-        self.navigateTo(screen: .firstName)
+        self.navigateTo(screen: .phoneNumber)
         navVc.isNavigationBarHidden = true
     }
     
     func navigateTo(screen: Screen) {
         switch screen {
+        case .phoneNumber: toPhoneNumber()
         case .firstName: toFirstName()
         case .lastName: toLastName()
         }
@@ -79,6 +81,14 @@ extension OnboardingRouter {
         navVc.pushViewController(vc, animated: true)
     }
     
+    private func toPhoneNumber() {
+        var vc = PhoneEntryViewController()
+        var vm = PhoneEntryViewModel()
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
 }
 
 extension OnboardingRouter: EnterNameViewModelDelegate {
@@ -94,6 +104,15 @@ extension OnboardingRouter: EnterNameViewModelDelegate {
         case .last: onboardingInfo.lastName = name
         }
         toNextScreen()
+    }
+    
+}
+
+extension OnboardingRouter: PhoneEntryViewModelDelegate {
+
+    func didEnter(phoneNumber: String) {
+        print(phoneNumber)
+        NotificationCenter.default.post(name: .createHomeVc, object: nil)
     }
     
 }

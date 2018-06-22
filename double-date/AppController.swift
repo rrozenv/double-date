@@ -60,7 +60,7 @@ final class AppController: UIViewController {
         errorTracker.asDriver()
             .drive(onNext: { [unowned self] error in
                 print("ERRORRRORROR: \(error)")
-                self.switchToRouter(self.rootRouter)
+                self.switchToRouter(OnboardingRouter())
             })
             .disposed(by: disposeBag)
         
@@ -75,7 +75,7 @@ final class AppController: UIViewController {
         
         let createOnboarding$ = NotificationCenter.default.rx.notification(.createOnboarding).asDriverOnErrorJustComplete()
         let createHomeNotif$ = NotificationCenter.default.rx.notification(.createHomeVc).asDriverOnErrorJustComplete()
-        let logoutNotif$ = NotificationCenter.default.rx.notification(.createHomeVc).asDriverOnErrorJustComplete()
+        let logoutNotif$ = NotificationCenter.default.rx.notification(.logout).asDriverOnErrorJustComplete()
         
         Driver.merge(createOnboarding$, createHomeNotif$, logoutNotif$)
             .drive(onNext: { [weak self] in
@@ -90,9 +90,10 @@ final class AppController: UIViewController {
 extension AppController {
     
     @objc func switchViewController(with notification: Notification) {
+        print("recieved notif")
         switch notification.name {
         case Notification.Name.createOnboarding: switchToRouter(OnboardingRouter())
-        case Notification.Name.createHomeVc: break
+        case Notification.Name.createHomeVc: switchToRouter(HomeRouter())
         case Notification.Name.logout: switchToRouter(InitalRouter())
         default:
             fatalError("\(#function) - Unable to match notficiation name.")

@@ -34,7 +34,7 @@ class UsersViewController: UIViewController, BindableType {
         super.viewWillAppear(animated)
     }
     
-    deinit { print("GameSettingsViewController deinit") }
+    deinit { print("UsersViewController deinit") }
     
     func bindViewModel() {
         //MARK: - Input

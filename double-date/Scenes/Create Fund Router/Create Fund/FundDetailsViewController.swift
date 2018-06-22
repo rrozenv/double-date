@@ -18,37 +18,15 @@ class FundDetailsViewController: UIViewController, BindableType {
     var viewModel: FundDetailsViewModel!
     private var continueButton: UIButton!
     private var tableView: UITableView!
-    lazy var dataSource = RxTableViewSectionedReloadDataSource<FundDetailSection>(configureCell: { [weak self] ds, tv, ip, item in
-        guard let cell = tv.dequeueReusableCell(withIdentifier: TextFieldTableCell.defaultReusableId, for: ip) as? TextFieldTableCell else { fatalError() }
-        cell.configureWith(value: item.title)
-        cell.textField.rx.text.orEmpty.asObservable()
-            .map { text in
-                switch item {
-                case .name(_):
-                    return FundDetailType.name(text)
-                case .maxPlayers(_):
-                    return FundDetailType.maxPlayers(text)
-                }
-            }
-            .subscribe(onNext: { type in
-                self?.viewModel.bindTextEntry(textType: type)
-            })
-            .disposed(by: cell.disposeBag)
-        return cell
-    })
-    
-    override func loadView() {
-        super.loadView()
-        view.backgroundColor = UIColor.red
-        setupTableView()
-    }
+    var dataSource: RxTableViewSectionedReloadDataSource<FundDetailSection>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableView()
         createContinueButton()
     }
     
-    deinit { print("GameSettingsViewController deinit") }
+    deinit { print("FundDetailsViewController deinit") }
     
     func bindViewModel() {
         //MARK: - Input
@@ -59,6 +37,18 @@ class FundDetailsViewController: UIViewController, BindableType {
         viewModel.bindContinueButton(continueTapped$)
         
         //MARK: - Output
+        dataSource = RxTableViewSectionedReloadDataSource<FundDetailSection>(configureCell: { [weak self] ds, tv, ip, item in
+            guard let cell = tv.dequeueReusableCell(withIdentifier: TextFieldTableCell.defaultReusableId, for: ip) as? TextFieldTableCell else { fatalError() }
+            cell.configureWith(value: item)
+            cell.textField.rx.text.orEmpty.asObservable()
+                .filter { $0 != "" }
+                .subscribe(onNext: { text in
+                    self?.viewModel.bindTextEntry(text: text, type: item)
+                })
+                .disposed(by: cell.disposeBag)
+            return cell
+        })
+        
         viewModel.tableSections
             .drive(tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)

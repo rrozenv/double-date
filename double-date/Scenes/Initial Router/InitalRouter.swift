@@ -13,7 +13,6 @@ import RxSwift
 final class InitalRouter: Routable {
     
     enum Screen {
-        case fundDetails
         case inital
         case signup
         case userList
@@ -28,12 +27,11 @@ final class InitalRouter: Routable {
     var screenIndex = 0
     
     init() {
-        self.navigateTo(screen: .fundDetails)
+        self.navigateTo(screen: .inital)
     }
     
     func navigateTo(screen: Screen) {
         switch screen {
-        case .fundDetails: toFundDetails()
         case .inital: toInitalScene()
         case .signup: toSignup()
         case .userList: toUserList()
@@ -47,14 +45,7 @@ final class InitalRouter: Routable {
 }
 
 extension InitalRouter {
-    
-    private func toFundDetails() {
-        var vc = FundDetailsViewController()
-        var vm = FundDetailsViewModel()
-        vc.setViewModelBinding(model: vm)
-        navVc.pushViewController(vc, animated: false)
-    }
-    
+   
     private func toInitalScene() {
         var vc = InitialViewController()
         var vm = InitialViewModel()

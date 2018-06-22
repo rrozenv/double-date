@@ -38,8 +38,10 @@ final class TextFieldTableCell: UITableViewCell {
     }
     
     // MARK: - Configuration
-    func configureWith(value: String) {
-        mainLabel.text = value
+    func configureWith(value: FundDetailType) {
+        mainLabel.text = value.title
+        textField.placeholder = value.placeHolder
+        textField.keyboardType = value.keyboardType
     }
     
     override func prepareForReuse() {

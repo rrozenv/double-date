@@ -13,22 +13,34 @@ import RxDataSources
 
 struct FundDetails {
     var name: String = ""
-    var maxPlayers: String = "0"
+    var maxPlayers: Int = 0
     var isValid: Bool {
-        return name.count > 3 && maxPlayers.count > 0
+        return name.count > 3 && maxPlayers > 0
     }
 }
 
 enum FundDetailType {
-    case name(String)
-    case maxPlayers(String)
+    case name
+    case maxPlayers
     
     var title: String {
         switch self {
-        case .name(_):
-            return "Name"
-        case .maxPlayers(_):
-            return "Max Players"
+        case .name: return "Name"
+        case .maxPlayers: return "Max Players"
+        }
+    }
+    
+    var keyboardType: UIKeyboardType {
+        switch self {
+        case .name: return .default
+        case .maxPlayers: return .decimalPad
+        }
+    }
+    
+    var placeHolder: String {
+        switch self {
+        case .name: return "Enter Name"
+        case .maxPlayers: return "0"
         }
     }
 }
@@ -47,11 +59,16 @@ extension FundDetailSection: SectionModelType {
     }
 }
 
+protocol FundDetailsViewModelDelegate: class {
+    func didEnterFund(details: FundDetails)
+}
+
 struct FundDetailsViewModel {
     
     //MARK: - Properties
     private let disposeBag = DisposeBag()
     private let fundDetails = Variable<FundDetails>(FundDetails())
+    weak var delegate: FundDetailsViewModelDelegate?
 
     var isNextButtonEnabled: Driver<Bool> {
         return fundDetails.asDriver().map { $0.isValid }
@@ -59,16 +76,16 @@ struct FundDetailsViewModel {
     
     var tableSections: Driver<[FundDetailSection]> {
         return Driver.of([
-            FundDetailSection(header: "Name", items: [FundDetailSection.Item.name("")]),
-            FundDetailSection(header: "Max Players", items: [FundDetailSection.Item.maxPlayers("0")])
+            FundDetailSection(header: "Name", items: [FundDetailSection.Item.name]),
+            FundDetailSection(header: "Max Players", items: [FundDetailSection.Item.maxPlayers])
         ])
     }
 
     //MARK: - Inputs
-    func bindTextEntry(textType: FundDetailType) {
-        switch textType {
-        case .name(let name): self.fundDetails.value.name = name
-        case .maxPlayers(let count): self.fundDetails.value.maxPlayers = count
+    func bindTextEntry(text: String, type: FundDetailType) {
+        switch type {
+        case .name: self.fundDetails.value.name = text
+        case .maxPlayers: self.fundDetails.value.maxPlayers = Int(text)!
         }
     }
     
@@ -76,6 +93,7 @@ struct FundDetailsViewModel {
         observable
             .subscribe(onNext: {
                 print(self.fundDetails.value)
+                self.delegate?.didEnterFund(details: self.fundDetails.value)
             })
             .disposed(by: disposeBag)
     }

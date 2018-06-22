@@ -14,11 +14,10 @@ protocol SignupViewControllerDelegate: class {
     func didCreateUser()
 }
 
-final class SignupViewController: UIViewController, BindableType {
+final class SignupViewController: UIViewController {
     
     //MARK: - Props
     let disposeBag = DisposeBag()
-    var viewModel: InitialViewModel!
     weak var delegate: SignupViewControllerDelegate?
     
     //MARK: - Private Props

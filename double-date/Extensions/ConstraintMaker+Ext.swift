@@ -17,4 +17,12 @@ extension ConstraintMaker {
             self.top.equalTo(view.snp.top).offset(60)
         }
     }
+    
+    func bottomEqualTo(_ view: UIView) {
+        if #available(iOS 11.0, *) {
+            self.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        } else {
+            self.bottom.equalTo(view.snp.bottom)
+        }
+    }
 }

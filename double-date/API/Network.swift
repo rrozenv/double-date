@@ -50,6 +50,40 @@ final class Network<T: Codable> {
         let absolutePath = "\(endPoint)/\(path)"
         print(parameters)
         return manager.rx
+            .responseData(.post,
+                          absolutePath,
+                          parameters: parameters,
+                          encoding: JSONEncoding.default)
+            .observeOn(scheduler)
+            .mapObject(type: T.self)
+    }
+    
+    func updateItem(_ path: String, itemId: String, parameters: [String: Any]) -> Observable<T> {
+        let absolutePath = "\(endPoint)/\(path)/\(itemId)"
+        return RxAlamofire
+            .requestData(.put,
+                         absolutePath,
+                         parameters: parameters,
+                         encoding: JSONEncoding.default)
+            .observeOn(scheduler)
+            .mapObject(type: T.self)
+    }
+    
+    func deleteItem(_ path: String, itemId: String) -> Observable<T> {
+        let absolutePath = "\(endPoint)/\(path)/\(itemId)"
+        return RxAlamofire
+            .requestData(.delete, absolutePath)
+            .observeOn(scheduler)
+            .mapObject(type: T.self)
+    }
+}
+
+extension Network where T == User {
+    
+    func postUser(_ path: String, parameters: [String: Any]) -> Observable<T> {
+        let absolutePath = "\(endPoint)/\(path)"
+        print(parameters)
+        return manager.rx
             .responseData(.post, absolutePath,
                           parameters: parameters,
                           encoding: JSONEncoding.default)
@@ -63,21 +97,6 @@ final class Network<T: Codable> {
             .mapObject(type: T.self)
     }
     
-    func updateItem(_ path: String, itemId: String, parameters: [String: Any]) -> Observable<T> {
-        let absolutePath = "\(endPoint)/\(path)/\(itemId)"
-        return RxAlamofire
-            .requestData(.put, absolutePath, parameters: parameters)
-            .observeOn(scheduler)
-            .mapObject(type: T.self)
-    }
-    
-    func deleteItem(_ path: String, itemId: String) -> Observable<T> {
-        let absolutePath = "\(endPoint)/\(path)/\(itemId)"
-        return RxAlamofire
-            .requestData(.delete, absolutePath)
-            .observeOn(scheduler)
-            .mapObject(type: T.self)
-    }
 }
 
 

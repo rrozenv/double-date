@@ -18,7 +18,7 @@ struct UserService {
     }
     
     func createUser(params: [String: Any]) -> Observable<User> {
-        return network.postItem("users", parameters: params)
+        return network.postUser("users", parameters: params)
     }
     
     func findUserBy(email: String) -> Observable<User?> {
