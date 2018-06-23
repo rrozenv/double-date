@@ -15,7 +15,6 @@ struct Fund: Codable {
     let maxPlayers: Int
 //    let startDate: Date
 //    let endDate: Date
-//    let invitations: [Invitation]
 //    let userPortfolio: Portfolio
 //    let allPortfolios: [Portfolio]
 }
@@ -28,12 +27,15 @@ struct Portfolio: Codable {
 
 struct Position: Codable {
     let _id: String
-    let ticker: String
     let type: String
+    let ticker: String
+    let buyPrice: Double
+    let currentPrice: Double
 }
 
 struct Invitation: Codable {
     let _id: String
+    let fundId: String
     let sentBy: User
     let recievingPhoneNumber: String
     let recievedBy: User?

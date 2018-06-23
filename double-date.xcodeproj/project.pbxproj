@@ -50,6 +50,17 @@
 		98300A6C20D1FF9000D7C4BA /* InitalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */; };
 		98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */; };
 		98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6F20D20F1F00D7C4BA /* Routable.swift */; };
+		986AE2DC20DDD59700A78E42 /* SelectContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */; };
+		986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DD20DDD5A600A78E42 /* SelectContactsViewModel.swift */; };
+		986AE2E020DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DF20DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift */; };
+		986AE2E220DDD68300A78E42 /* ValueCellDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2E120DDD68300A78E42 /* ValueCellDataSource.swift */; };
+		986AE2E420DDD6E700A78E42 /* ContactsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2E320DDD6E700A78E42 /* ContactsStore.swift */; };
+		986AE2E620DDD70E00A78E42 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2E520DDD70E00A78E42 /* Contact.swift */; };
+		986AE2E820DDD7BC00A78E42 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2E720DDD7BC00A78E42 /* SearchBarView.swift */; };
+		986AE2EA20DDD85E00A78E42 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2E920DDD85E00A78E42 /* EmptyView.swift */; };
+		986AE2EC20DDD90500A78E42 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2EB20DDD90500A78E42 /* TitleView.swift */; };
+		986AE2EE20DDD94E00A78E42 /* UserContactTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2ED20DDD94E00A78E42 /* UserContactTableCell.swift */; };
+		986AE2F020DDDC9400A78E42 /* ImageLabelSublabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2EF20DDDC9400A78E42 /* ImageLabelSublabelView.swift */; };
 		989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D420D3EB2800AD9F9F /* UserListViewModel.swift */; };
 		989963D720D3EB3500AD9F9F /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D620D3EB3500AD9F9F /* UserListViewController.swift */; };
 		989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */; };
@@ -134,6 +145,17 @@
 		98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitalRouter.swift; sourceTree = "<group>"; };
 		98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		98300A6F20D20F1F00D7C4BA /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
+		986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactsViewController.swift; sourceTree = "<group>"; };
+		986AE2DD20DDD5A600A78E42 /* SelectContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactsViewModel.swift; sourceTree = "<group>"; };
+		986AE2DF20DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionFilterDataSource.swift; sourceTree = "<group>"; };
+		986AE2E120DDD68300A78E42 /* ValueCellDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueCellDataSource.swift; sourceTree = "<group>"; };
+		986AE2E320DDD6E700A78E42 /* ContactsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsStore.swift; sourceTree = "<group>"; };
+		986AE2E520DDD70E00A78E42 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
+		986AE2E720DDD7BC00A78E42 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		986AE2E920DDD85E00A78E42 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		986AE2EB20DDD90500A78E42 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
+		986AE2ED20DDD94E00A78E42 /* UserContactTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContactTableCell.swift; sourceTree = "<group>"; };
+		986AE2EF20DDDC9400A78E42 /* ImageLabelSublabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabelSublabelView.swift; sourceTree = "<group>"; };
 		989963D420D3EB2800AD9F9F /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		989963D620D3EB3500AD9F9F /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkActivityLogger.swift; sourceTree = "<group>"; };
@@ -267,6 +289,7 @@
 			children = (
 				9806645020DD5A5400951DBD /* CreateFundRouter.swift */,
 				98C06E6C20DB3BAC00426EEC /* Create Fund */,
+				986AE2DA20DDD55D00A78E42 /* Select Contacts */,
 			);
 			path = "Create Fund Router";
 			sourceTree = "<group>";
@@ -369,6 +392,9 @@
 				98300A5820D1F70E00D7C4BA /* ErrorTracker.swift */,
 				98300A5A20D1F72900D7C4BA /* FontBook.swift */,
 				98300A5C20D1F73E00D7C4BA /* Palette.swift */,
+				986AE2DF20DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift */,
+				986AE2E120DDD68300A78E42 /* ValueCellDataSource.swift */,
+				986AE2E320DDD6E700A78E42 /* ContactsStore.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -388,6 +414,7 @@
 			children = (
 				98300A2E20D1EDB000D7C4BA /* User.swift */,
 				9806644D20DD3CD100951DBD /* Fund.swift */,
+				986AE2E520DDD70E00A78E42 /* Contact.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -420,6 +447,15 @@
 			path = "User Service";
 			sourceTree = "<group>";
 		};
+		986AE2DA20DDD55D00A78E42 /* Select Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */,
+				986AE2DD20DDD5A600A78E42 /* SelectContactsViewModel.swift */,
+			);
+			path = "Select Contacts";
+			sourceTree = "<group>";
+		};
 		989963D320D3EB1300AD9F9F /* User List */ = {
 			isa = PBXGroup;
 			children = (
@@ -450,6 +486,7 @@
 			isa = PBXGroup;
 			children = (
 				98C06E7220DB46A300426EEC /* TextFieldTableCell.swift */,
+				986AE2ED20DDD94E00A78E42 /* UserContactTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -471,6 +508,10 @@
 				98F77F3120D59571005F4B66 /* BackButtonNavView.swift */,
 				9806645E20DD73B400951DBD /* CustomStackView.swift */,
 				9806646220DD740800951DBD /* TabBarView.swift */,
+				986AE2E720DDD7BC00A78E42 /* SearchBarView.swift */,
+				986AE2E920DDD85E00A78E42 /* EmptyView.swift */,
+				986AE2EB20DDD90500A78E42 /* TitleView.swift */,
+				986AE2EF20DDDC9400A78E42 /* ImageLabelSublabelView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -656,14 +697,19 @@
 				98300A6A20D1FF4C00D7C4BA /* InitialViewModel.swift in Sources */,
 				98300A5D20D1F73E00D7C4BA /* Palette.swift in Sources */,
 				98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */,
+				986AE2EC20DDD90500A78E42 /* TitleView.swift in Sources */,
+				986AE2E020DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift in Sources */,
 				9806646D20DD7CA400951DBD /* MarketViewController.swift in Sources */,
 				98F77F2E20D59475005F4B66 /* ButtonLabel.swift in Sources */,
 				98C06E7020DB401A00426EEC /* FundDetailsViewController.swift in Sources */,
 				98300A5220D1F69300D7C4BA /* KeyboardAvoidable.swift in Sources */,
+				986AE2E220DDD68300A78E42 /* ValueCellDataSource.swift in Sources */,
 				98F77F3020D59497005F4B66 /* EnterNameViewController.swift in Sources */,
 				98300A5F20D1F77800D7C4BA /* AppController.swift in Sources */,
 				98300A6C20D1FF9000D7C4BA /* InitalRouter.swift in Sources */,
 				98B8B78820D30D9E004BD6A1 /* Network.swift in Sources */,
+				986AE2DC20DDD59700A78E42 /* SelectContactsViewController.swift in Sources */,
+				986AE2EA20DDD85E00A78E42 /* EmptyView.swift in Sources */,
 				98300A5720D1F6FB00D7C4BA /* ActivityIndicator.swift in Sources */,
 				98300A4E20D1F64B00D7C4BA /* UITextField+Ext.swift in Sources */,
 				98300A4C20D1F64B00D7C4BA /* UIViewController+Ext.swift in Sources */,
@@ -676,6 +722,7 @@
 				9806646820DD76FD00951DBD /* FundListViewController.swift in Sources */,
 				98300A3F20D1F5B700D7C4BA /* CustomNavViewable.swift in Sources */,
 				9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */,
+				986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */,
 				98300A3520D1F1A700D7C4BA /* UserService.swift in Sources */,
 				98300A3E20D1F5B700D7C4BA /* NotificationName+Ext.swift in Sources */,
 				98300A4120D1F63F00D7C4BA /* ConstraintMaker+Ext.swift in Sources */,
@@ -685,7 +732,9 @@
 				98300A6620D1FEEE00D7C4BA /* InitialViewController.swift in Sources */,
 				98300A4920D1F64B00D7C4BA /* UIDevice+Ext.swift in Sources */,
 				98300A4D20D1F64B00D7C4BA /* UITextView+Ext.swift in Sources */,
+				986AE2E420DDD6E700A78E42 /* ContactsStore.swift in Sources */,
 				989963D720D3EB3500AD9F9F /* UserListViewController.swift in Sources */,
+				986AE2E820DDD7BC00A78E42 /* SearchBarView.swift in Sources */,
 				98F77F2C20D5936C005F4B66 /* EnterNameViewModel.swift in Sources */,
 				9806645D20DD6EB100951DBD /* CustomPageViewController.swift in Sources */,
 				98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */,
@@ -695,15 +744,18 @@
 				989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */,
 				98300A4B20D1F64B00D7C4BA /* UIView+Ext.swift in Sources */,
 				98300A3A20D1F57B00D7C4BA /* BindableType.swift in Sources */,
+				986AE2EE20DDD94E00A78E42 /* UserContactTableCell.swift in Sources */,
 				98300A0120D1ED3C00D7C4BA /* AppDelegate.swift in Sources */,
 				98C06E6E20DB3BD400426EEC /* FundDetailsViewModel.swift in Sources */,
 				9806645120DD5A5400951DBD /* CreateFundRouter.swift in Sources */,
 				98300A4A20D1F64B00D7C4BA /* String+Ext.swift in Sources */,
 				98B8B78420D303D4004BD6A1 /* SignupViewController.swift in Sources */,
 				9806645920DD6E8800951DBD /* TapPageViewController.swift in Sources */,
+				986AE2E620DDD70E00A78E42 /* Contact.swift in Sources */,
 				9806645F20DD73B400951DBD /* CustomStackView.swift in Sources */,
 				9806644E20DD3CD100951DBD /* Fund.swift in Sources */,
 				98300A5920D1F70E00D7C4BA /* ErrorTracker.swift in Sources */,
+				986AE2F020DDDC9400A78E42 /* ImageLabelSublabelView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,20 +15,6 @@ final class OnboardingInfo {
     var lastName: String?
     var city: String?
     var phoneNumber: String?
-    
-    init() {
-        self.firstName = nil
-        self.lastName = nil
-        self.city = nil
-        self.phoneNumber = nil
-    }
-    
-    init(firstName: String?, lastName: String, city: String?, phoneNumber: String?) {
-        self.firstName = firstName
-        self.lastName = lastName
-        self.city = city
-        self.phoneNumber = phoneNumber
-    }
 }
 
 final class OnboardingRouter: Routable {

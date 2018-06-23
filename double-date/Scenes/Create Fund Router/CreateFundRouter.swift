@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 import RxSwift
 
+final class FundInfo {
+    var name: String?
+    var maxPlayers: Int?
+    var invitedPhoneNumbers: [String] = []
+}
+
 final class CreateFundRouter: Routable {
     
     enum Screen {
@@ -19,6 +25,7 @@ final class CreateFundRouter: Routable {
     
     //MARK: - Private Props
     let disposeBag = DisposeBag()
+    private let fundInfo = FundInfo()
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
@@ -39,7 +46,7 @@ final class CreateFundRouter: Routable {
     func navigateTo(screen: Screen) {
         switch screen {
         case .details: toFundDetails()
-        case .invites: break
+        case .invites: toSelectContacts()
         }
     }
     
@@ -54,17 +61,41 @@ extension CreateFundRouter {
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: false)
     }
+    
+    private func toSelectContacts() {
+        var vc = SelectContactsViewController()
+        var vm = SelectContactsViewModel()
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: false)
+    }
 
 }
 
 extension CreateFundRouter: FundDetailsViewModelDelegate {
     
     func didEnterFund(details: FundDetails) {
-        let fund = Fund(_id: UUID().uuidString, name: details.name, maxPlayers: details.maxPlayers)
+        fundInfo.name = details.name
+        fundInfo.maxPlayers = details.maxPlayers
+        self.toNextScreen()
+    }
+    
+}
+
+extension CreateFundRouter: SelectContactsViewModelDelegate {
+    
+    func didSelectContacts(_ contacts: [Contact]) {
+        print(contacts)
+        fundInfo.invitedPhoneNumbers = contacts.map { $0.primaryNumber ?? $0.numbers.first! }
+        let fund = Fund(_id: UUID().uuidString, name: fundInfo.name!, maxPlayers: fundInfo.maxPlayers!)
         newFund.value = fund
         navVc.dismiss(animated: true, completion: { [unowned self] in
             self.dismiss.onNext(())
         })
+    }
+    
+    func didTapBackButton() {
+        self.toPreviousScreen()
     }
     
 }
