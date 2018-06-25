@@ -21,6 +21,7 @@ PODS:
   - GTMSessionFetcher/Core (1.1.15)
   - GTMSessionFetcher/Full (1.1.15):
     - GTMSessionFetcher/Core (= 1.1.15)
+  - KeychainAccess (3.1.1)
   - Kingfisher (4.7.0)
   - RxAlamofire (4.2.0):
     - RxAlamofire/Core (= 4.2.0)
@@ -45,6 +46,7 @@ PODS:
 
 DEPENDENCIES:
   - GoogleSignIn
+  - KeychainAccess
   - Kingfisher (~> 4.0)
   - RxAlamofire
   - RxCocoa (~> 4.0)
@@ -62,6 +64,7 @@ SPEC REPOS:
     - GoogleToolboxForMac
     - GTMOAuth2
     - GTMSessionFetcher
+    - KeychainAccess
     - Kingfisher
     - RxAlamofire
     - RxCocoa
@@ -78,6 +81,7 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
+  KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
   Kingfisher: da6b005aa96d37698e3e4f1ccfe96a5b9bbf27d6
   RxAlamofire: 87a9c588541210cc3e4a1f843ccc3ecf3eb98b31
   RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
@@ -87,6 +91,6 @@ SPEC CHECKSUMS:
   RxSwiftExt: 64b7140124629a6a084159735f3714f0fb1c61d6
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: 6a59ddf0880d209dcaa5b8938884289030ea18cf
+PODFILE CHECKSUM: 88bb70740afdd597abad21b3f2e043872b470bb2
 
 COCOAPODS: 1.5.0

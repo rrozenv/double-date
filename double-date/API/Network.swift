@@ -10,36 +10,39 @@ import Foundation
 import Alamofire
 import RxAlamofire
 import RxSwift
+import KeychainAccess
 
 final class Network<T: Codable> {
     
-    private let endPoint: String
+    private let baseUrl: String
     private let scheduler: ConcurrentDispatchQueueScheduler
     private let manager = SessionManager.default
+    private let token: String?
     
-    init(_ endPoint: String) {
-        self.endPoint = endPoint
+    init(_ baseUrl: String) {
+        self.baseUrl = baseUrl
+        self.token = MyKeychain.shared.getStringFor(Secrets.tokenKeyString)
         self.scheduler = ConcurrentDispatchQueueScheduler(qos: DispatchQoS(qosClass: DispatchQoS.QoSClass.background, relativePriority: 1))
     }
     
     func getItems(_ path: String) -> Observable<[T]> {
-        let absolutePath = "\(endPoint)/\(path)"
+        let absolutePath = "\(baseUrl)/\(path)"
         return RxAlamofire
-            .requestData(.get, absolutePath)
+            .requestData(.get, absolutePath, headers: [Secrets.tokenKeyString: token ?? ""])
             .observeOn(scheduler)
             .mapArray(type: T.self)
     }
     
     func getItem(_ path: String, itemId: String) -> Observable<T> {
-        let absolutePath = "\(endPoint)/\(path)/\(itemId)"
+        let absolutePath = "\(baseUrl)/\(path)/\(itemId)"
         return manager.rx
-            .responseData(.get, absolutePath)
+            .responseData(.get, absolutePath, headers: [Secrets.tokenKeyString: token ?? ""])
             .observeOn(scheduler)
             .mapObject(type: T.self)
     }
     
     func getOptionalItem(_ path: String, itemId: String) -> Observable<T?> {
-        let absolutePath = "\(endPoint)/\(path)/\(itemId)"
+        let absolutePath = "\(baseUrl)/\(path)/\(itemId)"
         return manager.rx
             .responseData(.get, absolutePath)
             .observeOn(scheduler)
@@ -47,19 +50,19 @@ final class Network<T: Codable> {
     }
     
     func postItem(_ path: String, parameters: [String: Any]) -> Observable<T> {
-        let absolutePath = "\(endPoint)/\(path)"
-        print(parameters)
+        let absolutePath = "\(baseUrl)/\(path)"
         return manager.rx
             .responseData(.post,
                           absolutePath,
                           parameters: parameters,
-                          encoding: JSONEncoding.default)
+                          encoding: JSONEncoding.default,
+                          headers: [Secrets.tokenKeyString: token ?? ""])
             .observeOn(scheduler)
             .mapObject(type: T.self)
     }
     
     func updateItem(_ path: String, itemId: String, parameters: [String: Any]) -> Observable<T> {
-        let absolutePath = "\(endPoint)/\(path)/\(itemId)"
+        let absolutePath = "\(baseUrl)/\(path)/\(itemId)"
         return RxAlamofire
             .requestData(.put,
                          absolutePath,
@@ -70,28 +73,30 @@ final class Network<T: Codable> {
     }
     
     func deleteItem(_ path: String, itemId: String) -> Observable<T> {
-        let absolutePath = "\(endPoint)/\(path)/\(itemId)"
+        let absolutePath = "\(baseUrl)/\(path)/\(itemId)"
         return RxAlamofire
             .requestData(.delete, absolutePath)
             .observeOn(scheduler)
             .mapObject(type: T.self)
     }
+    
 }
 
 extension Network where T == User {
     
     func postUser(_ path: String, parameters: [String: Any]) -> Observable<T> {
-        let absolutePath = "\(endPoint)/\(path)"
+        let absolutePath = "\(baseUrl)/\(path)"
         print(parameters)
         return manager.rx
             .responseData(.post, absolutePath,
                           parameters: parameters,
                           encoding: JSONEncoding.default)
             .do(onNext: { response, _ in
-                guard let token = response.allHeaderFields["x-auth-token"] as? String else {
+                guard let token = response.allHeaderFields[Secrets.tokenKeyString] as? String else {
                     return
                 }
-                print("token: \(token)")
+                let saved = MyKeychain.shared.save(value: token, key: Secrets.tokenKeyString)
+                if saved { print("Auth token was saved...") }
             })
             .observeOn(scheduler)
             .mapObject(type: T.self)

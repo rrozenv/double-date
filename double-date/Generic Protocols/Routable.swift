@@ -17,7 +17,6 @@ protocol Routable: Navigateable {
     associatedtype Screen
     var screenOrder: [Screen] { get }
     var screenIndex: Int { get set }
-    //var navVc: UINavigationController { get }
     func navigateTo(screen: Screen)
     func toPreviousScreen()
     func toNextScreen()

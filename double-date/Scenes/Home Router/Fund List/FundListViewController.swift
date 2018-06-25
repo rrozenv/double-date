@@ -37,6 +37,12 @@ class FundListViewController: UIViewController, BindableType {
                 cell.textLabel?.text = element.name
             }
             .disposed(by: disposeBag)
+        
+        viewModel.error
+            .drive(onNext: {
+                print($0)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func toCreateFundRouter() {

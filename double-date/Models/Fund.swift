@@ -10,9 +10,10 @@ import Foundation
 
 struct Fund: Codable {
     let _id: String
+    let admin: User
     let name: String
-    //let admin: User
     let maxPlayers: Int
+    //let portfolios: [Portfolio]
 //    let startDate: Date
 //    let endDate: Date
 //    let userPortfolio: Portfolio
@@ -22,7 +23,7 @@ struct Fund: Codable {
 struct Portfolio: Codable {
     let _id: String
     let user: User
-    let positions: [Position]
+    //let positions: [Position]
 }
 
 struct Position: Codable {

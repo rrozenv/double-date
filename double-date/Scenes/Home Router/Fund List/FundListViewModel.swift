@@ -19,6 +19,7 @@ struct FundListViewModel {
     let disposeBag = DisposeBag()
     
     //MARK: - Properties
+    private let fundService = FundService()
     private let errorTracker: ErrorTracker
     private let _funds = Variable<[Fund]>([])
     weak var delegate: FundListViewModelDelegate?
@@ -26,6 +27,7 @@ struct FundListViewModel {
     //MARK: - Init
     init(errorTracker: ErrorTracker = ErrorTracker()) {
         self.errorTracker = errorTracker
+        getFunds().drive(_funds).disposed(by: disposeBag)
     }
     
     //MARK: - Outputs
@@ -33,9 +35,9 @@ struct FundListViewModel {
         return _funds.asDriver()
     }
 
-//    var error: Driver<NetworkError> {
-//        return errorTracker.asDriver()
-//    }
+    var error: Driver<NetworkError> {
+        return errorTracker.asDriver()
+    }
     
     //MARK: - Inputs
     func bindCreateFund(_ observable: Observable<Void>) {
@@ -52,6 +54,12 @@ struct FundListViewModel {
                 self._funds.value.insert($0, at: 0)
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func getFunds() -> Driver<[Fund]> {
+        return fundService.getFunds()
+            .trackNetworkError(errorTracker)
+            .asDriverOnErrorJustComplete()
     }
     
 }

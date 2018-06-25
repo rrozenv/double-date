@@ -55,7 +55,13 @@ extension HomeRouter {
         //Market Vc
         let marketVc = MarketViewController()
         
-        let tabVc = TabPageViewController(viewControllers: [fundVc, marketVc, marketVc], tabView: TabBarView())
+        //Profile Vc
+        var profileVc = ProfileViewController()
+        var profileVm = ProfileViewModel()
+        profileVm.delegate = self
+        profileVc.setViewModelBinding(model: profileVm)
+        
+        let tabVc = TabPageViewController(viewControllers: [fundVc, marketVc, profileVc], tabView: TabBarView())
         navVc.pushViewController(tabVc, animated: true)
     }
     
@@ -74,6 +80,14 @@ extension HomeRouter: FundListViewModelDelegate {
             })
             .disposed(by: disposeBag)
         navVc.present(createFundRouter!.navVc, animated: true, completion: nil)
+    }
+    
+}
+
+extension HomeRouter: ProfileViewModelDelegate {
+    
+    func didTapLogoutButton() {
+        NotificationCenter.default.post(name: .logout, object: nil)
     }
     
 }

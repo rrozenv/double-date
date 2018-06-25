@@ -14,6 +14,18 @@ final class FundInfo {
     var name: String?
     var maxPlayers: Int?
     var invitedPhoneNumbers: [String] = []
+    
+    var isValid: Bool {
+        guard let name = name, let maxPlayers = maxPlayers else { return false }
+        return name.count > 3 && maxPlayers > 0 && invitedPhoneNumbers.count > 0
+    }
+    
+    var params: [String: Any] {
+        return [
+            "name": name ?? "",
+            "maxPlayers": maxPlayers ?? 0
+        ]
+    }
 }
 
 final class CreateFundRouter: Routable {
@@ -25,7 +37,10 @@ final class CreateFundRouter: Routable {
     
     //MARK: - Private Props
     let disposeBag = DisposeBag()
-    private let fundInfo = FundInfo()
+    private let errorTracker = ErrorTracker()
+    private let fundInfo: Variable<FundInfo>
+    private let createFund = PublishSubject<Void>()
+    private let fundService = FundService()
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
@@ -37,12 +52,37 @@ final class CreateFundRouter: Routable {
     var dismiss = PublishSubject<Void>()
     
     init() {
+        self.fundInfo = Variable(FundInfo())
         self.navigateTo(screen: .details)
-        navVc.isNavigationBarHidden = true
+        self.navVc.isNavigationBarHidden = true
+        self.createFund.asObservable()
+            .withLatestFrom(fundInfo.asObservable())
+            .do(onNext: { _ in
+                print("Fund info changed!")
+            })
+            .filter { $0.isValid }
+            .flatMapLatest { [unowned self] in
+                self.fundService.create(params:  $0.params)
+                    .trackNetworkError(self.errorTracker)
+                    .asDriverOnErrorJustComplete()
+            }
+            .subscribe(onNext: { [weak self] fund in
+                self?.newFund.value = fund
+                self?.navVc.dismiss(animated: true, completion: {
+                    self?.dismiss.onNext(())
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        errorTracker.asDriver()
+            .drive(onNext: {
+                print("Error: \($0)")
+            })
+            .disposed(by: disposeBag)
     }
     
     deinit { print("CreateFundRouter deinit") }
-    
+
     func navigateTo(screen: Screen) {
         switch screen {
         case .details: toFundDetails()
@@ -75,8 +115,8 @@ extension CreateFundRouter {
 extension CreateFundRouter: FundDetailsViewModelDelegate {
     
     func didEnterFund(details: FundDetails) {
-        fundInfo.name = details.name
-        fundInfo.maxPlayers = details.maxPlayers
+        fundInfo.value.name = details.name
+        fundInfo.value.maxPlayers = details.maxPlayers
         self.toNextScreen()
     }
     
@@ -86,12 +126,8 @@ extension CreateFundRouter: SelectContactsViewModelDelegate {
     
     func didSelectContacts(_ contacts: [Contact]) {
         print(contacts)
-        fundInfo.invitedPhoneNumbers = contacts.map { $0.primaryNumber ?? $0.numbers.first! }
-        let fund = Fund(_id: UUID().uuidString, name: fundInfo.name!, maxPlayers: fundInfo.maxPlayers!)
-        newFund.value = fund
-        navVc.dismiss(animated: true, completion: { [unowned self] in
-            self.dismiss.onNext(())
-        })
+        fundInfo.value.invitedPhoneNumbers = contacts.map { $0.primaryNumber ?? $0.numbers.first! }
+        createFund.onNext(())
     }
     
     func didTapBackButton() {

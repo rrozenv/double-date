@@ -28,9 +28,18 @@ final class AppController: UIViewController {
     private var rootRouter: Navigateable = InitalRouter()
     
     //MARK: - Public Props
-    var currentUser = Variable<User?>(nil)
+    private var currentUser = Variable<User?>(nil)
     
-    init() {
+    var user: User {
+        guard let user = currentUser.value else { fatalError("current user not set...") }
+        return user
+    }
+    
+    var user$: Observable<User?> {
+        return currentUser.asObservable()
+    }
+    
+    private init() {
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -40,39 +49,31 @@ final class AppController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UIApplication.shared.isStatusBarHidden = true
         actingVC.view.backgroundColor = .white
-        switchToRouter(rootRouter)
-        bindViewModel()
+        addNotificationObservers()
+        loadInitialViewController()
+      
+        currentUser.asObservable()
+            .filterNil()
+            .subscribe(onNext: { _ in
+                print("Current user was set!")
+            })
+            .disposed(by: disposeBag)
     }
     
-    func bindViewModel() {
- 
-        currentUser.asObservable()
-            .filterNil().take(1)
-            .subscribe(onNext: { _ in
-                print("I'm inside current user")
-                //self.actingVC = self.createHomeViewController()
-                //self.addChild(self.actingVC, frame: self.view.frame, animated: true)
-            })
-            .disposed(by: disposeBag)
-
-        errorTracker.asDriver()
-            .drive(onNext: { [unowned self] error in
-                print("ERRORRRORROR: \(error)")
-                self.switchToRouter(OnboardingRouter())
-            })
-            .disposed(by: disposeBag)
-        
-        userService.getCurrentUser()
-            .trackNetworkError(errorTracker)
-            .asDriverOnErrorJustComplete()
-            .drive(onNext: { [unowned self] in
-                print("Feteched user: \($0)")
-                self.currentUser.value = $0
-            })
-            .disposed(by: disposeBag)
-        
+    func setCurrentUser(_ user: User) {
+        currentUser.value = user
+    }
+    
+    private func loadInitialViewController() {
+        if let _ = MyKeychain.shared.getStringFor(Secrets.tokenKeyString) {
+            switchToRouter(HomeRouter())
+        } else {
+            switchToRouter(rootRouter)
+        }
+    }
+    
+    private func addNotificationObservers() {
         let createOnboarding$ = NotificationCenter.default.rx.notification(.createOnboarding).asDriverOnErrorJustComplete()
         let createHomeNotif$ = NotificationCenter.default.rx.notification(.createHomeVc).asDriverOnErrorJustComplete()
         let logoutNotif$ = NotificationCenter.default.rx.notification(.logout).asDriverOnErrorJustComplete()
@@ -83,7 +84,7 @@ final class AppController: UIViewController {
             })
             .disposed(by: disposeBag)
     }
-    
+
 }
 
 // MARK: - Displaying VC's

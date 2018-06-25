@@ -57,8 +57,7 @@ enum NetworkError: Error, CustomStringConvertible {
         case .custom(let err):
             return err.message
         case .serverFailed: return "Server failed"
-        default:
-            return "Unknown error"
+        case .decodingError: return "Decoding error"
         }
     }
 }
@@ -140,7 +139,7 @@ extension ObservableType {
                     let error = try decoder.decode(CustomError.self, from: jsonData)
                     return Observable.error(error)
                 } catch {
-                    return Observable.error(CustomError(message: "Unknown error"))
+                    return Observable.error(NetworkError.decodingError)
                 }
             }
             

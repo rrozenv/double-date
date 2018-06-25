@@ -78,7 +78,7 @@ extension SignupViewController: GIDSignInDelegate {
                 .asDriverOnErrorJustComplete()
                 .drive(onNext: {
                     print("Success creating user: \($0)")
-                    AppController.shared.currentUser.value = $0
+                    AppController.shared.setCurrentUser($0)
                     NotificationCenter.default.post(name: .createOnboarding, object: nil)
                 })
                 .disposed(by: disposeBag)

@@ -17,6 +17,8 @@ protocol TabBarViewable: class {
 final class TabPageViewController: UIViewController {
     
     private var dataSource: TabControllerDataSource!
+    private let userService = UserService()
+    private let errorTracker = ErrorTracker()
     private var tabView: (UIView & TabBarViewable)!
     private let disposeBag = DisposeBag()
     private var actingVc: UIViewController!
@@ -46,6 +48,25 @@ final class TabPageViewController: UIViewController {
     }
     
     func setupTabButtonBindings() {
+        AppController.shared.user$.asObservable()
+            .filter { $0 == nil }
+            .flatMapLatest { [unowned self] _ in
+                self.userService.getCurrentUser()
+                    .trackNetworkError(self.errorTracker)
+                    .asDriverOnErrorJustComplete()
+            }
+            .subscribe(onNext: {
+                print("Feteched user: \($0)")
+                AppController.shared.setCurrentUser($0)
+            })
+            .disposed(by: disposeBag)
+        
+        errorTracker.asDriver()
+            .drive(onNext: { _ in
+                print("Recieved fetch user error")
+            })
+            .disposed(by: disposeBag)
+        
         tabView.buttons.forEach { button in
             button.rx.tap.asObservable().map { button.tag }
                 //.distinctUntilChanged()
