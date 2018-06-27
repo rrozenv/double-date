@@ -12,13 +12,14 @@ import RxSwift
 struct FundService {
     
     let network = Network<Fund>(Secrets.baseURL)
+    let token = MyKeychain.shared.getStringFor(Secrets.tokenKeyString)
     
     func create(params: [String: Any]) -> Observable<Fund> {
         return network.postItem("funds", parameters: params)
     }
     
     func getFunds() -> Observable<[Fund]> {
-        return network.getItems("funds")
+        return network.getItems("funds", headers: [Secrets.tokenKeyString: token ?? ""])
     }
     
 }

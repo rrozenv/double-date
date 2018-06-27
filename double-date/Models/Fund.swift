@@ -13,6 +13,9 @@ struct Fund: Codable {
     let admin: User
     let name: String
     let maxPlayers: Int
+    let currentUserPortfolio: Portfolio
+    let portfolios: [String]
+    
     //let portfolios: [Portfolio]
 //    let startDate: Date
 //    let endDate: Date
@@ -32,6 +35,15 @@ struct Position: Codable {
     let ticker: String
     let buyPrice: Double
     let currentPrice: Double
+    let shares: Double
+    var sellPrice: Double?
+}
+
+struct Stock: Codable {
+    let symbol: String
+    let companyName: String
+    let latestPrice: Double
+    let changePercent: Double
 }
 
 struct Invitation: Codable {

@@ -17,6 +17,7 @@ class FundListViewController: UIViewController, BindableType {
     var viewModel: FundListViewModel!
     private var continueButton: UIButton!
     private var tableView: UITableView!
+    private var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,11 @@ class FundListViewController: UIViewController, BindableType {
         let createTapped$ = continueButton.rx.tap.asObservable()
         viewModel.bindCreateFund(createTapped$)
         
+        let initialLoad$ = Observable.of(())
+        let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }
+        let fetchFunds$ = Observable.of(initialLoad$, refreshControl$).merge().share()
+        viewModel.bindFetchFunds(fetchFunds$)
+        
         //MARK: - Output
         viewModel.funds
             .drive(tableView.rx.items(cellIdentifier: "FundListCell", cellType: UITableViewCell.self)) { row, element, cell in
@@ -38,9 +44,16 @@ class FundListViewController: UIViewController, BindableType {
             }
             .disposed(by: disposeBag)
         
+        viewModel.funds
+            .map { _ in false }
+            .drive(refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
         viewModel.error
-            .drive(onNext: {
-                print($0)
+            .drive(onNext: { [weak self] in
+                self?.refreshControl.endRefreshing()
+                self?.tableView.contentOffset = CGPoint.zero
+                self?.displayNetworkError($0)
             })
             .disposed(by: disposeBag)
     }
@@ -96,6 +109,9 @@ extension FundListViewController {
         tableView.snp.makeConstraints { (make) in
             make.edges.equalTo(view)
         }
+        
+        refreshControl = UIRefreshControl()
+        tableView.addSubview(refreshControl)
     }
     
 }

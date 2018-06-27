@@ -27,7 +27,6 @@ struct FundListViewModel {
     //MARK: - Init
     init(errorTracker: ErrorTracker = ErrorTracker()) {
         self.errorTracker = errorTracker
-        getFunds().drive(_funds).disposed(by: disposeBag)
     }
     
     //MARK: - Outputs
@@ -40,6 +39,17 @@ struct FundListViewModel {
     }
     
     //MARK: - Inputs
+    func bindFetchFunds(_ observable: Observable<Void>) {
+        observable
+            .flatMapLatest {
+                self.fundService.getFunds()
+                    .trackNetworkError(self.errorTracker)
+                    .asDriverOnErrorJustComplete()
+            }
+            .bind(to: _funds)
+            .disposed(by: disposeBag)
+    }
+    
     func bindCreateFund(_ observable: Observable<Void>) {
         observable
             .subscribe(onNext: {
@@ -54,12 +64,6 @@ struct FundListViewModel {
                 self._funds.value.insert($0, at: 0)
             })
             .disposed(by: disposeBag)
-    }
-    
-    private func getFunds() -> Driver<[Fund]> {
-        return fundService.getFunds()
-            .trackNetworkError(errorTracker)
-            .asDriverOnErrorJustComplete()
     }
     
 }

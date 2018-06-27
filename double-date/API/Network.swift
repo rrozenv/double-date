@@ -25,10 +25,13 @@ final class Network<T: Codable> {
         self.scheduler = ConcurrentDispatchQueueScheduler(qos: DispatchQoS(qosClass: DispatchQoS.QoSClass.background, relativePriority: 1))
     }
     
-    func getItems(_ path: String) -> Observable<[T]> {
+    func getItems(_ path: String,
+                  parameters: [String: Any]? = nil,
+                  encoding: ParameterEncoding = JSONEncoding.default,
+                  headers: [String: String]? = nil) -> Observable<[T]> {
         let absolutePath = "\(baseUrl)/\(path)"
         return RxAlamofire
-            .requestData(.get, absolutePath, headers: [Secrets.tokenKeyString: token ?? ""])
+            .requestData(.get, absolutePath, parameters: parameters, encoding: encoding, headers: headers)
             .observeOn(scheduler)
             .mapArray(type: T.self)
     }

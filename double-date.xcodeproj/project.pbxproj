@@ -19,6 +19,8 @@
 		9806646A20DD778500951DBD /* FundListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806646920DD778500951DBD /* FundListViewModel.swift */; };
 		9806646D20DD7CA400951DBD /* MarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806646C20DD7CA400951DBD /* MarketViewController.swift */; };
 		9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806646E20DD7E2D00951DBD /* HomeRouter.swift */; };
+		9809890020E316FD00C32BE0 /* MarketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980988FF20E316FD00C32BE0 /* MarketViewModel.swift */; };
+		9809890220E3173A00C32BE0 /* StockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809890120E3173A00C32BE0 /* StockService.swift */; };
 		98300A0120D1ED3C00D7C4BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */; };
 		98300A0820D1ED3C00D7C4BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0720D1ED3C00D7C4BA /* Assets.xcassets */; };
 		98300A0B20D1ED3C00D7C4BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0920D1ED3C00D7C4BA /* LaunchScreen.storyboard */; };
@@ -61,6 +63,7 @@
 		986AE2EC20DDD90500A78E42 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2EB20DDD90500A78E42 /* TitleView.swift */; };
 		986AE2EE20DDD94E00A78E42 /* UserContactTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2ED20DDD94E00A78E42 /* UserContactTableCell.swift */; };
 		986AE2F020DDDC9400A78E42 /* ImageLabelSublabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2EF20DDDC9400A78E42 /* ImageLabelSublabelView.swift */; };
+		988F318A20E17B6000084676 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988F318920E17B6000084676 /* AlertViewController.swift */; };
 		989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D420D3EB2800AD9F9F /* UserListViewModel.swift */; };
 		989963D720D3EB3500AD9F9F /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D620D3EB3500AD9F9F /* UserListViewController.swift */; };
 		989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */; };
@@ -112,6 +115,8 @@
 		9806646920DD778500951DBD /* FundListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundListViewModel.swift; sourceTree = "<group>"; };
 		9806646C20DD7CA400951DBD /* MarketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketViewController.swift; sourceTree = "<group>"; };
 		9806646E20DD7E2D00951DBD /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		980988FF20E316FD00C32BE0 /* MarketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketViewModel.swift; sourceTree = "<group>"; };
+		9809890120E3173A00C32BE0 /* StockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockService.swift; sourceTree = "<group>"; };
 		983009FD20D1ED3C00D7C4BA /* double-date.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "double-date.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98300A0720D1ED3C00D7C4BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -160,6 +165,7 @@
 		986AE2EB20DDD90500A78E42 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		986AE2ED20DDD94E00A78E42 /* UserContactTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserContactTableCell.swift; sourceTree = "<group>"; };
 		986AE2EF20DDDC9400A78E42 /* ImageLabelSublabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLabelSublabelView.swift; sourceTree = "<group>"; };
+		988F318920E17B6000084676 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		989963D420D3EB2800AD9F9F /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		989963D620D3EB3500AD9F9F /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkActivityLogger.swift; sourceTree = "<group>"; };
@@ -240,6 +246,7 @@
 			children = (
 				989963D320D3EB1300AD9F9F /* User List */,
 				9806645C20DD6EB100951DBD /* CustomPageViewController.swift */,
+				988F318920E17B6000084676 /* AlertViewController.swift */,
 			);
 			path = "Generic View Controllers";
 			sourceTree = "<group>";
@@ -257,6 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				9806646C20DD7CA400951DBD /* MarketViewController.swift */,
+				980988FF20E316FD00C32BE0 /* MarketViewModel.swift */,
 			);
 			path = Market;
 			sourceTree = "<group>";
@@ -416,6 +424,7 @@
 				98FA5C9F20E059BD00FA4818 /* FundService.swift */,
 				98B8B78720D30D9E004BD6A1 /* Network.swift */,
 				989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */,
+				9809890120E3173A00C32BE0 /* StockService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -720,6 +729,7 @@
 				98300A5220D1F69300D7C4BA /* KeyboardAvoidable.swift in Sources */,
 				986AE2E220DDD68300A78E42 /* ValueCellDataSource.swift in Sources */,
 				98F77F3020D59497005F4B66 /* EnterNameViewController.swift in Sources */,
+				9809890020E316FD00C32BE0 /* MarketViewModel.swift in Sources */,
 				98300A5F20D1F77800D7C4BA /* AppController.swift in Sources */,
 				98300A6C20D1FF9000D7C4BA /* InitalRouter.swift in Sources */,
 				98B8B78820D30D9E004BD6A1 /* Network.swift in Sources */,
@@ -738,11 +748,13 @@
 				98300A3F20D1F5B700D7C4BA /* CustomNavViewable.swift in Sources */,
 				9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */,
 				986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */,
+				988F318A20E17B6000084676 /* AlertViewController.swift in Sources */,
 				98300A3520D1F1A700D7C4BA /* UserService.swift in Sources */,
 				98300A3E20D1F5B700D7C4BA /* NotificationName+Ext.swift in Sources */,
 				98300A4120D1F63F00D7C4BA /* ConstraintMaker+Ext.swift in Sources */,
 				9806646A20DD778500951DBD /* FundListViewModel.swift in Sources */,
 				98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */,
+				9809890220E3173A00C32BE0 /* StockService.swift in Sources */,
 				98300A3320D1F01500D7C4BA /* Secrets.swift in Sources */,
 				98300A6620D1FEEE00D7C4BA /* InitialViewController.swift in Sources */,
 				98300A4920D1F64B00D7C4BA /* UIDevice+Ext.swift in Sources */,

@@ -51,3 +51,22 @@ extension UIViewController {
     
 }
 
+extension UIViewController {
+    
+    func displayNetworkError(_ error: NetworkError) {
+        var alertInfo: AlertViewController.AlertInfo
+        switch error {
+        case .custom(let info):
+            alertInfo = AlertViewController.AlertInfo.custom(error: info)
+        case .decodingError:
+            alertInfo = AlertViewController.AlertInfo.decodingError
+        case .serverFailed:
+            alertInfo = AlertViewController.AlertInfo.serverFailed
+        }
+        let alertVc = AlertViewController(alertInfo: alertInfo, okAction: nil)
+        alertVc.modalPresentationStyle = .overCurrentContext
+        self.present(alertVc, animated: true, completion: nil)
+    }
+    
+}
+

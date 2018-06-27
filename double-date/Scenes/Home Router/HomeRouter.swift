@@ -53,7 +53,9 @@ extension HomeRouter {
         fundVc.setViewModelBinding(model: fundVm)
         
         //Market Vc
-        let marketVc = MarketViewController()
+        var marketVc = MarketViewController()
+        let marketVm = MarketViewModel()
+        marketVc.setViewModelBinding(model: marketVm)
         
         //Profile Vc
         var profileVc = ProfileViewController()

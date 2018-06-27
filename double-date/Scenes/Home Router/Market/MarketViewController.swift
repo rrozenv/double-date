@@ -8,35 +8,91 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
+import RxOptional
 
-final class MarketViewController: UIViewController {
+class MarketViewController: UIViewController, BindableType {
     
-    //MARK: - Properties
     let disposeBag = DisposeBag()
-    
-    //MARK: - Views
-    private var label: UILabel!
+    var viewModel: MarketViewModel!
+    private var continueButton: UIButton!
+    private var tableView: UITableView!
+    private var refreshControl: UIRefreshControl!
+    private var initalLoadTrigger = PublishSubject<Void>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
-        createLabel()
+        setupTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        initalLoadTrigger.onNext(())
     }
     
     deinit { print("MarketViewController deinit") }
+    
+    func bindViewModel() {
+        //MARK: - Input
+        let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }
+        let fetchStocks$ = Observable.of(initalLoadTrigger.asObservable(), refreshControl$).merge().share()
+        viewModel.bindFetchStocks(fetchStocks$)
+        
+        //MARK: - Output
+        viewModel.stocks
+            .drive(tableView.rx.items(cellIdentifier: "StockListCell", cellType: UITableViewCell.self)) { row, element, cell in
+                cell.textLabel?.text = element.companyName
+                cell.detailTextLabel?.text = "\(element.latestPrice)"
+            }
+            .disposed(by: disposeBag)
+        
+        viewModel.stocks
+            .map { _ in false }
+            .drive(refreshControl.rx.isRefreshing)
+            .disposed(by: disposeBag)
+        
+        viewModel.error
+            .drive(onNext: { [weak self] in
+                self?.refreshControl.endRefreshing()
+                self?.tableView.contentOffset = CGPoint.zero
+                self?.displayNetworkError($0)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+}
+
+extension MarketViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return CGFloat.leastNonzeroMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNonzeroMagnitude
+    }
     
 }
 
 extension MarketViewController {
     
-    private func createLabel() {
-        label = UILabel().rxStyle(font: FontBook.AvenirMedium.of(size: 14), color: .black)
-        label.text = "Market View Controller"
+    private func setupTableView() {
+        tableView = UITableView(frame: CGRect.zero, style: .grouped)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "StockListCell")
+        tableView.estimatedRowHeight = 200
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.estimatedSectionHeaderHeight = 0
+        tableView.estimatedSectionFooterHeight = 0
+        tableView.separatorStyle = .singleLine
+        tableView.backgroundColor = UIColor.white
         
-        view.addSubview(label)
-        label.snp.makeConstraints { (make) in
-            make.center.equalTo(view)
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view)
         }
+        
+        refreshControl = UIRefreshControl()
+        tableView.addSubview(refreshControl)
     }
     
 }
