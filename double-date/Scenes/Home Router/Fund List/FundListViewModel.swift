@@ -12,6 +12,7 @@ import RxCocoa
 
 protocol FundListViewModelDelegate: class {
     func didTapCreateFund(_ vm: FundListViewModel)
+    func didSelectFund(_ fund: Fund)
 }
 
 struct FundListViewModel {
@@ -47,6 +48,14 @@ struct FundListViewModel {
                     .asDriverOnErrorJustComplete()
             }
             .bind(to: _funds)
+            .disposed(by: disposeBag)
+    }
+    
+    func bindSelectedFund(_ observable: Observable<Fund>) {
+        observable
+            .subscribe(onNext: {
+                self.delegate?.didSelectFund($0)
+            })
             .disposed(by: disposeBag)
     }
     

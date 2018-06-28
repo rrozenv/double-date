@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "double-date/Scenes/Create Fund Router/CreateFundRouter.swift"
-            timestampString = "551582302.880674"
+            timestampString = "551848336.847693"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "19"
@@ -74,124 +74,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "double-date/Scenes/Create Fund Router/CreateFundRouter.swift"
-            timestampString = "551582302.8807679"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "didSelectContacts(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "double_date.CreateFundRouter.didSelectContacts(Swift.Array&lt;double_date.Contact&gt;) -&gt; ()"
-                  moduleName = "double-date"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rrozenv/Desktop/Reference%20Xcode%20Proj./double-date/double-date/Scenes/Create%20Fund%20Router/CreateFundRouter.swift"
-                  timestampString = "551581508.1267461"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129"
-                  offsetFromSymbolStart = "260">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (double_date.Contact) -&gt; Swift.String in double_date.CreateFundRouter.didSelectContacts(Swift.Array&lt;double_date.Contact&gt;) -&gt; ()"
-                  moduleName = "double-date"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rrozenv/Desktop/Reference%20Xcode%20Proj./double-date/double-date/Scenes/Create%20Fund%20Router/CreateFundRouter.swift"
-                  timestampString = "551581508.130037"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129"
-                  offsetFromSymbolStart = "177">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "implicit closure #1 : @autoclosure () throws -&gt; Swift.String in closure #1 (double_date.Contact) -&gt; Swift.String in double_date.CreateFundRouter.didSelectContacts(Swift.Array&lt;double_date.Contact&gt;) -&gt; ()"
-                  moduleName = "double-date"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rrozenv/Desktop/Reference%20Xcode%20Proj./double-date/double-date/Scenes/Create%20Fund%20Router/CreateFundRouter.swift"
-                  timestampString = "551581508.132373"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "129"
-                  endingLineNumber = "129"
-                  offsetFromSymbolStart = "161">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "double-date/Scenes/Create Fund Router/CreateFundRouter.swift"
-            timestampString = "551582302.880824"
+            timestampString = "551848336.8477581"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "20"
             endingLineNumber = "20"
             landmarkName = "isValid"
             landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "double-date/Scenes/Create Fund Router/CreateFundRouter.swift"
-            timestampString = "551582302.880872"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "init()"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #4 (double_date.Fund) -&gt; () in double_date.CreateFundRouter.init() -&gt; double_date.CreateFundRouter"
-                  moduleName = "double-date"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rrozenv/Desktop/Reference%20Xcode%20Proj./double-date/double-date/Scenes/Create%20Fund%20Router/CreateFundRouter.swift"
-                  timestampString = "551581508.142612"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "71"
-                  endingLineNumber = "71"
-                  offsetFromSymbolStart = "1397">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #4 (double_date.Fund) -&gt; () in double_date.CreateFundRouter.init() -&gt; double_date.CreateFundRouter"
-                  moduleName = "double-date"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/rrozenv/Desktop/Reference%20Xcode%20Proj./double-date/double-date/Scenes/Create%20Fund%20Router/CreateFundRouter.swift"
-                  timestampString = "551581508.144683"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69"
-                  offsetFromSymbolStart = "18">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

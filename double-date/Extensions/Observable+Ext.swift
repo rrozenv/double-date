@@ -50,6 +50,8 @@ struct CustomError: Error, Codable {
 enum NetworkError: Error, CustomStringConvertible {
    case serverFailed
    case decodingError
+   case cacheDecodingError(Error)
+   case cacheEncodingError(Error)
    case custom(CustomError)
     
     var description: String {
@@ -58,6 +60,8 @@ enum NetworkError: Error, CustomStringConvertible {
             return err.message
         case .serverFailed: return "Server failed"
         case .decodingError: return "Decoding error"
+        case .cacheEncodingError(let error): return error.localizedDescription
+        case .cacheDecodingError(let error): return error.localizedDescription
         }
     }
 }

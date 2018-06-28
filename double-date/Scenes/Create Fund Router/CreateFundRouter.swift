@@ -57,9 +57,6 @@ final class CreateFundRouter: Routable {
         self.navVc.isNavigationBarHidden = true
         self.createFund.asObservable()
             .withLatestFrom(fundInfo.asObservable())
-            .do(onNext: { _ in
-                print("Fund info changed!")
-            })
             .filter { $0.isValid }
             .flatMapLatest { [unowned self] in
                 self.fundService.create(params:  $0.params)

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Fund: Codable {
+struct Fund: Codable, Identifiable {
     let _id: String
     let admin: User
     let name: String
@@ -31,6 +31,7 @@ struct Portfolio: Codable {
 
 struct Position: Codable {
     let _id: String
+    let portfolioIds: [String]
     let type: String
     let ticker: String
     let buyPrice: Double

@@ -54,7 +54,7 @@ extension UIViewController {
 extension UIViewController {
     
     func displayNetworkError(_ error: NetworkError) {
-        var alertInfo: AlertViewController.AlertInfo
+        var alertInfo: AlertViewController.AlertInfo?
         switch error {
         case .custom(let info):
             alertInfo = AlertViewController.AlertInfo.custom(error: info)
@@ -62,8 +62,13 @@ extension UIViewController {
             alertInfo = AlertViewController.AlertInfo.decodingError
         case .serverFailed:
             alertInfo = AlertViewController.AlertInfo.serverFailed
+        case .cacheDecodingError(let error):
+            debugPrint(error)
+        case .cacheEncodingError(let error):
+            debugPrint(error)
         }
-        let alertVc = AlertViewController(alertInfo: alertInfo, okAction: nil)
+        guard let info = alertInfo else { return }
+        let alertVc = AlertViewController(alertInfo: info, okAction: nil)
         alertVc.modalPresentationStyle = .overCurrentContext
         self.present(alertVc, animated: true, completion: nil)
     }

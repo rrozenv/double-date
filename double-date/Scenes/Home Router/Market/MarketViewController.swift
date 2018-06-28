@@ -19,6 +19,7 @@ class MarketViewController: UIViewController, BindableType {
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
     private var initalLoadTrigger = PublishSubject<Void>()
+    private var didAppearOnce = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,6 +28,8 @@ class MarketViewController: UIViewController, BindableType {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        guard !didAppearOnce else { return }
+        didAppearOnce = true
         initalLoadTrigger.onNext(())
     }
     
@@ -37,6 +40,9 @@ class MarketViewController: UIViewController, BindableType {
         let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }
         let fetchStocks$ = Observable.of(initalLoadTrigger.asObservable(), refreshControl$).merge().share()
         viewModel.bindFetchStocks(fetchStocks$)
+        
+        let stockTapped$ = tableView.rx.modelSelected(Stock.self).asObservable()
+        viewModel.bindSelectedStock(stockTapped$)
         
         //MARK: - Output
         viewModel.stocks

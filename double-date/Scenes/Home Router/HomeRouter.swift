@@ -25,6 +25,7 @@ final class HomeRouter: Routable {
     let screenOrder: [Screen] = [.tabHome, .createFund]
     var screenIndex = 0
     private var createFundRouter: CreateFundRouter?
+    private var stockSelectionRouter: StockSelectionRouter?
     
     //MARK: - Public Props
     var newFund = Variable<Fund?>(nil)
@@ -54,7 +55,8 @@ extension HomeRouter {
         
         //Market Vc
         var marketVc = MarketViewController()
-        let marketVm = MarketViewModel()
+        var marketVm = MarketViewModel()
+        marketVm.delegate = self
         marketVc.setViewModelBinding(model: marketVm)
         
         //Profile Vc
@@ -70,18 +72,36 @@ extension HomeRouter {
 }
 
 extension HomeRouter: FundListViewModelDelegate {
-    
+
     func didTapCreateFund(_ vm: FundListViewModel) {
         createFundRouter = CreateFundRouter()
         createFundRouter!.newFund.asObservable()
             .filterNil()
             .bind(to: vm.bindNewFund)
         createFundRouter!.dismiss.asObservable()
-            .subscribe(onNext: {
-                self.createFundRouter = nil
+            .subscribe(onNext: { [weak self] in
+                self?.createFundRouter = nil
             })
             .disposed(by: disposeBag)
         navVc.present(createFundRouter!.navVc, animated: true, completion: nil)
+    }
+    
+    func didSelectFund(_ fund: Fund) {
+        
+    }
+    
+}
+
+extension HomeRouter: MarketViewModelDelegate {
+    
+    func didSelectStock(_ stock: Stock) {
+        stockSelectionRouter = StockSelectionRouter(stock: stock)
+        stockSelectionRouter!.dismiss.asObservable()
+            .subscribe(onNext: { [weak self] in
+                self?.stockSelectionRouter = nil
+            })
+            .disposed(by: disposeBag)
+        navVc.present(stockSelectionRouter!.navVc, animated: true, completion: nil)
     }
     
 }

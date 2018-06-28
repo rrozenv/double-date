@@ -32,6 +32,9 @@ class FundListViewController: UIViewController, BindableType {
         let createTapped$ = continueButton.rx.tap.asObservable()
         viewModel.bindCreateFund(createTapped$)
         
+        let fundTapped$ = tableView.rx.modelSelected(Fund.self).asObservable()
+        viewModel.bindSelectedFund(fundTapped$)
+        
         let initialLoad$ = Observable.of(())
         let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }
         let fetchFunds$ = Observable.of(initialLoad$, refreshControl$).merge().share()
@@ -39,8 +42,8 @@ class FundListViewController: UIViewController, BindableType {
         
         //MARK: - Output
         viewModel.funds
-            .drive(tableView.rx.items(cellIdentifier: "FundListCell", cellType: UITableViewCell.self)) { row, element, cell in
-                cell.textLabel?.text = element.name
+            .drive(tableView.rx.items(cellIdentifier: FundTableCell.defaultReusableId, cellType: FundTableCell.self)) { row, element, cell in
+                cell.configureWith(value: element)
             }
             .disposed(by: disposeBag)
         
@@ -97,7 +100,7 @@ extension FundListViewController {
     
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "FundListCell")
+        tableView.register(FundTableCell.self, forCellReuseIdentifier: FundTableCell.defaultReusableId)
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 0

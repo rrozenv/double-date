@@ -13,13 +13,7 @@ import Alamofire
 struct StockService {
     
     let network = Network<Stock>(Secrets.baseURL)
-    
-//    func getStocks() -> Observable<[Stock]> {
-//        return network.getItems("stock/market/batch",
-//                                parameters: ["types": "quote", "symbols": "aapl, fb"],
-//                                encoding: URLEncoding.queryString)
-//    }
-    
+
     func getStocks() -> Observable<[Stock]> {
         return network.getItems("stocks",
                                 parameters: ["types": "quote", "symbols": "aapl,fb"],

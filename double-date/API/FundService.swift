@@ -11,15 +11,24 @@ import RxSwift
 
 struct FundService {
     
-    let network = Network<Fund>(Secrets.baseURL)
-    let token = MyKeychain.shared.getStringFor(Secrets.tokenKeyString)
+    private let network = Network<Fund>(Secrets.baseURL)
+    private let token = MyKeychain.shared.getStringFor(Secrets.tokenKeyString)
+    private let cache: Cache = Cache<Fund>(path: "funds")
     
     func create(params: [String: Any]) -> Observable<Fund> {
         return network.postItem("funds", parameters: params)
     }
     
     func getFunds() -> Observable<[Fund]> {
-        return network.getItems("funds", headers: [Secrets.tokenKeyString: token ?? ""])
+        let cachedFunds = cache.fetchObjects().asObservable()
+        let networkFunds = network.getItems("funds", headers: [Secrets.tokenKeyString: token ?? ""])
+            .flatMap {
+                return self.cache.save(objects: $0)
+                    .asObservable()
+                    .mapArray(type: Fund.self)
+                    .concat(Observable.just($0))
+            }
+        return cachedFunds.concat(networkFunds)
     }
     
 }

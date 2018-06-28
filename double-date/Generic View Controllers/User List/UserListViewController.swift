@@ -49,16 +49,8 @@ class UsersViewController: UIViewController, BindableType {
             .disposed(by: disposeBag)
         
         viewModel.error
-            .drive(onNext: { (error) in
-                print("ERRROR")
-                switch error {
-                case .custom(let custom):
-                    print(custom.message)
-                case .decodingError:
-                    print("decoding failed")
-                case .serverFailed:
-                    print("server error")
-                }
+            .drive(onNext: { [weak self] (error) in
+                self?.displayNetworkError(error)
             })
             .disposed(by: disposeBag)
     }

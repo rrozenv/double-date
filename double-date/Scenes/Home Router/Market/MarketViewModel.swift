@@ -10,6 +10,10 @@ import Foundation
 import RxCocoa
 import RxSwift
 
+protocol MarketViewModelDelegate: class {
+    func didSelectStock(_ stock: Stock)
+}
+
 struct MarketViewModel {
     
     let disposeBag = DisposeBag()
@@ -18,6 +22,7 @@ struct MarketViewModel {
     private let stockService = StockService()
     private let errorTracker: ErrorTracker
     private let _stocks = Variable<[Stock]>([])
+    weak var delegate: MarketViewModelDelegate?
     
     //MARK: - Init
     init(errorTracker: ErrorTracker = ErrorTracker()) {
@@ -45,4 +50,12 @@ struct MarketViewModel {
             .disposed(by: disposeBag)
     }
     
+    func bindSelectedStock(_ observable: Observable<Stock>) {
+        observable
+            .subscribe(onNext: {
+                self.delegate?.didSelectStock($0)
+            })
+            .disposed(by: disposeBag)
+    }
+
 }
