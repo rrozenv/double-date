@@ -26,6 +26,7 @@ struct StockDetailViewModel {
     private let _stock: Variable<Stock>
     private let _display = PublishSubject<Void>()
     private let _shouldDismiss = PublishSubject<Void>()
+    let activityIndicator = PublishSubject<Bool>()
     weak var delegate: StockDetailViewModelDelegate?
     
     init(stock: Stock) {
@@ -39,6 +40,10 @@ struct StockDetailViewModel {
     
     var shouldDismiss: Observable<Void> {
         return _shouldDismiss.asObservable()
+    }
+    
+    var isLoading: Driver<Bool> {
+        return activityIndicator.asDriver(onErrorJustReturn: false)
     }
     
     //MARK: - Inputs

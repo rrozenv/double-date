@@ -142,6 +142,13 @@ extension AlertViewController {
                              okButtonTitle: "Got It",
                              cancelButtonTitle: nil)
         }
+        
+        static var noFundsError: AlertInfo {
+            return AlertInfo(header: "No Funds",
+                             message: "You are not part of any funds!",
+                             okButtonTitle: "Got It",
+                             cancelButtonTitle: nil)
+        }
     }
     
 }

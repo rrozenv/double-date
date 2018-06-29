@@ -96,7 +96,7 @@ extension HomeRouter: MarketViewModelDelegate {
     
     func didSelectStock(_ stock: Stock) {
         stockSelectionRouter = StockSelectionRouter(stock: stock)
-        stockSelectionRouter!.dismiss.asObservable()
+        stockSelectionRouter!.didDismiss.asObservable()
             .subscribe(onNext: { [weak self] in
                 self?.stockSelectionRouter = nil
             })

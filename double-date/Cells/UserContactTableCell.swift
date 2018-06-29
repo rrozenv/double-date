@@ -53,6 +53,12 @@ final class UserContactTableCell: UITableViewCell, ValueCell {
         isSelect = value.isSelected
     }
     
+    func configureWith(value: FundViewModel) {
+        imageNameSublabelView.topLabel.text = value.fund.name
+        imageNameSublabelView.subLabel.text = "\(value.fund.maxPlayers)"
+        isSelect = value.isSelected
+    }
+    
 }
 
 extension UserContactTableCell {

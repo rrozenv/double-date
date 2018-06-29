@@ -31,7 +31,7 @@ struct Portfolio: Codable {
 
 struct Position: Codable {
     let _id: String
-    let portfolioIds: [String]
+    let fundIds: [String]
     let type: String
     let ticker: String
     let buyPrice: Double

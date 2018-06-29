@@ -47,6 +47,12 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
                 self.stackView.item(at: 2).text = "\($0.changePercent)"
             })
             .disposed(by: disposeBag)
+        
+        viewModel.isLoading
+            .drive(onNext: {
+                print("isLoading: \($0)")
+            })
+            .disposed(by: disposeBag)
     }
     
 }

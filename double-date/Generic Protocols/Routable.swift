@@ -46,4 +46,9 @@ extension Routable {
         navVc.popViewController(animated: true)
     }
     
+    func displayAlert(vc: AlertViewController)  {
+        vc.modalPresentationStyle = .overCurrentContext
+        navVc.present(vc, animated: true, completion: nil)
+    }
+    
 }
