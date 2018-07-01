@@ -52,6 +52,7 @@
 		98300A6C20D1FF9000D7C4BA /* InitalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */; };
 		98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */; };
 		98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6F20D20F1F00D7C4BA /* Routable.swift */; };
+		9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9831E76F20E950BA00FFBB3D /* PositionService.swift */; };
 		986AE2DC20DDD59700A78E42 /* SelectContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */; };
 		986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DD20DDD5A600A78E42 /* SelectContactsViewModel.swift */; };
 		986AE2E020DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DF20DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift */; };
@@ -161,6 +162,7 @@
 		98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitalRouter.swift; sourceTree = "<group>"; };
 		98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		98300A6F20D20F1F00D7C4BA /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
+		9831E76F20E950BA00FFBB3D /* PositionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionService.swift; sourceTree = "<group>"; };
 		986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactsViewController.swift; sourceTree = "<group>"; };
 		986AE2DD20DDD5A600A78E42 /* SelectContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactsViewModel.swift; sourceTree = "<group>"; };
 		986AE2DF20DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionFilterDataSource.swift; sourceTree = "<group>"; };
@@ -440,6 +442,7 @@
 				98B8B78720D30D9E004BD6A1 /* Network.swift */,
 				989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */,
 				9809890120E3173A00C32BE0 /* StockService.swift */,
+				9831E76F20E950BA00FFBB3D /* PositionService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -795,6 +798,7 @@
 				98300A3F20D1F5B700D7C4BA /* CustomNavViewable.swift in Sources */,
 				9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */,
 				98CF487E20E6AB5800C426DB /* SelectFundViewController.swift in Sources */,
+				9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */,
 				986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */,
 				986B6DF320E47EA0002BF93C /* StockSelectionRouter.swift in Sources */,
 				988F318A20E17B6000084676 /* AlertViewController.swift in Sources */,

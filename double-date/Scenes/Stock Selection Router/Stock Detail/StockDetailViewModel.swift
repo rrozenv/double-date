@@ -27,6 +27,7 @@ struct StockDetailViewModel {
     private let _display = PublishSubject<Void>()
     private let _shouldDismiss = PublishSubject<Void>()
     let activityIndicator = PublishSubject<Bool>()
+    let errorTracker = PublishSubject<NetworkError>()
     weak var delegate: StockDetailViewModelDelegate?
     
     init(stock: Stock) {
@@ -44,6 +45,10 @@ struct StockDetailViewModel {
     
     var isLoading: Driver<Bool> {
         return activityIndicator.asDriver(onErrorJustReturn: false)
+    }
+    
+    var error: Driver<NetworkError> {
+        return errorTracker.asDriverOnErrorJustComplete()
     }
     
     //MARK: - Inputs

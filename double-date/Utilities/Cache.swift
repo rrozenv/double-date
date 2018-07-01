@@ -37,6 +37,7 @@ final class Cache<T: Codable & Identifiable> {
     }
     
     private let path: String
+    private let cacheScheduler = SerialDispatchQueueScheduler(qos: .userInitiated)
     
     init(path: String) {
         self.path = path
@@ -59,29 +60,43 @@ final class Cache<T: Codable & Identifiable> {
                 observer(.error(NetworkError.cacheEncodingError(error)))
             }
             return Disposables.create()
-        }
+        }.subscribeOn(cacheScheduler)
     }
     
     func save(object: T) -> Completable {
         return Completable.create { (observer) -> Disposable in
-            guard let url = FileManager.default
-                .urls(for: .documentDirectory, in: .userDomainMask).first else {
-                    observer(.completed)
-                    return Disposables.create()
-            }
-            let path = url.appendingPathComponent(self.path)
-                .appendingPathComponent("\(object._id)")
-                .appendingPathComponent(FileNames.objectFileName)
-                .absoluteString
-            let encoder = JSONEncoder()
-            if NSKeyedArchiver.archiveRootObject(try! encoder.encode(object), toFile: path) {
+            guard let directoryURL = self.directoryURL() else {
                 observer(.completed)
-            } else {
-                observer(.error(NetworkError.cacheEncodingError(Error.fetchObject(T.self))))
+                return Disposables.create()
             }
             
+            let path = directoryURL
+                .appendingPathComponent(FileNames.objectsFileName)
+            self.createDirectoryIfNeeded(at: directoryURL)
+            
+            guard var objects = self.fetchObjectsNonRx() else {
+                self.encodeObjects([object], to: path, completion: { (isSuccess) in
+                    if isSuccess {
+                        observer(.completed)
+                    } else {
+                        observer(.error(NetworkError.cacheEncodingError(Error.fetchObject(T.self))))
+                    }
+                })
+                return Disposables.create()
+            }
+            
+            objects.append(object)
+            
+            self.encodeObjects(objects, to: path, completion: { (isSuccess) in
+                if isSuccess {
+                    observer(.completed)
+                } else {
+                    observer(.error(NetworkError.cacheEncodingError(Error.fetchObject(T.self))))
+                }
+            })
+            
             return Disposables.create()
-        }
+        }.subscribeOn(cacheScheduler)
     }
     
     func fetchObjects() -> Maybe<[T]> {
@@ -105,6 +120,20 @@ final class Cache<T: Codable & Identifiable> {
                 observer(MaybeEvent.error(NetworkError.cacheDecodingError(error)))
             }
             return Disposables.create()
+        }.subscribeOn(cacheScheduler)
+    }
+    
+    private func fetchObjectsNonRx() -> [T]? {
+        guard let directoryURL = self.directoryURL() else { return nil }
+        let fileURL = directoryURL
+            .appendingPathComponent(FileNames.objectsFileName)
+        guard let data = NSKeyedUnarchiver.unarchiveObject(withFile: fileURL.path) as? Data else {
+            return nil
+        }
+        do {
+            return try JSONDecoder().decode([T].self, from: data)
+        } catch {
+            return nil
         }
     }
     
@@ -114,6 +143,16 @@ final class Cache<T: Codable & Identifiable> {
                   in: .userDomainMask)
             .first?
             .appendingPathComponent(path)
+    }
+    
+    private func encodeObjects(_ objects: [T], to path: URL, completion: (Bool) -> Void) {
+        do {
+            try NSKeyedArchiver
+                .archivedData(withRootObject: try! JSONEncoder().encode(objects)).write(to: path)
+            completion(true)
+        } catch {
+            completion(false)
+        }
     }
     
     private func createDirectoryIfNeeded(at url: URL) {

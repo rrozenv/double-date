@@ -53,6 +53,12 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
                 print("isLoading: \($0)")
             })
             .disposed(by: disposeBag)
+        
+        viewModel.error
+            .drive(onNext: { [weak self] in
+                self?.displayNetworkError($0)
+            })
+            .disposed(by: disposeBag)
     }
     
 }

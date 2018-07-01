@@ -17,6 +17,12 @@ struct FundService {
     
     func create(params: [String: Any]) -> Observable<Fund> {
         return network.postItem("funds", parameters: params)
+            .flatMap {
+                return self.cache.save(object: $0)
+                    .asObservable()
+                    .mapObject(type: Fund.self)
+                    .concat(Observable.just($0))
+            }
     }
     
     func getFunds() -> Observable<[Fund]> {

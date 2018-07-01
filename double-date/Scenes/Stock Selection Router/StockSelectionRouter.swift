@@ -25,6 +25,17 @@ final class PositionInfo {
             && positionType != nil
             && fundIds != nil
     }
+    
+    var json: [String: Any] {
+        return [
+            "type": positionType!.rawValue,
+            "ticker": stock!.symbol,
+            "buyPrice": stock!.latestPrice,
+            "currentPrice": stock!.latestPrice,
+            "shares": 20,
+            "fundIds": fundIds!
+        ]
+    }
 }
 
 final class StockSelectionRouter: Routable {
@@ -36,12 +47,13 @@ final class StockSelectionRouter: Routable {
     
     //MARK: - Private Props
     private let disposeBag = DisposeBag()
-    private let fundService = FundService()
+    private let positionService = PositionService()
     private let positionInfo: Variable<PositionInfo>
     private let _funds = Variable<[Fund]>([])
     private let cache: Cache = Cache<Fund>(path: "funds")
     private let createPosition = PublishSubject<Void>()
     private let activityIndicator: ActivityIndicator
+    private let errorTracker: ErrorTracker
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
@@ -56,14 +68,17 @@ final class StockSelectionRouter: Routable {
     
     init(stock: Stock) {
         let activityIndicator = ActivityIndicator()
+        let errorTracker = ErrorTracker()
         self.activityIndicator = activityIndicator
+        self.errorTracker = errorTracker
         self.screenOrder = [.stockDetail(stock), .selectFunds]
         self.positionInfo = Variable(PositionInfo(stock: stock, posType: nil, fundIds: nil))
         self.createPosition.asObservable()
             .withLatestFrom(positionInfo.asObservable())
             .filter { $0.isValid }
-            .flatMapLatest { _ in
-                self.fundService.getFunds()
+            .flatMapLatest { [unowned self] in
+                self.positionService.create(params: $0.json)
+                    .trackNetworkError(errorTracker)
                     .trackActivity(activityIndicator)
                     .asDriverOnErrorJustComplete()
             }
@@ -98,6 +113,9 @@ extension StockSelectionRouter {
         vm.delegate = self
         activityIndicator.asObservable()
             .bind(to: vm.activityIndicator)
+            .disposed(by: vm.disposeBag)
+        errorTracker.asObservable()
+            .bind(to: vm.errorTracker)
             .disposed(by: vm.disposeBag)
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: true)
