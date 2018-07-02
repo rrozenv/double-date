@@ -48,6 +48,12 @@ final class FundTableCell: UITableViewCell {
         dateLabel.text = "Max \(value.maxPlayers) players"
     }
     
+    func configureWith(value: Position) {
+        mainLabel.text = value.ticker
+        dateLabel.text = "Entry: \(value.buyPrice)"
+        countLabel.text = "Current: \(value.currentPrice)"
+    }
+    
 }
 
 extension FundTableCell {

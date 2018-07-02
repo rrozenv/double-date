@@ -17,8 +17,7 @@ struct StockService {
     func getStocks() -> Observable<[Stock]> {
         return network.getItems("stocks",
                                 parameters: ["types": "quote", "symbols": "aapl,fb"],
-                                encoding: URLEncoding.queryString,
-                                headers: nil)
+                                encoding: URLEncoding.queryString)
     }
     
 }

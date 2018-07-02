@@ -14,14 +14,21 @@ protocol ProfileViewModelDelegate: class {
     func didTapLogoutButton()
 }
 
-struct ProfileViewModel {
+final class ProfileViewModel {
     
     let disposeBag = DisposeBag()
+    private let positionService = PositionService()
+    private let _positions = Variable<[Position]>([])
+    private let errorTracker = ErrorTracker()
     weak var delegate: ProfileViewModelDelegate?
+
+    //MARK: - Outputs
+    var positions: Driver<[Position]> {
+        return _positions.asDriver()
+    }
     
-    //MARK: - Init
-    init() {
-        //MARK: - Outputs
+    var error: Driver<NetworkError> {
+        return errorTracker.asDriver()
     }
     
     func bindLogoutButton(_ observable: Observable<Void>) {
@@ -29,6 +36,25 @@ struct ProfileViewModel {
             .subscribe(onNext: {
                 let _ = MyKeychain.shared.removeAllValues()
                 self.delegate?.didTapLogoutButton()
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func bindFetchPositions(_ observable: Observable<Void>) {
+        observable
+            .flatMapLatest {
+                self.positionService.getPositions()
+                    .trackNetworkError(self.errorTracker)
+                    .asDriverOnErrorJustComplete()
+            }
+            .bind(to: _positions)
+            .disposed(by: disposeBag)
+    }
+    
+    func bindNewPosition(_ observable: Observable<Position>) {
+        observable
+            .subscribe(onNext: {
+                self._positions.value.insert($0, at: 0)
             })
             .disposed(by: disposeBag)
     }

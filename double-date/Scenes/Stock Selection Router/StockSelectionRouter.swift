@@ -12,18 +12,17 @@ import RxSwift
 final class PositionInfo {
     var stock: Stock?
     var positionType: PositionType?
-    var fundIds: [String]?
+    var fundIds = [String]()
     
-    init(stock: Stock?, posType: PositionType?, fundIds: [String]?) {
+    init(stock: Stock?, posType: PositionType?) {
         self.stock = stock
         self.positionType = posType
-        self.fundIds = fundIds
     }
     
     var isValid: Bool {
         return stock != nil
             && positionType != nil
-            && fundIds != nil
+            && fundIds.isNotEmpty
     }
     
     var json: [String: Any] {
@@ -33,7 +32,7 @@ final class PositionInfo {
             "buyPrice": stock!.latestPrice,
             "currentPrice": stock!.latestPrice,
             "shares": 20,
-            "fundIds": fundIds!
+            "fundIds": fundIds
         ]
     }
 }
@@ -61,6 +60,7 @@ final class StockSelectionRouter: Routable {
     var screenIndex = 0
     
     var didDismiss = PublishSubject<Void>()
+    var newPosition = PublishSubject<Position>()
     
     deinit {
         print("StockSelectionRouter deinit")
@@ -72,7 +72,7 @@ final class StockSelectionRouter: Routable {
         self.activityIndicator = activityIndicator
         self.errorTracker = errorTracker
         self.screenOrder = [.stockDetail(stock), .selectFunds]
-        self.positionInfo = Variable(PositionInfo(stock: stock, posType: nil, fundIds: nil))
+        self.positionInfo = Variable(PositionInfo(stock: stock, posType: nil))
         self.createPosition.asObservable()
             .withLatestFrom(positionInfo.asObservable())
             .filter { $0.isValid }
@@ -82,8 +82,8 @@ final class StockSelectionRouter: Routable {
                     .trackActivity(activityIndicator)
                     .asDriverOnErrorJustComplete()
             }
-            .subscribe(onNext: { [weak self] _ in
-                print("receieved funds!")
+            .subscribe(onNext: { [weak self] in
+                self?.newPosition.onNext($0)
                 self?.didTapBackButton()
             })
             .disposed(by: disposeBag)
@@ -148,7 +148,8 @@ extension StockSelectionRouter: StockDetailViewModelDelegate {
             self.displayAlert(vc: alertVc)
         case 1:
             print("Only part of 1 fund. Create Position")
-            positionInfo.value.fundIds?.append(contentsOf: fundIds)
+            positionInfo.value.fundIds.append(contentsOf: fundIds)
+            createPosition.onNext(())
         default:
             print("Multiple funds. Display Select funds screen")
             navigateTo(screen: .selectFunds)

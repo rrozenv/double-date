@@ -29,7 +29,7 @@ struct Portfolio: Codable {
     //let positions: [Position]
 }
 
-struct Position: Codable {
+struct Position: Codable, Identifiable {
     let _id: String
     let fundIds: [String]
     let type: String

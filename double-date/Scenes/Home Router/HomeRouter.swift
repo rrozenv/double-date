@@ -30,6 +30,30 @@ final class HomeRouter: Routable {
     //MARK: - Public Props
     var newFund = Variable<Fund?>(nil)
     
+    lazy var fundVc: FundListViewController = {
+        var fundVc = FundListViewController()
+        var fundVm = FundListViewModel()
+        fundVm.delegate = self
+        fundVc.setViewModelBinding(model: fundVm)
+        return fundVc
+    }()
+    
+    lazy var marketVc: MarketViewController = {
+        var marketVc = MarketViewController()
+        var marketVm = MarketViewModel()
+        marketVm.delegate = self
+        marketVc.setViewModelBinding(model: marketVm)
+        return marketVc
+    }()
+    
+    lazy var profileVc: ProfileViewController = {
+        var profileVc = ProfileViewController()
+        var profileVm = ProfileViewModel()
+        profileVm.delegate = self
+        profileVc.setViewModelBinding(model: profileVm)
+        return profileVc
+    }()
+    
     init() {
         self.navigateTo(screen: .tabHome)
         navVc.isNavigationBarHidden = true
@@ -47,25 +71,10 @@ final class HomeRouter: Routable {
 extension HomeRouter {
     
     private func toFundDetails() {
-        // Fund Vc
-        var fundVc = FundListViewController()
-        var fundVm = FundListViewModel()
-        fundVm.delegate = self
-        fundVc.setViewModelBinding(model: fundVm)
-        
-        //Market Vc
-        var marketVc = MarketViewController()
-        var marketVm = MarketViewModel()
-        marketVm.delegate = self
-        marketVc.setViewModelBinding(model: marketVm)
-        
-        //Profile Vc
-        var profileVc = ProfileViewController()
-        var profileVm = ProfileViewModel()
-        profileVm.delegate = self
-        profileVc.setViewModelBinding(model: profileVm)
-        
-        let tabVc = TabPageViewController(viewControllers: [fundVc, marketVc, profileVc], tabView: TabBarView())
+        let tabVc = TabPageViewController(viewControllers: [fundVc,
+                                                            marketVc,
+                                                            profileVc],
+                                          tabView: TabBarView())
         navVc.pushViewController(tabVc, animated: true)
     }
     
@@ -75,14 +84,17 @@ extension HomeRouter: FundListViewModelDelegate {
 
     func didTapCreateFund(_ vm: FundListViewModel) {
         createFundRouter = CreateFundRouter()
+        
         createFundRouter!.newFund.asObservable()
             .filterNil()
             .bind(to: vm.bindNewFund)
+        
         createFundRouter!.dismiss.asObservable()
             .subscribe(onNext: { [weak self] in
                 self?.createFundRouter = nil
             })
             .disposed(by: disposeBag)
+        
         navVc.present(createFundRouter!.navVc, animated: true, completion: nil)
     }
     
@@ -96,11 +108,16 @@ extension HomeRouter: MarketViewModelDelegate {
     
     func didSelectStock(_ stock: Stock) {
         stockSelectionRouter = StockSelectionRouter(stock: stock)
+        
+        stockSelectionRouter!.newPosition.asObservable()
+            .bind(to: profileVc.viewModel.bindNewPosition)
+       
         stockSelectionRouter!.didDismiss.asObservable()
             .subscribe(onNext: { [weak self] in
                 self?.stockSelectionRouter = nil
             })
             .disposed(by: disposeBag)
+        
         navVc.present(stockSelectionRouter!.navVc, animated: true, completion: nil)
     }
     
