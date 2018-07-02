@@ -14,7 +14,7 @@ protocol ProfileViewModelDelegate: class {
     func didTapLogoutButton()
 }
 
-final class ProfileViewModel {
+struct ProfileViewModel {
     
     let disposeBag = DisposeBag()
     private let positionService = PositionService()

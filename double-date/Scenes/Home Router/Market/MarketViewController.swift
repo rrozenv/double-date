@@ -28,6 +28,9 @@ class MarketViewController: UIViewController, BindableType {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if let index = self.tableView.indexPathForSelectedRow {
+            self.tableView.deselectRow(at: index, animated: false)
+        }
         guard !didAppearOnce else { return }
         didAppearOnce = true
         initalLoadTrigger.onNext(())

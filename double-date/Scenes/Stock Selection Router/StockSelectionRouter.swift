@@ -84,7 +84,7 @@ final class StockSelectionRouter: Routable {
             }
             .subscribe(onNext: { [weak self] in
                 self?.newPosition.onNext($0)
-                self?.didTapBackButton()
+                //self?.didTapBackButton()
             })
             .disposed(by: disposeBag)
         
@@ -169,7 +169,9 @@ extension StockSelectionRouter: SelectFundViewModelDelegate {
     func didSelectFundIds(_ ids: [String]) {
         print("\(ids)")
         self.positionInfo.value.fundIds = ids
-        createPosition.onNext(())
+        self.navVc.dismiss(animated: true, completion: { [weak self] in
+            self?.createPosition.onNext(())
+        })
     }
 
 }
