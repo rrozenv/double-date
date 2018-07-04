@@ -53,6 +53,10 @@
 		98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */; };
 		98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6F20D20F1F00D7C4BA /* Routable.swift */; };
 		9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9831E76F20E950BA00FFBB3D /* PositionService.swift */; };
+		9834950720EC6647003AEC8B /* FundInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950620EC6647003AEC8B /* FundInfoViewController.swift */; };
+		9834950920EC6653003AEC8B /* FundInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950820EC6653003AEC8B /* FundInfoViewModel.swift */; };
+		9834950B20EC66B6003AEC8B /* PortfolioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950A20EC66B6003AEC8B /* PortfolioService.swift */; };
+		9834950D20EC71FD003AEC8B /* FundInfoTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */; };
 		986AE2DC20DDD59700A78E42 /* SelectContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */; };
 		986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DD20DDD5A600A78E42 /* SelectContactsViewModel.swift */; };
 		986AE2E020DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DF20DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift */; };
@@ -163,6 +167,10 @@
 		98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		98300A6F20D20F1F00D7C4BA /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
 		9831E76F20E950BA00FFBB3D /* PositionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionService.swift; sourceTree = "<group>"; };
+		9834950620EC6647003AEC8B /* FundInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundInfoViewController.swift; sourceTree = "<group>"; };
+		9834950820EC6653003AEC8B /* FundInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundInfoViewModel.swift; sourceTree = "<group>"; };
+		9834950A20EC66B6003AEC8B /* PortfolioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioService.swift; sourceTree = "<group>"; };
+		9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundInfoTabViewController.swift; sourceTree = "<group>"; };
 		986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactsViewController.swift; sourceTree = "<group>"; };
 		986AE2DD20DDD5A600A78E42 /* SelectContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactsViewModel.swift; sourceTree = "<group>"; };
 		986AE2DF20DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionFilterDataSource.swift; sourceTree = "<group>"; };
@@ -313,6 +321,7 @@
 				9806646B20DD7C6D00951DBD /* Market */,
 				9806646420DD75A300951DBD /* Fund List */,
 				98FA5C9820E0434C00FA4818 /* Profile */,
+				9834950320EC65E1003AEC8B /* Fund Info */,
 			);
 			path = "Home Router";
 			sourceTree = "<group>";
@@ -443,6 +452,7 @@
 				989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */,
 				9809890120E3173A00C32BE0 /* StockService.swift */,
 				9831E76F20E950BA00FFBB3D /* PositionService.swift */,
+				9834950A20EC66B6003AEC8B /* PortfolioService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -476,6 +486,16 @@
 				98300A6920D1FF4C00D7C4BA /* InitialViewModel.swift */,
 			);
 			path = Inital;
+			sourceTree = "<group>";
+		};
+		9834950320EC65E1003AEC8B /* Fund Info */ = {
+			isa = PBXGroup;
+			children = (
+				9834950620EC6647003AEC8B /* FundInfoViewController.swift */,
+				9834950820EC6653003AEC8B /* FundInfoViewModel.swift */,
+				9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */,
+			);
+			path = "Fund Info";
 			sourceTree = "<group>";
 		};
 		986AE2DA20DDD55D00A78E42 /* Select Contacts */ = {
@@ -771,6 +791,7 @@
 				98FA5C9C20E0437000FA4818 /* ProfileViewModel.swift in Sources */,
 				986AE2E020DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift in Sources */,
 				9806646D20DD7CA400951DBD /* MarketViewController.swift in Sources */,
+				9834950B20EC66B6003AEC8B /* PortfolioService.swift in Sources */,
 				986B6DEA20E4637E002BF93C /* Cache.swift in Sources */,
 				98FA5CA020E059BD00FA4818 /* FundService.swift in Sources */,
 				98F77F2E20D59475005F4B66 /* ButtonLabel.swift in Sources */,
@@ -789,6 +810,8 @@
 				98CF488020E6AB6900C426DB /* SelectFundViewModel.swift in Sources */,
 				98300A4C20D1F64B00D7C4BA /* UIViewController+Ext.swift in Sources */,
 				98C06E7320DB46A300426EEC /* TextFieldTableCell.swift in Sources */,
+				9834950920EC6653003AEC8B /* FundInfoViewModel.swift in Sources */,
+				9834950D20EC71FD003AEC8B /* FundInfoTabViewController.swift in Sources */,
 				98F77F2620D5921E005F4B66 /* OnboardingRouter.swift in Sources */,
 				9806646320DD740800951DBD /* TabBarView.swift in Sources */,
 				98300A5B20D1F72900D7C4BA /* FontBook.swift in Sources */,
@@ -840,6 +863,7 @@
 				9806644E20DD3CD100951DBD /* Fund.swift in Sources */,
 				98300A5920D1F70E00D7C4BA /* ErrorTracker.swift in Sources */,
 				986AE2F020DDDC9400A78E42 /* ImageLabelSublabelView.swift in Sources */,
+				9834950720EC6647003AEC8B /* FundInfoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,22 +17,23 @@ final class TabBarView: UIView, TabBarViewable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init() {
+    init(bttnCount: Int = 3) {
         super.init(frame: .zero)
-        setupButtons()
+        setupButtonsWith(count: bttnCount)
     }
     
-    private func setupButtons() {
+    private func setupButtonsWith(count: Int) {
         let props = StackViewProps(axis: .horizontal, distribution: .fillEqually, spacing: 0)
         let stackView = CustomStackView<UIButton>(number: 3, stackViewProps: props)
         self.buttons = stackView.views
         self.buttons.enumerated().forEach {
             $0.element.tag = $0.offset
         }
-        self.buttons[0].backgroundColor = .red
-        self.buttons[1].backgroundColor = .yellow
-        self.buttons[2].backgroundColor = .blue
         
+        for i in 0..<count {
+            self.buttons[i].backgroundColor = .random
+        }
+      
         self.addSubview(stackView)
         stackView.snp.makeConstraints { (make) in
             make.edges.equalTo(self)
@@ -40,4 +41,13 @@ final class TabBarView: UIView, TabBarViewable {
         }
     }
     
+}
+
+extension UIColor{
+    static var random: UIColor {
+        return UIColor(hue: CGFloat(arc4random_uniform(.max))/CGFloat(UInt32.max),
+                       saturation: 1,
+                       brightness: 1,
+                       alpha: 1)
+    }
 }

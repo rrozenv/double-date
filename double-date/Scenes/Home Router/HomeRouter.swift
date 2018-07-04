@@ -30,7 +30,7 @@ final class HomeRouter: Routable {
     //MARK: - Public Props
     var newFund = Variable<Fund?>(nil)
     
-    lazy var fundVc: FundListViewController = {
+    lazy var fundVc: FundListViewController = { [unowned self] in
         var fundVc = FundListViewController()
         var fundVm = FundListViewModel()
         fundVm.delegate = self
@@ -38,7 +38,7 @@ final class HomeRouter: Routable {
         return fundVc
     }()
     
-    lazy var marketVc: MarketViewController = {
+    lazy var marketVc: MarketViewController = { [unowned self] in
         var marketVc = MarketViewController()
         var marketVm = MarketViewModel()
         marketVm.delegate = self
@@ -46,7 +46,7 @@ final class HomeRouter: Routable {
         return marketVc
     }()
     
-    lazy var profileVc: ProfileViewController = {
+    lazy var profileVc: ProfileViewController = { [unowned self] in
         var profileVc = ProfileViewController()
         var profileVm = ProfileViewModel()
         profileVm.delegate = self
@@ -57,6 +57,10 @@ final class HomeRouter: Routable {
     init() {
         self.navigateTo(screen: .tabHome)
         navVc.isNavigationBarHidden = true
+    }
+    
+    deinit {
+        print("HomeRouter deinit")
     }
     
     func navigateTo(screen: Screen) {
@@ -74,7 +78,7 @@ extension HomeRouter {
         let tabVc = TabPageViewController(viewControllers: [fundVc,
                                                             marketVc,
                                                             profileVc],
-                                          tabView: TabBarView())
+                                          tabView: TabBarView(bttnCount: 3))
         navVc.pushViewController(tabVc, animated: true)
     }
     
@@ -93,13 +97,26 @@ extension HomeRouter: FundListViewModelDelegate {
             .subscribe(onNext: { [weak self] in
                 self?.createFundRouter = nil
             })
-            .disposed(by: disposeBag)
+            .disposed(by: vm.disposeBag)
         
         navVc.present(createFundRouter!.navVc, animated: true, completion: nil)
     }
     
     func didSelectFund(_ fund: Fund) {
+        var vc = FundInfoViewController()
+        var vm = FundInfoViewModel(fund: fund)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
         
+        var vc2 = ProfileViewController()
+        var vm2 = ProfileViewModel()
+        vm2.delegate = self
+        vc2.setViewModelBinding(model: vm2)
+        
+        let tabVc = FundInfoTabViewController(viewControllers: [vc,
+                                                    vc2],
+                                  tabView: TabBarView(bttnCount: 2))
+        navVc.pushViewController(tabVc, animated: true)
     }
     
 }
@@ -116,9 +133,17 @@ extension HomeRouter: MarketViewModelDelegate {
             .subscribe(onNext: { [weak self] in
                 self?.stockSelectionRouter = nil
             })
-            .disposed(by: disposeBag)
+            .disposed(by: profileVc.viewModel.disposeBag)
         
         navVc.present(stockSelectionRouter!.navVc, animated: true, completion: nil)
+    }
+    
+}
+
+extension HomeRouter: FundInfoViewModelDelegate {
+    
+    func didTapBackButton() {
+        navVc.popViewController(animated: true)
     }
     
 }

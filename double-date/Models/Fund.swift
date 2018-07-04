@@ -15,22 +15,35 @@ struct Fund: Codable, Identifiable {
     let maxPlayers: Int
     let currentUserPortfolio: Portfolio
     let portfolios: [String]
-    
-    //let portfolios: [Portfolio]
-//    let startDate: Date
-//    let endDate: Date
-//    let userPortfolio: Portfolio
-//    let allPortfolios: [Portfolio]
 }
 
-struct Portfolio: Codable {
+struct Portfolio: Codable, Identifiable {
     let _id: String
     let user: User
-    //let positions: [Position]
+    let positions: [Position]
+}
+
+extension Portfolio {
+    var positionsBuyValue: Double {
+        return positions.reduce(0.0) { result, pos in
+            result + (pos.buyPrice * pos.shares)
+        }
+    }
+    
+    var positionsMarketValue: Double {
+        return positions.reduce(0.0) { result, pos in
+            result + (pos.currentPrice * pos.shares)
+        }
+    }
+    
+    var portfolioROI: Double {
+        return (positionsMarketValue - positionsBuyValue) / positionsMarketValue
+    }
 }
 
 struct Position: Codable, Identifiable {
     let _id: String
+    let user: String
     let fundIds: [String]
     let type: String
     let ticker: String

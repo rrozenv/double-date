@@ -46,12 +46,19 @@ final class FundTableCell: UITableViewCell {
     func configureWith(value: Fund) {
         mainLabel.text = value.name
         dateLabel.text = "Max \(value.maxPlayers) players"
+        countLabel.text = "Return: \(value.currentUserPortfolio.portfolioROI * 100.0) %"
     }
     
     func configureWith(value: Position) {
         mainLabel.text = value.ticker
         dateLabel.text = "Entry: \(value.buyPrice)"
         countLabel.text = "Current: \(value.currentPrice)"
+    }
+    
+    func configureWith(value: Portfolio) {
+        mainLabel.text = value.user.firstName
+        dateLabel.text = "Entry: \(value.positions.map { $0.ticker }.joined(separator: ", "))"
+        countLabel.text = "Return: \(value.portfolioROI * 100.0) %"
     }
     
 }
