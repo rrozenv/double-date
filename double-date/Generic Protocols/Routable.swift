@@ -18,7 +18,7 @@ protocol Routable: Navigateable {
     var screenOrder: [Screen] { get }
     var screenIndex: Int { get set }
     func navigateTo(screen: Screen)
-    func toPreviousScreen()
+    func toPreviousScreen(completion: (() -> Void)?)
     func toNextScreen()
 }
 
@@ -35,15 +35,14 @@ extension Routable {
         navigateTo(screen: screenOrder[screenIndex])
     }
     
-    func toPreviousScreen() {
+    func toPreviousScreen(completion: (() -> Void)? = nil) {
         guard screenIndex != 0 else {
-            print("This is the first screen")
-            navVc.dismiss(animated: true, completion: nil)
+            navVc.dismiss(animated: true, completion: completion)
             return
         }
         screenIndex -= 1
-        print("New Index \(screenIndex)")
         navVc.popViewController(animated: true)
+        completion?()
     }
     
     func displayAlert(vc: AlertViewController)  {

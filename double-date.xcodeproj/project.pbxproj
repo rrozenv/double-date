@@ -21,6 +21,10 @@
 		9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806646E20DD7E2D00951DBD /* HomeRouter.swift */; };
 		9809890020E316FD00C32BE0 /* MarketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980988FF20E316FD00C32BE0 /* MarketViewModel.swift */; };
 		9809890220E3173A00C32BE0 /* StockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809890120E3173A00C32BE0 /* StockService.swift */; };
+		981FA9FF20F43046005F2C22 /* FundInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981FA9FE20F43046005F2C22 /* FundInfoHeaderView.swift */; };
+		981FAA0220F43CDC005F2C22 /* StockPurchaseInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981FAA0120F43CDC005F2C22 /* StockPurchaseInfoViewController.swift */; };
+		981FAA0420F43CEA005F2C22 /* StockPurchaseInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981FAA0320F43CEA005F2C22 /* StockPurchaseInfoViewModel.swift */; };
+		981FAA0620F43D93005F2C22 /* TitleTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */; };
 		98300A0120D1ED3C00D7C4BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */; };
 		98300A0820D1ED3C00D7C4BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0720D1ED3C00D7C4BA /* Assets.xcassets */; };
 		98300A0B20D1ED3C00D7C4BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0920D1ED3C00D7C4BA /* LaunchScreen.storyboard */; };
@@ -53,8 +57,8 @@
 		98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */; };
 		98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6F20D20F1F00D7C4BA /* Routable.swift */; };
 		9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9831E76F20E950BA00FFBB3D /* PositionService.swift */; };
-		9834950720EC6647003AEC8B /* FundInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950620EC6647003AEC8B /* FundInfoViewController.swift */; };
-		9834950920EC6653003AEC8B /* FundInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950820EC6653003AEC8B /* FundInfoViewModel.swift */; };
+		9834950720EC6647003AEC8B /* PortfolioListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950620EC6647003AEC8B /* PortfolioListViewController.swift */; };
+		9834950920EC6653003AEC8B /* PortfolioListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950820EC6653003AEC8B /* PortfolioListViewModel.swift */; };
 		9834950B20EC66B6003AEC8B /* PortfolioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950A20EC66B6003AEC8B /* PortfolioService.swift */; };
 		9834950D20EC71FD003AEC8B /* FundInfoTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */; };
 		986AE2DC20DDD59700A78E42 /* SelectContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */; };
@@ -84,6 +88,8 @@
 		98C06E7320DB46A300426EEC /* TextFieldTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C06E7220DB46A300426EEC /* TextFieldTableCell.swift */; };
 		98CF487E20E6AB5800C426DB /* SelectFundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CF487D20E6AB5800C426DB /* SelectFundViewController.swift */; };
 		98CF488020E6AB6900C426DB /* SelectFundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */; };
+		98D14ECE20EDA1FB0097AC69 /* PositionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */; };
+		98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */; };
 		98F77F2620D5921E005F4B66 /* OnboardingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2520D5921E005F4B66 /* OnboardingRouter.swift */; };
 		98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2920D59314005F4B66 /* StyledTextField.swift */; };
 		98F77F2C20D5936C005F4B66 /* EnterNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2B20D5936C005F4B66 /* EnterNameViewModel.swift */; };
@@ -129,6 +135,10 @@
 		9806646E20DD7E2D00951DBD /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		980988FF20E316FD00C32BE0 /* MarketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketViewModel.swift; sourceTree = "<group>"; };
 		9809890120E3173A00C32BE0 /* StockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockService.swift; sourceTree = "<group>"; };
+		981FA9FE20F43046005F2C22 /* FundInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundInfoHeaderView.swift; sourceTree = "<group>"; };
+		981FAA0120F43CDC005F2C22 /* StockPurchaseInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockPurchaseInfoViewController.swift; sourceTree = "<group>"; };
+		981FAA0320F43CEA005F2C22 /* StockPurchaseInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockPurchaseInfoViewModel.swift; sourceTree = "<group>"; };
+		981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextFieldView.swift; sourceTree = "<group>"; };
 		983009FD20D1ED3C00D7C4BA /* double-date.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "double-date.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98300A0720D1ED3C00D7C4BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -167,8 +177,8 @@
 		98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		98300A6F20D20F1F00D7C4BA /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
 		9831E76F20E950BA00FFBB3D /* PositionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionService.swift; sourceTree = "<group>"; };
-		9834950620EC6647003AEC8B /* FundInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundInfoViewController.swift; sourceTree = "<group>"; };
-		9834950820EC6653003AEC8B /* FundInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundInfoViewModel.swift; sourceTree = "<group>"; };
+		9834950620EC6647003AEC8B /* PortfolioListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioListViewController.swift; sourceTree = "<group>"; };
+		9834950820EC6653003AEC8B /* PortfolioListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioListViewModel.swift; sourceTree = "<group>"; };
 		9834950A20EC66B6003AEC8B /* PortfolioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioService.swift; sourceTree = "<group>"; };
 		9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundInfoTabViewController.swift; sourceTree = "<group>"; };
 		986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactsViewController.swift; sourceTree = "<group>"; };
@@ -198,6 +208,8 @@
 		98C06E7220DB46A300426EEC /* TextFieldTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableCell.swift; sourceTree = "<group>"; };
 		98CF487D20E6AB5800C426DB /* SelectFundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundViewController.swift; sourceTree = "<group>"; };
 		98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundViewModel.swift; sourceTree = "<group>"; };
+		98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewController.swift; sourceTree = "<group>"; };
+		98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewModel.swift; sourceTree = "<group>"; };
 		98F77F2520D5921E005F4B66 /* OnboardingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRouter.swift; sourceTree = "<group>"; };
 		98F77F2920D59314005F4B66 /* StyledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledTextField.swift; sourceTree = "<group>"; };
 		98F77F2B20D5936C005F4B66 /* EnterNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewModel.swift; sourceTree = "<group>"; };
@@ -322,6 +334,7 @@
 				9806646420DD75A300951DBD /* Fund List */,
 				98FA5C9820E0434C00FA4818 /* Profile */,
 				9834950320EC65E1003AEC8B /* Fund Info */,
+				98D14ECC20EDA1DA0097AC69 /* Postitions List */,
 			);
 			path = "Home Router";
 			sourceTree = "<group>";
@@ -334,6 +347,15 @@
 				986AE2DA20DDD55D00A78E42 /* Select Contacts */,
 			);
 			path = "Create Fund Router";
+			sourceTree = "<group>";
+		};
+		981FAA0020F43CC2005F2C22 /* Purchase Info */ = {
+			isa = PBXGroup;
+			children = (
+				981FAA0120F43CDC005F2C22 /* StockPurchaseInfoViewController.swift */,
+				981FAA0320F43CEA005F2C22 /* StockPurchaseInfoViewModel.swift */,
+			);
+			path = "Purchase Info";
 			sourceTree = "<group>";
 		};
 		983009F420D1ED3C00D7C4BA = {
@@ -491,8 +513,8 @@
 		9834950320EC65E1003AEC8B /* Fund Info */ = {
 			isa = PBXGroup;
 			children = (
-				9834950620EC6647003AEC8B /* FundInfoViewController.swift */,
-				9834950820EC6653003AEC8B /* FundInfoViewModel.swift */,
+				9834950620EC6647003AEC8B /* PortfolioListViewController.swift */,
+				9834950820EC6653003AEC8B /* PortfolioListViewModel.swift */,
 				9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */,
 			);
 			path = "Fund Info";
@@ -521,6 +543,7 @@
 			children = (
 				986B6DF220E47EA0002BF93C /* StockSelectionRouter.swift */,
 				986B6DEB20E46F31002BF93C /* Stock Detail */,
+				981FAA0020F43CC2005F2C22 /* Purchase Info */,
 				98CF487C20E6AB3300C426DB /* Select Funds */,
 			);
 			path = "Stock Selection Router";
@@ -571,6 +594,15 @@
 			path = "Select Funds";
 			sourceTree = "<group>";
 		};
+		98D14ECC20EDA1DA0097AC69 /* Postitions List */ = {
+			isa = PBXGroup;
+			children = (
+				98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */,
+				98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */,
+			);
+			path = "Postitions List";
+			sourceTree = "<group>";
+		};
 		98F77F2720D5925C005F4B66 /* Name Entry */ = {
 			isa = PBXGroup;
 			children = (
@@ -592,6 +624,8 @@
 				986AE2E920DDD85E00A78E42 /* EmptyView.swift */,
 				986AE2EB20DDD90500A78E42 /* TitleView.swift */,
 				986AE2EF20DDDC9400A78E42 /* ImageLabelSublabelView.swift */,
+				981FA9FE20F43046005F2C22 /* FundInfoHeaderView.swift */,
+				981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -786,6 +820,7 @@
 				98300A6A20D1FF4C00D7C4BA /* InitialViewModel.swift in Sources */,
 				98300A5D20D1F73E00D7C4BA /* Palette.swift in Sources */,
 				98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */,
+				98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */,
 				986AE2EC20DDD90500A78E42 /* TitleView.swift in Sources */,
 				98FA5C9A20E0436500FA4818 /* ProfileViewController.swift in Sources */,
 				98FA5C9C20E0437000FA4818 /* ProfileViewModel.swift in Sources */,
@@ -794,6 +829,8 @@
 				9834950B20EC66B6003AEC8B /* PortfolioService.swift in Sources */,
 				986B6DEA20E4637E002BF93C /* Cache.swift in Sources */,
 				98FA5CA020E059BD00FA4818 /* FundService.swift in Sources */,
+				981FAA0620F43D93005F2C22 /* TitleTextFieldView.swift in Sources */,
+				98D14ECE20EDA1FB0097AC69 /* PositionsListViewController.swift in Sources */,
 				98F77F2E20D59475005F4B66 /* ButtonLabel.swift in Sources */,
 				98C06E7020DB401A00426EEC /* FundDetailsViewController.swift in Sources */,
 				98300A5220D1F69300D7C4BA /* KeyboardAvoidable.swift in Sources */,
@@ -810,7 +847,7 @@
 				98CF488020E6AB6900C426DB /* SelectFundViewModel.swift in Sources */,
 				98300A4C20D1F64B00D7C4BA /* UIViewController+Ext.swift in Sources */,
 				98C06E7320DB46A300426EEC /* TextFieldTableCell.swift in Sources */,
-				9834950920EC6653003AEC8B /* FundInfoViewModel.swift in Sources */,
+				9834950920EC6653003AEC8B /* PortfolioListViewModel.swift in Sources */,
 				9834950D20EC71FD003AEC8B /* FundInfoTabViewController.swift in Sources */,
 				98F77F2620D5921E005F4B66 /* OnboardingRouter.swift in Sources */,
 				9806646320DD740800951DBD /* TabBarView.swift in Sources */,
@@ -821,6 +858,7 @@
 				98300A3F20D1F5B700D7C4BA /* CustomNavViewable.swift in Sources */,
 				9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */,
 				98CF487E20E6AB5800C426DB /* SelectFundViewController.swift in Sources */,
+				981FAA0220F43CDC005F2C22 /* StockPurchaseInfoViewController.swift in Sources */,
 				9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */,
 				986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */,
 				986B6DF320E47EA0002BF93C /* StockSelectionRouter.swift in Sources */,
@@ -835,8 +873,10 @@
 				98300A6620D1FEEE00D7C4BA /* InitialViewController.swift in Sources */,
 				98300A4920D1F64B00D7C4BA /* UIDevice+Ext.swift in Sources */,
 				98300A4D20D1F64B00D7C4BA /* UITextView+Ext.swift in Sources */,
+				981FA9FF20F43046005F2C22 /* FundInfoHeaderView.swift in Sources */,
 				986B6DED20E46F58002BF93C /* StockDetailViewController.swift in Sources */,
 				986AE2E420DDD6E700A78E42 /* ContactsStore.swift in Sources */,
+				981FAA0420F43CEA005F2C22 /* StockPurchaseInfoViewModel.swift in Sources */,
 				989963D720D3EB3500AD9F9F /* UserListViewController.swift in Sources */,
 				986AE2E820DDD7BC00A78E42 /* SearchBarView.swift in Sources */,
 				98F77F2C20D5936C005F4B66 /* EnterNameViewModel.swift in Sources */,
@@ -863,7 +903,7 @@
 				9806644E20DD3CD100951DBD /* Fund.swift in Sources */,
 				98300A5920D1F70E00D7C4BA /* ErrorTracker.swift in Sources */,
 				986AE2F020DDDC9400A78E42 /* ImageLabelSublabelView.swift in Sources */,
-				9834950720EC6647003AEC8B /* FundInfoViewController.swift in Sources */,
+				9834950720EC6647003AEC8B /* PortfolioListViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

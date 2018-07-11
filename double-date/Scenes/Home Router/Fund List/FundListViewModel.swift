@@ -75,4 +75,16 @@ struct FundListViewModel {
             .disposed(by: disposeBag)
     }
     
+    func bindNewPosition(_ observable: Observable<Position>) {
+        observable
+            .subscribe(onNext: { position in
+                position.fundIds.forEach({ (fundId) in
+                    if let index = self._funds.value.index(where: { $0._id == fundId }) {
+                        self._funds.value[index].currentUserPortfolio.positions.insert(position, at: 0)
+                    }
+                })
+            })
+            .disposed(by: disposeBag)
+    }
+    
 }

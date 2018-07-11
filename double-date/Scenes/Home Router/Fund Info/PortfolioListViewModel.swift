@@ -10,11 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol FundInfoViewModelDelegate: class {
-    func didTapBackButton()
-}
-
-struct FundInfoViewModel {
+struct PortfolioListViewModel {
     
     let disposeBag = DisposeBag()
     
@@ -23,7 +19,6 @@ struct FundInfoViewModel {
     private let errorTracker: ErrorTracker
     private let _portfolios = Variable<[Portfolio]>([])
     private let _fund: Variable<Fund>
-    weak var delegate: FundInfoViewModelDelegate?
     
     //MARK: - Init
     init(fund: Fund, errorTracker: ErrorTracker = ErrorTracker()) {
@@ -50,13 +45,6 @@ struct FundInfoViewModel {
                     .asDriverOnErrorJustComplete()
             }
             .bind(to: _portfolios)
-            .disposed(by: disposeBag)
-    }
-    
-    
-    func bindBackButton(_ observable: Observable<Void>) {
-        observable
-            .subscribe(onNext: { self.delegate?.didTapBackButton() })
             .disposed(by: disposeBag)
     }
     

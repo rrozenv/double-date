@@ -13,14 +13,15 @@ struct Fund: Codable, Identifiable {
     let admin: User
     let name: String
     let maxPlayers: Int
-    let currentUserPortfolio: Portfolio
+    var currentUserPortfolio: Portfolio
     let portfolios: [String]
 }
 
 struct Portfolio: Codable, Identifiable {
     let _id: String
     let user: User
-    let positions: [Position]
+    let cashBalance: Double
+    var positions: [Position]
 }
 
 extension Portfolio {

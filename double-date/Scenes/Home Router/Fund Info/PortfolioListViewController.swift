@@ -11,10 +11,10 @@ import RxSwift
 import RxCocoa
 import RxOptional
 
-class FundInfoViewController: UIViewController, BindableType {
+class PortfolioListViewController: UIViewController, BindableType {
     
     let disposeBag = DisposeBag()
-    var viewModel: FundInfoViewModel!
+    var viewModel: PortfolioListViewModel!
     private var continueButton: UIButton!
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
@@ -71,7 +71,7 @@ class FundInfoViewController: UIViewController, BindableType {
     
 }
 
-extension FundInfoViewController: UITableViewDelegate {
+extension PortfolioListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return CGFloat.leastNonzeroMagnitude
@@ -83,7 +83,7 @@ extension FundInfoViewController: UITableViewDelegate {
     
 }
 
-extension FundInfoViewController {
+extension PortfolioListViewController {
     
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)

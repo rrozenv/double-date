@@ -13,6 +13,7 @@ final class PositionInfo {
     var stock: Stock?
     var positionType: PositionType?
     var fundIds = [String]()
+    var sharesCount: Double = 0.0
     
     init(stock: Stock?, posType: PositionType?) {
         self.stock = stock
@@ -23,6 +24,7 @@ final class PositionInfo {
         return stock != nil
             && positionType != nil
             && fundIds.isNotEmpty
+            && sharesCount > 0.0
     }
     
     var json: [String: Any] {
@@ -41,6 +43,7 @@ final class StockSelectionRouter: Routable {
     
     enum Screen {
         case stockDetail(Stock)
+        case selectSharesCount(Stock)
         case selectFunds
     }
     
@@ -53,6 +56,8 @@ final class StockSelectionRouter: Routable {
     private let createPosition = PublishSubject<Void>()
     private let activityIndicator: ActivityIndicator
     private let errorTracker: ErrorTracker
+    private let stock: Stock
+    private var currentScreen: Screen
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
@@ -67,11 +72,13 @@ final class StockSelectionRouter: Routable {
     }
     
     init(stock: Stock) {
+        self.stock = stock
         let activityIndicator = ActivityIndicator()
         let errorTracker = ErrorTracker()
         self.activityIndicator = activityIndicator
         self.errorTracker = errorTracker
-        self.screenOrder = [.stockDetail(stock), .selectFunds]
+        self.screenOrder = [.stockDetail(stock), .selectSharesCount(stock), .selectFunds]
+        self.currentScreen = .stockDetail(stock)
         self.positionInfo = Variable(PositionInfo(stock: stock, posType: nil))
         self.createPosition.asObservable()
             .withLatestFrom(positionInfo.asObservable())
@@ -98,8 +105,12 @@ final class StockSelectionRouter: Routable {
     
     func navigateTo(screen: Screen) {
         switch screen {
-        case .stockDetail(let stock): toStockDetail(stock)
-        case .selectFunds: toSelectFund()
+        case .stockDetail(let stock):
+            toStockDetail(stock)
+        case .selectSharesCount(let stock):
+            toSelectSharesCount(stock)
+        case .selectFunds:
+            toSelectFund()
         }
     }
     
@@ -111,13 +122,21 @@ extension StockSelectionRouter {
         var vc = StockDetailViewController()
         var vm = StockDetailViewModel(stock: stock)
         vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toSelectSharesCount(_ stock: Stock) {
+        var vc = StockPurchaseInfoViewController()
+        var vm = StockPurchaseInfoViewModel(stock: stock)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
         activityIndicator.asObservable()
             .bind(to: vm.activityIndicator)
             .disposed(by: vm.disposeBag)
         errorTracker.asObservable()
             .bind(to: vm.errorTracker)
             .disposed(by: vm.disposeBag)
-        vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: true)
     }
     
@@ -135,31 +154,45 @@ extension StockSelectionRouter {
 extension StockSelectionRouter: StockDetailViewModelDelegate {
     
     func didSelectPositionType(_ type: PositionType) {
-        print("did select \(type.rawValue)")
-        let fundIds = _funds.value.map { $0._id }
-        positionInfo.value.positionType = type
-        switch _funds.value.count {
-        case 0:
-            print("You are not part of any games. You must create or join a game before you can add a stock to your portfolio.")
+        guard _funds.value.isNotEmpty else {
             let alertInfo = AlertViewController.AlertInfo.noFundsError
             let alertVc = AlertViewController(alertInfo: alertInfo, okAction: { [weak self] in
                 self?.navVc.dismiss(animated: true, completion: nil)
             })
             self.displayAlert(vc: alertVc)
-        case 1:
-            print("Only part of 1 fund. Create Position")
-            positionInfo.value.fundIds.append(contentsOf: fundIds)
-            createPosition.onNext(())
-        default:
-            print("Multiple funds. Display Select funds screen")
-            navigateTo(screen: .selectFunds)
+            return
         }
+  
+        positionInfo.value.positionType = type
+        navigateTo(screen: .selectSharesCount(stock))
     }
     
     func didTapBackButton() {
-        self.navVc.dismiss(animated: true, completion: { [weak self] in
-            self?.didDismiss.onNext(())
-        })
+        switch currentScreen {
+        case .stockDetail(_):
+            self.toPreviousScreen(completion: { [weak self] in
+                self?.didDismiss.onNext(())
+            })
+        case .selectSharesCount(_):
+            self.toPreviousScreen()
+        case .selectFunds:
+            break
+        }
+    }
+    
+}
+
+extension StockSelectionRouter: StockPurchaseInfoViewModelDelegate {
+    
+    func didSelectNumberOfShares(_ sharesCount: Double) {
+        positionInfo.value.sharesCount = sharesCount
+        if _funds.value.count == 1 {
+            let fundIds = _funds.value.map { $0._id }
+            positionInfo.value.fundIds.append(contentsOf: fundIds)
+            createPosition.onNext(())
+        } else {
+            navigateTo(screen: .selectFunds)
+        }
     }
     
 }
@@ -167,7 +200,6 @@ extension StockSelectionRouter: StockDetailViewModelDelegate {
 extension StockSelectionRouter: SelectFundViewModelDelegate {
     
     func didSelectFundIds(_ ids: [String]) {
-        print("\(ids)")
         self.positionInfo.value.fundIds = ids
         self.navVc.dismiss(animated: true, completion: { [weak self] in
             self?.createPosition.onNext(())

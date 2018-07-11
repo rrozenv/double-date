@@ -103,19 +103,27 @@ extension HomeRouter: FundListViewModelDelegate {
     }
     
     func didSelectFund(_ fund: Fund) {
-        var vc = FundInfoViewController()
-        var vm = FundInfoViewModel(fund: fund)
-        vm.delegate = self
-        vc.setViewModelBinding(model: vm)
+        var portfolioListVc = PortfolioListViewController()
+        let portfolioListVm = PortfolioListViewModel(fund: fund)
+        portfolioListVc.setViewModelBinding(model: portfolioListVm)
         
-        var vc2 = ProfileViewController()
-        var vm2 = ProfileViewModel()
-        vm2.delegate = self
-        vc2.setViewModelBinding(model: vm2)
+        var positionsListVc = PositionsListViewController()
+        let positionsListVm = PositionsListViewModel(positions: fund.currentUserPortfolio.positions)
+        positionsListVc.setViewModelBinding(model: positionsListVm)
         
-        let tabVc = FundInfoTabViewController(viewControllers: [vc,
-                                                    vc2],
-                                  tabView: TabBarView(bttnCount: 2))
+        let tabAppearence = TabAppearence(type: .underline(.blue),
+                                          itemTitles: ["Positions", "Leaderboard"],
+                                          height: 56.0,
+                                          selectedBkgColor: .white,
+                                          selectedTitleColor: .blue,
+                                          notSelectedBkgColor: .white,
+                                          notSelectedTitleColor: .gray)
+        
+        let tabVc = FundInfoTabViewController(viewControllers: [positionsListVc,
+                                                                portfolioListVc],
+                                              tabView: TabOptionsView(appearence: tabAppearence),
+                                              fund: fund)
+        tabVc.delegate = self
         navVc.pushViewController(tabVc, animated: true)
     }
     
@@ -128,6 +136,9 @@ extension HomeRouter: MarketViewModelDelegate {
         
         stockSelectionRouter!.newPosition.asObservable()
             .bind(to: profileVc.viewModel.bindNewPosition)
+        
+        stockSelectionRouter!.newPosition.asObservable()
+            .bind(to: fundVc.viewModel.bindNewPosition)
        
         stockSelectionRouter!.didDismiss.asObservable()
             .subscribe(onNext: { [weak self] in
@@ -140,7 +151,7 @@ extension HomeRouter: MarketViewModelDelegate {
     
 }
 
-extension HomeRouter: FundInfoViewModelDelegate {
+extension HomeRouter: FundInfoTabViewControllerDelegate {
     
     func didTapBackButton() {
         navVc.popViewController(animated: true)

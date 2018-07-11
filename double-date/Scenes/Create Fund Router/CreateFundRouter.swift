@@ -13,17 +13,19 @@ import RxSwift
 final class FundInfo {
     var name: String?
     var maxPlayers: Int?
+    var maxCashBalance: Int?
     var invitedPhoneNumbers: [String] = []
     
     var isValid: Bool {
-        guard let name = name, let maxPlayers = maxPlayers else { return false }
-        return name.count > 3 && maxPlayers > 0 && invitedPhoneNumbers.count > 0
+        guard let name = name, let maxPlayers = maxPlayers, let maxCashBalance = maxCashBalance else { return false }
+        return name.count > 3 && maxPlayers > 0 && invitedPhoneNumbers.count > 0 && maxCashBalance > 0
     }
     
     var params: [String: Any] {
         return [
             "name": name ?? "",
-            "maxPlayers": maxPlayers ?? 0
+            "maxPlayers": maxPlayers ?? 0,
+            "maxCashBalance": maxCashBalance ?? 0
         ]
     }
 }
@@ -114,6 +116,7 @@ extension CreateFundRouter: FundDetailsViewModelDelegate {
     func didEnterFund(details: FundDetails) {
         fundInfo.value.name = details.name
         fundInfo.value.maxPlayers = details.maxPlayers
+        fundInfo.value.maxCashBalance = details.maxCashBalance
         self.toNextScreen()
     }
     

@@ -14,6 +14,7 @@ import RxDataSources
 struct FundDetails {
     var name: String = ""
     var maxPlayers: Int = 0
+    var maxCashBalance: Int = 0
     var isValid: Bool {
         return name.count > 3 && maxPlayers > 0
     }
@@ -22,11 +23,13 @@ struct FundDetails {
 enum FundDetailType {
     case name
     case maxPlayers
+    case maxCashBalance
     
     var title: String {
         switch self {
         case .name: return "Name"
         case .maxPlayers: return "Max Players"
+        case .maxCashBalance: return "Starting Balance"
         }
     }
     
@@ -34,6 +37,7 @@ enum FundDetailType {
         switch self {
         case .name: return .default
         case .maxPlayers: return .decimalPad
+        case .maxCashBalance: return .decimalPad
         }
     }
     
@@ -41,6 +45,7 @@ enum FundDetailType {
         switch self {
         case .name: return "Enter Name"
         case .maxPlayers: return "0"
+        case .maxCashBalance: return "0"
         }
     }
 }
@@ -77,6 +82,7 @@ struct FundDetailsViewModel {
     var tableSections: Driver<[FundDetailSection]> {
         return Driver.of([
             FundDetailSection(header: "Name", items: [FundDetailSection.Item.name]),
+            FundDetailSection(header: "Starting Cash Balance", items: [FundDetailSection.Item.maxCashBalance]),
             FundDetailSection(header: "Max Players", items: [FundDetailSection.Item.maxPlayers])
         ])
     }
@@ -86,6 +92,7 @@ struct FundDetailsViewModel {
         switch type {
         case .name: self.fundDetails.value.name = text
         case .maxPlayers: self.fundDetails.value.maxPlayers = Int(text)!
+        case .maxCashBalance: self.fundDetails.value.maxCashBalance = Int(text)!
         }
     }
     
