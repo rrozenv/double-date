@@ -42,8 +42,8 @@ final class PositionInfo {
 final class StockSelectionRouter: Routable {
     
     enum Screen {
-        case stockDetail(Stock)
-        case selectSharesCount(Stock)
+        case stockDetail
+        case selectSharesCount
         case selectFunds
     }
     
@@ -73,50 +73,53 @@ final class StockSelectionRouter: Routable {
     
     init(stock: Stock) {
         self.stock = stock
-        let activityIndicator = ActivityIndicator()
-        let errorTracker = ErrorTracker()
-        self.activityIndicator = activityIndicator
-        self.errorTracker = errorTracker
-        self.screenOrder = [.stockDetail(stock), .selectSharesCount(stock), .selectFunds]
-        self.currentScreen = .stockDetail(stock)
+        self.activityIndicator = ActivityIndicator()
+        self.errorTracker = ErrorTracker()
+        self.screenOrder = [.stockDetail, .selectSharesCount]
+        self.currentScreen = .stockDetail
         self.positionInfo = Variable(PositionInfo(stock: stock, posType: nil))
+        self.cache.fetchObjects().asObservable()
+            .bind(to: _funds)
+            .disposed(by: disposeBag)
+        self.navigateTo(screen: .stockDetail)
+        self.navVc.isNavigationBarHidden = true
+        self.setupCreatePositionAction()
+    }
+    
+    private func setupCreatePositionAction() {
         self.createPosition.asObservable()
             .withLatestFrom(positionInfo.asObservable())
             .filter { $0.isValid }
             .flatMapLatest { [unowned self] in
                 self.positionService.create(params: $0.json)
-                    .trackNetworkError(errorTracker)
-                    .trackActivity(activityIndicator)
+                    .trackNetworkError(self.errorTracker)
+                    .trackActivity(self.activityIndicator)
                     .asDriverOnErrorJustComplete()
             }
             .subscribe(onNext: { [weak self] in
                 self?.newPosition.onNext($0)
-                //self?.didTapBackButton()
             })
             .disposed(by: disposeBag)
-        
-        cache.fetchObjects().asObservable()
-            .bind(to: _funds)
-            .disposed(by: disposeBag)
-        
-        self.navigateTo(screen: .stockDetail(stock))
-        navVc.isNavigationBarHidden = true
-    }
-    
-    func navigateTo(screen: Screen) {
-        switch screen {
-        case .stockDetail(let stock):
-            toStockDetail(stock)
-        case .selectSharesCount(let stock):
-            toSelectSharesCount(stock)
-        case .selectFunds:
-            toSelectFund()
-        }
     }
     
 }
 
+//MARK: - Routes
 extension StockSelectionRouter {
+    
+    func navigateTo(screen: Screen) {
+        switch screen {
+        case .stockDetail:
+            toStockDetail(stock)
+            currentScreen = .stockDetail
+        case .selectSharesCount:
+            toSelectSharesCount(stock)
+            currentScreen = .selectSharesCount
+        case .selectFunds:
+            toSelectFund()
+            currentScreen = .selectFunds
+        }
+    }
     
     private func toStockDetail(_ stock: Stock) {
         var vc = StockDetailViewController()
@@ -151,8 +154,12 @@ extension StockSelectionRouter {
     
 }
 
-extension StockSelectionRouter: StockDetailViewModelDelegate {
+//MARK: - Action Delegates
+extension StockSelectionRouter: StockDetailViewModelDelegate,
+                                StockPurchaseInfoViewModelDelegate,
+                                SelectFundViewModelDelegate {
     
+    //MARK: - Position Type Selected
     func didSelectPositionType(_ type: PositionType) {
         guard _funds.value.isNotEmpty else {
             let alertInfo = AlertViewController.AlertInfo.noFundsError
@@ -164,26 +171,11 @@ extension StockSelectionRouter: StockDetailViewModelDelegate {
         }
   
         positionInfo.value.positionType = type
-        navigateTo(screen: .selectSharesCount(stock))
+        self.toNextScreen()
+        //navigateTo(screen: .selectSharesCount)
     }
     
-    func didTapBackButton() {
-        switch currentScreen {
-        case .stockDetail(_):
-            self.toPreviousScreen(completion: { [weak self] in
-                self?.didDismiss.onNext(())
-            })
-        case .selectSharesCount(_):
-            self.toPreviousScreen()
-        case .selectFunds:
-            break
-        }
-    }
-    
-}
-
-extension StockSelectionRouter: StockPurchaseInfoViewModelDelegate {
-    
+    //MARK: - Shares Selected
     func didSelectNumberOfShares(_ sharesCount: Double) {
         positionInfo.value.sharesCount = sharesCount
         if _funds.value.count == 1 {
@@ -195,15 +187,25 @@ extension StockSelectionRouter: StockPurchaseInfoViewModelDelegate {
         }
     }
     
-}
-
-extension StockSelectionRouter: SelectFundViewModelDelegate {
-    
+    //MARK: - Funds Selected
     func didSelectFundIds(_ ids: [String]) {
         self.positionInfo.value.fundIds = ids
         self.navVc.dismiss(animated: true, completion: { [weak self] in
             self?.createPosition.onNext(())
         })
     }
-
+    
+    //MARK: - Back Button Selected
+    func didTapBackButton() {
+        switch currentScreen {
+        case .stockDetail:
+            self.toPreviousScreen(completion: { [weak self] in
+                self?.didDismiss.onNext(())
+            })
+        case .selectSharesCount: self.toPreviousScreen()
+        case .selectFunds: break
+        }
+    }
+    
 }
+

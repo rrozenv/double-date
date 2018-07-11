@@ -10,9 +10,8 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol StockPurchaseInfoViewModelDelegate: class {
+protocol StockPurchaseInfoViewModelDelegate: BackButtonNavigatable {
     func didSelectNumberOfShares(_ sharesCount: Double)
-    func didTapBackButton()
 }
 
 struct StockPurchaseInfoViewModel {

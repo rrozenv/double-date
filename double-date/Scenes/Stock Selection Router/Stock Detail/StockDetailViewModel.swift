@@ -14,9 +14,12 @@ enum PositionType: String, Codable {
     case buy, sell
 }
 
-protocol StockDetailViewModelDelegate: class {
-    func didSelectPositionType(_ type: PositionType)
+protocol BackButtonNavigatable: class {
     func didTapBackButton()
+}
+
+protocol StockDetailViewModelDelegate: BackButtonNavigatable {
+    func didSelectPositionType(_ type: PositionType)
 }
 
 struct StockDetailViewModel {

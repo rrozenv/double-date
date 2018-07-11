@@ -10,11 +10,12 @@ import Foundation
 import UIKit
 
 protocol Navigateable: class {
-     var navVc: UINavigationController { get }
+    var navVc: UINavigationController { get }
 }
 
 protocol Routable: Navigateable {
     associatedtype Screen
+    var navVc: UINavigationController { get }
     var screenOrder: [Screen] { get }
     var screenIndex: Int { get set }
     func navigateTo(screen: Screen)
@@ -25,9 +26,6 @@ protocol Routable: Navigateable {
 extension Routable {
     
     func toNextScreen() {
-        print("going to next screen")
-        print("Index \(screenIndex)")
-        print("Order \(screenOrder.count - 1)")
         guard screenIndex < screenOrder.count - 1 else {
             print("No more screens") ; return
         }

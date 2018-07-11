@@ -56,7 +56,7 @@ extension TitleTextFieldView {
         
         self.addSubview(stackView)
         stackView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self).inset(30)
+            make.edges.equalTo(self)
         }
     }
     

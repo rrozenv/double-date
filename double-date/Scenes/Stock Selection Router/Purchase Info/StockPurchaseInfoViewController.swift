@@ -32,6 +32,7 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
         navView.containerView.backgroundColor = Palette.lightGrey.color
         navBackgroundView.backgroundColor = Palette.lightGrey.color
         createViews()
+        setupDoneButton()
     }
     
     deinit { print("StockPurchaseInfoViewController deinit") }
@@ -100,6 +101,16 @@ extension StockPurchaseInfoViewController {
         view.addSubview(stackView)
         stackView.snp.makeConstraints { (make) in
             make.center.equalTo(view)
+        }
+    }
+    
+    private func setupDoneButton() {
+        doneButton = UIButton().rxStyle(title: "Done", font: FontBook.AvenirMedium.of(size: 14), backColor: Palette.aqua.color, titleColor: .white)
+        
+        view.addSubview(doneButton)
+        doneButton.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(view)
+            make.height.equalTo(56)
         }
     }
     
