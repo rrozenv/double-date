@@ -37,6 +37,10 @@ struct SelectFundViewModel {
             .disposed(by: disposeBag)
     }
     
+    init(funds: [Fund]) {
+        self._funds.value = funds.map { FundViewModel(fund: $0, isSelected: false) }
+    }
+    
     //MARK: - Outputs
     var funds: Driver<[FundViewModel]> {
         return _funds.asDriver()

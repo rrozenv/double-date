@@ -81,6 +81,7 @@ struct FundListViewModel {
                 position.fundIds.forEach({ (fundId) in
                     if let index = self._funds.value.index(where: { $0._id == fundId }) {
                         self._funds.value[index].currentUserPortfolio.positions.insert(position, at: 0)
+                        self._funds.value[index].currentUserPortfolio.cashBalance -= position.shares * position.buyPrice
                     }
                 })
             })

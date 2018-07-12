@@ -20,7 +20,7 @@ struct Fund: Codable, Identifiable {
 struct Portfolio: Codable, Identifiable {
     let _id: String
     let user: User
-    let cashBalance: Double
+    var cashBalance: Double
     var positions: [Position]
 }
 

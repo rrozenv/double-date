@@ -19,6 +19,9 @@ struct StockPurchaseInfoViewModel {
     //MARK: - Properties
     let disposeBag = DisposeBag()
     private let _stock: Variable<Stock>
+    private let _portflioCashBalance = Variable<Double?>(nil)
+    private let _funds = Variable<[Fund]>([])
+    private let cache: Cache = Cache<Fund>(path: "funds")
     private let _sharesInputText = PublishSubject<String>()
     
     let activityIndicator = PublishSubject<Bool>()
@@ -27,6 +30,12 @@ struct StockPurchaseInfoViewModel {
     
     init(stock: Stock) {
         self._stock = Variable(stock)
+        cache.fetchObjects().asObservable()
+            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
+            .filter { $0.count == 1 }
+            .map { $0.first!.currentUserPortfolio.cashBalance }
+            .bind(to: _portflioCashBalance)
+            .disposed(by: disposeBag)
     }
     
     //MARK: - Outputs
@@ -37,9 +46,24 @@ struct StockPurchaseInfoViewModel {
     var totalPurchaseValue: Driver<Double> {
         return _sharesInputText.asObservable()
             .map { Double($0) }
-            .filterNil()
-            .map { $0 * self._stock.value.latestPrice }
+            .map { ($0 ?? 0.0) * self._stock.value.latestPrice }
             .asDriver(onErrorJustReturn: 0.0)
+    }
+    
+    var portfolioCashBalance: Driver<Double> {
+        return _portflioCashBalance.asDriver()
+            .filterNil()
+    }
+    
+    var isValidPurchase: Driver<Bool> {
+        return totalPurchaseValue
+            .map { totalValue in
+                if let singlePortCashBalance = self._portflioCashBalance.value {
+                    return totalValue < singlePortCashBalance && totalValue > 0.0
+                } else {
+                    return totalValue > 0.0
+                }
+            }
     }
     
     var isLoading: Driver<Bool> {

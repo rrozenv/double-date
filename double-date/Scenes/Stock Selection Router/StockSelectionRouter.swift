@@ -44,7 +44,7 @@ final class StockSelectionRouter: Routable {
     enum Screen {
         case stockDetail
         case selectSharesCount
-        case selectFunds
+        case selectFunds(totalPositionValue: Double)
     }
     
     //MARK: - Private Props
@@ -98,6 +98,7 @@ final class StockSelectionRouter: Routable {
             }
             .subscribe(onNext: { [weak self] in
                 self?.newPosition.onNext($0)
+                self?.displayPositionConfirmationAlert(postion: $0)
             })
             .disposed(by: disposeBag)
     }
@@ -109,16 +110,11 @@ extension StockSelectionRouter {
     
     func navigateTo(screen: Screen) {
         switch screen {
-        case .stockDetail:
-            toStockDetail(stock)
-            currentScreen = .stockDetail
-        case .selectSharesCount:
-            toSelectSharesCount(stock)
-            currentScreen = .selectSharesCount
-        case .selectFunds:
-            toSelectFund()
-            currentScreen = .selectFunds
+        case .stockDetail: toStockDetail(stock)
+        case .selectSharesCount: toSelectSharesCount(stock)
+        case .selectFunds(let totalPositionValue): toSelectFund(totalPositionValue: totalPositionValue)
         }
+        currentScreen = screen
     }
     
     private func toStockDetail(_ stock: Stock) {
@@ -143,9 +139,10 @@ extension StockSelectionRouter {
         navVc.pushViewController(vc, animated: true)
     }
     
-    private func toSelectFund() {
+    private func toSelectFund(totalPositionValue: Double) {
         var vc = SelectFundViewController()
-        var vm = SelectFundViewModel()
+        let funds = _funds.value.filter { $0.currentUserPortfolio.cashBalance > totalPositionValue }
+        var vm = SelectFundViewModel(funds: funds)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         vc.modalPresentationStyle = .overCurrentContext
@@ -162,17 +159,11 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
     //MARK: - Position Type Selected
     func didSelectPositionType(_ type: PositionType) {
         guard _funds.value.isNotEmpty else {
-            let alertInfo = AlertViewController.AlertInfo.noFundsError
-            let alertVc = AlertViewController(alertInfo: alertInfo, okAction: { [weak self] in
-                self?.navVc.dismiss(animated: true, completion: nil)
-            })
-            self.displayAlert(vc: alertVc)
+            self.displayNoFundsError()
             return
         }
-  
         positionInfo.value.positionType = type
         self.toNextScreen()
-        //navigateTo(screen: .selectSharesCount)
     }
     
     //MARK: - Shares Selected
@@ -183,7 +174,7 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
             positionInfo.value.fundIds.append(contentsOf: fundIds)
             createPosition.onNext(())
         } else {
-            navigateTo(screen: .selectFunds)
+            navigateTo(screen: .selectFunds(totalPositionValue: sharesCount * stock.latestPrice))
         }
     }
     
@@ -202,9 +193,31 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
             self.toPreviousScreen(completion: { [weak self] in
                 self?.didDismiss.onNext(())
             })
-        case .selectSharesCount: self.toPreviousScreen()
+        case .selectSharesCount:
+            self.toPreviousScreen()
         case .selectFunds: break
         }
+        currentScreen = screenOrder[screenIndex]
+    }
+    
+}
+
+extension StockSelectionRouter {
+    
+    private func displayPositionConfirmationAlert(postion: Position) {
+        let alertInfo = AlertViewController.AlertInfo.newPositionAlert(position: postion)
+        let alertVc = AlertViewController(alertInfo: alertInfo, okAction: { [weak self] in
+            self?.toPreviousScreen()
+        })
+        self.displayAlert(vc: alertVc)
+    }
+    
+    private func displayNoFundsError() {
+        let alertInfo = AlertViewController.AlertInfo.noFundsError
+        let alertVc = AlertViewController(alertInfo: alertInfo, okAction: { [weak self] in
+            self?.navVc.dismiss(animated: true, completion: nil)
+        })
+        self.displayAlert(vc: alertVc)
     }
     
 }

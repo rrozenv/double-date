@@ -149,6 +149,13 @@ extension AlertViewController {
                              okButtonTitle: "Got It",
                              cancelButtonTitle: nil)
         }
+        
+        static func newPositionAlert(position: Position) -> AlertInfo  {
+            return AlertInfo(header: "\(position.ticker) Purchased",
+                             message: "You purchased \(position.ticker) for $\(position.shares * position.buyPrice)",
+                             okButtonTitle: "Got It",
+                             cancelButtonTitle: nil)
+        }
     }
     
 }

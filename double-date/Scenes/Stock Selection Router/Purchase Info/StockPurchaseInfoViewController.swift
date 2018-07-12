@@ -18,6 +18,7 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
     var navBackgroundView: UIView = UIView()
     var stackView: CustomStackView<UILabel>!
     
+    private var cashBalanceLabel: UILabel!
     private var sharesTextInputView: TitleTextFieldView!
     private var stockPriceView: CustomStackView<UILabel>!
     private var totalPriceView: CustomStackView<UILabel>!
@@ -33,6 +34,7 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
         navBackgroundView.backgroundColor = Palette.lightGrey.color
         createViews()
         setupDoneButton()
+        setupCashBalanceLabel()
     }
     
     deinit { print("StockPurchaseInfoViewController deinit") }
@@ -59,6 +61,19 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
             })
             .disposed(by: disposeBag)
         
+        viewModel.portfolioCashBalance
+            .drive(onNext: { [unowned self] in
+                self.cashBalanceLabel.text = "Portfolio Cash Balance: $\($0)"
+            })
+            .disposed(by: disposeBag)
+        
+        viewModel.isValidPurchase
+            .drive(onNext: { [unowned self] in
+                self.doneButton.alpha = $0 ? 1.0 : 0.5
+                self.doneButton.isEnabled = $0
+            })
+            .disposed(by: disposeBag)
+        
         viewModel.isLoading
             .drive(onNext: {
                 print("isLoading: \($0)")
@@ -75,6 +90,16 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
 }
 
 extension StockPurchaseInfoViewController {
+    
+    private func setupCashBalanceLabel() {
+        cashBalanceLabel = UILabel().rxStyle(font: FontBook.AvenirMedium.of(size: 14), color: .black, alignment: .center)
+        
+        view.addSubview(cashBalanceLabel)
+        cashBalanceLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(view)
+            make.top.equalTo(navView.snp.bottom).offset(20)
+        }
+    }
     
     private func createViews() {
         sharesTextInputView = TitleTextFieldView()
@@ -106,6 +131,8 @@ extension StockPurchaseInfoViewController {
     
     private func setupDoneButton() {
         doneButton = UIButton().rxStyle(title: "Done", font: FontBook.AvenirMedium.of(size: 14), backColor: Palette.aqua.color, titleColor: .white)
+        doneButton.alpha = 0.5
+        doneButton.isEnabled = false
         
         view.addSubview(doneButton)
         doneButton.snp.makeConstraints { (make) in
