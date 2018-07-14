@@ -8,6 +8,37 @@
 
 import Foundation
 
+extension NumberFormatter {
+    
+    static func convertToCurrency(_ double: Double) -> String {
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.usesGroupingSeparator = true
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.locale = Locale.current
+        return currencyFormatter.string(from: NSNumber(value: double)) ?? "0.00"
+    }
+    
+}
+
+extension Double {
+   
+    var asCurreny: String {
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.usesGroupingSeparator = true
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.locale = Locale.current
+        return currencyFormatter.string(from: NSNumber(value: self)) ?? "0.00"
+    }
+    
+    var asPercentage: String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
+        return "\(formatter.string(from: NSNumber(value: self * 100.0)) ?? "0.00")%"
+    }
+    
+}
+
 extension String {
     
     var date: Date? {

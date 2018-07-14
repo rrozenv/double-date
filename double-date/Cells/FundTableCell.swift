@@ -20,6 +20,7 @@ final class FundTableCell: UITableViewCell {
     private var mainLabel: UILabel!
     private var dateLabel: UILabel!
     private var countLabel: UILabel!
+    private var rightLabel: UILabel!
     
     // MARK: - Initialization
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -40,19 +41,21 @@ final class FundTableCell: UITableViewCell {
         self.selectionStyle = .none
         setupContainerView()
         setupNameLabelsStackView()
+        setupRightLabel()
     }
     
     // MARK: - Configuration
     func configureWith(value: Fund) {
         mainLabel.text = value.name
         dateLabel.text = "Max \(value.maxPlayers) players"
-        countLabel.text = "Return: \(value.currentUserPortfolio.portfolioROI * 100.0) %"
+        countLabel.text = "Return: \(value.currentUserPortfolio.portfolioROI.asPercentage)"
     }
     
     func configureWith(value: Position) {
         mainLabel.text = value.ticker
         dateLabel.text = "Entry: \(value.buyPrice)"
-        countLabel.text = "Current: \(value.currentPrice)"
+        countLabel.text = "Current: \(value.currentPrice.asCurreny)"
+        rightLabel.text = "Total Value: \(value.totalPurchaseValue.asCurreny)"
     }
     
     func configureWith(value: Portfolio) {
@@ -94,6 +97,16 @@ extension FundTableCell {
         containerView.addSubview(labelsStackView)
         labelsStackView.snp.makeConstraints { (make) in
             make.edges.equalTo(containerView)
+        }
+    }
+    
+    private func setupRightLabel() {
+        rightLabel = UILabel().rxStyle(font: FontBook.AvenirMedium.of(size: 14), color: .black, alignment: .right)
+        
+        containerView.addSubview(rightLabel)
+        rightLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(containerView.snp.right).offset(-20)
+            make.centerY.equalTo(containerView)
         }
     }
     

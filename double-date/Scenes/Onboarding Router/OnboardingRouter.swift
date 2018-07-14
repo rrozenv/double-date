@@ -23,6 +23,7 @@ final class OnboardingRouter: Routable {
         case firstName
         case lastName
         case phoneNumber
+        case verificationCode(countryCode: String, phoneNumber: String)
     }
     
     //MARK: - Private Props
@@ -40,10 +41,14 @@ final class OnboardingRouter: Routable {
     }
     
     func navigateTo(screen: Screen) {
-        switch screen {
-        case .phoneNumber: toPhoneNumber()
-        case .firstName: toFirstName()
-        case .lastName: toLastName()
+        DispatchQueue.main.async {
+            switch screen {
+            case .phoneNumber: self.toPhoneNumber()
+            case .verificationCode(countryCode: let code, phoneNumber: let phone):
+                self.toVerificationCode(countryCode: code, phoneNumber: phone)
+            case .firstName: self.toFirstName()
+            case .lastName: self.toLastName()
+            }
         }
     }
     
@@ -75,6 +80,14 @@ extension OnboardingRouter {
         navVc.pushViewController(vc, animated: true)
     }
     
+    private func toVerificationCode(countryCode: String, phoneNumber: String) {
+        var vc = PhoneVerificationViewController()
+        var vm = PhoneVerificationViewModel(countryCode: countryCode, phoneNumber: phoneNumber)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
 }
 
 extension OnboardingRouter: EnterNameViewModelDelegate {
@@ -95,10 +108,18 @@ extension OnboardingRouter: EnterNameViewModelDelegate {
 }
 
 extension OnboardingRouter: PhoneEntryViewModelDelegate {
+    
+    func didEnter(countryCode: String, phoneNumber: String) {
+        navigateTo(screen: .verificationCode(countryCode: countryCode, phoneNumber: phoneNumber))
+    }
+    
+}
 
-    func didEnter(phoneNumber: String) {
-        print(phoneNumber)
-        NotificationCenter.default.post(name: .createHomeVc, object: nil)
+extension OnboardingRouter: PhoneVerificationViewModelDelegate {
+    
+    func didValidateVerificationCode() {
+        print("CODE VALIDATED!")
+        //NotificationCenter.default.post(name: .createHomeVc, object: nil)
     }
     
 }

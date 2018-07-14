@@ -90,6 +90,10 @@
 		98CF488020E6AB6900C426DB /* SelectFundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */; };
 		98D14ECE20EDA1FB0097AC69 /* PositionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */; };
 		98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */; };
+		98E9B30220FA4CDB00CF44DE /* TwilioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30120FA4CDB00CF44DE /* TwilioService.swift */; };
+		98E9B30420FA4F1700CF44DE /* TwilioPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30320FA4F1700CF44DE /* TwilioPhoneResponse.swift */; };
+		98E9B30720FA55C000CF44DE /* PhoneVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30620FA55C000CF44DE /* PhoneVerificationViewModel.swift */; };
+		98E9B30920FA58CF00CF44DE /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30820FA58CF00CF44DE /* PhoneVerificationViewController.swift */; };
 		98F77F2620D5921E005F4B66 /* OnboardingRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2520D5921E005F4B66 /* OnboardingRouter.swift */; };
 		98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2920D59314005F4B66 /* StyledTextField.swift */; };
 		98F77F2C20D5936C005F4B66 /* EnterNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F77F2B20D5936C005F4B66 /* EnterNameViewModel.swift */; };
@@ -210,6 +214,10 @@
 		98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundViewModel.swift; sourceTree = "<group>"; };
 		98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewController.swift; sourceTree = "<group>"; };
 		98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewModel.swift; sourceTree = "<group>"; };
+		98E9B30120FA4CDB00CF44DE /* TwilioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioService.swift; sourceTree = "<group>"; };
+		98E9B30320FA4F1700CF44DE /* TwilioPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioPhoneResponse.swift; sourceTree = "<group>"; };
+		98E9B30620FA55C000CF44DE /* PhoneVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewModel.swift; sourceTree = "<group>"; };
+		98E9B30820FA58CF00CF44DE /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
 		98F77F2520D5921E005F4B66 /* OnboardingRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingRouter.swift; sourceTree = "<group>"; };
 		98F77F2920D59314005F4B66 /* StyledTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StyledTextField.swift; sourceTree = "<group>"; };
 		98F77F2B20D5936C005F4B66 /* EnterNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterNameViewModel.swift; sourceTree = "<group>"; };
@@ -321,6 +329,7 @@
 				98F77F2520D5921E005F4B66 /* OnboardingRouter.swift */,
 				98F77F2720D5925C005F4B66 /* Name Entry */,
 				9806645220DD5B7B00951DBD /* Enter Phone Number */,
+				98E9B30520FA558700CF44DE /* Enter Verification Code */,
 			);
 			path = "Onboarding Router";
 			sourceTree = "<group>";
@@ -475,6 +484,7 @@
 				9809890120E3173A00C32BE0 /* StockService.swift */,
 				9831E76F20E950BA00FFBB3D /* PositionService.swift */,
 				9834950A20EC66B6003AEC8B /* PortfolioService.swift */,
+				98E9B30120FA4CDB00CF44DE /* TwilioService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -485,6 +495,7 @@
 				98300A2E20D1EDB000D7C4BA /* User.swift */,
 				9806644D20DD3CD100951DBD /* Fund.swift */,
 				986AE2E520DDD70E00A78E42 /* Contact.swift */,
+				98E9B30320FA4F1700CF44DE /* TwilioPhoneResponse.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -601,6 +612,15 @@
 				98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */,
 			);
 			path = "Postitions List";
+			sourceTree = "<group>";
+		};
+		98E9B30520FA558700CF44DE /* Enter Verification Code */ = {
+			isa = PBXGroup;
+			children = (
+				98E9B30620FA55C000CF44DE /* PhoneVerificationViewModel.swift */,
+				98E9B30820FA58CF00CF44DE /* PhoneVerificationViewController.swift */,
+			);
+			path = "Enter Verification Code";
 			sourceTree = "<group>";
 		};
 		98F77F2720D5925C005F4B66 /* Name Entry */ = {
@@ -864,6 +884,7 @@
 				986B6DF320E47EA0002BF93C /* StockSelectionRouter.swift in Sources */,
 				988F318A20E17B6000084676 /* AlertViewController.swift in Sources */,
 				98300A3520D1F1A700D7C4BA /* UserService.swift in Sources */,
+				98E9B30920FA58CF00CF44DE /* PhoneVerificationViewController.swift in Sources */,
 				98300A3E20D1F5B700D7C4BA /* NotificationName+Ext.swift in Sources */,
 				98300A4120D1F63F00D7C4BA /* ConstraintMaker+Ext.swift in Sources */,
 				9806646A20DD778500951DBD /* FundListViewModel.swift in Sources */,
@@ -894,11 +915,14 @@
 				98C06E6E20DB3BD400426EEC /* FundDetailsViewModel.swift in Sources */,
 				9806645120DD5A5400951DBD /* CreateFundRouter.swift in Sources */,
 				98300A4A20D1F64B00D7C4BA /* String+Ext.swift in Sources */,
+				98E9B30220FA4CDB00CF44DE /* TwilioService.swift in Sources */,
+				98E9B30720FA55C000CF44DE /* PhoneVerificationViewModel.swift in Sources */,
 				98B8B78420D303D4004BD6A1 /* SignupViewController.swift in Sources */,
 				9806645920DD6E8800951DBD /* TapPageViewController.swift in Sources */,
 				986B6DEF20E46F63002BF93C /* StockDetailViewModel.swift in Sources */,
 				986AE2E620DDD70E00A78E42 /* Contact.swift in Sources */,
 				986B6DF120E47C67002BF93C /* FundTableCell.swift in Sources */,
+				98E9B30420FA4F1700CF44DE /* TwilioPhoneResponse.swift in Sources */,
 				9806645F20DD73B400951DBD /* CustomStackView.swift in Sources */,
 				9806644E20DD3CD100951DBD /* Fund.swift in Sources */,
 				98300A5920D1F70E00D7C4BA /* ErrorTracker.swift in Sources */,

@@ -54,6 +54,16 @@ struct Position: Codable, Identifiable {
     var sellPrice: Double?
 }
 
+extension Position {
+    var totalPurchaseValue: Double {
+        return buyPrice * shares
+    }
+    
+    var profitLoss: Double {
+        return (buyPrice * shares) - (currentPrice * shares)
+    }
+}
+
 struct Stock: Codable {
     let symbol: String
     let companyName: String
@@ -65,12 +75,12 @@ struct Invitation: Codable {
     let _id: String
     let fundId: String
     let sentBy: User
-    let recievingPhoneNumber: String
+    let recievedByPhoneNumber: String
     let recievedBy: User?
     let status: InvitationStatus
 }
 
 enum InvitationStatus: String, Codable {
-    case accepted, rejected
+    case accepted, rejected, pending
 }
 

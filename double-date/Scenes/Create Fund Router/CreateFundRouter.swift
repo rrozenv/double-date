@@ -25,7 +25,8 @@ final class FundInfo {
         return [
             "name": name ?? "",
             "maxPlayers": maxPlayers ?? 0,
-            "maxCashBalance": maxCashBalance ?? 0
+            "maxCashBalance": maxCashBalance ?? 0,
+            "invitedPhoneNumbers": invitedPhoneNumbers
         ]
     }
 }

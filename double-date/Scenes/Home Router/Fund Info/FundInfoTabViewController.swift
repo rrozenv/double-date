@@ -61,8 +61,9 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
     func setupTabButtonBindings() {
         _fund.asObservable()
             .subscribe(onNext: { [unowned self] in
-                self.headerView.populateInfoWith(titleText: "\($0.currentUserPortfolio.cashBalance)",
-                    subTitleText: "\($0.currentUserPortfolio.portfolioROI)%")
+                self.headerView
+                    .populateInfoWith(titleText: "\($0.currentUserPortfolio.cashBalance.asCurreny)",
+                                      subTitleText: "\($0.currentUserPortfolio.portfolioROI)%")
             })
             .disposed(by: disposeBag)
         

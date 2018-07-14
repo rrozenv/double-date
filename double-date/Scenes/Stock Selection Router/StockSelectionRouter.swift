@@ -41,10 +41,10 @@ final class PositionInfo {
 
 final class StockSelectionRouter: Routable {
     
-    enum Screen {
+    //MARK: - Navigatable Screens
+    enum Screen: Int {
         case stockDetail
         case selectSharesCount
-        case selectFunds(totalPositionValue: Double)
     }
     
     //MARK: - Private Props
@@ -57,13 +57,13 @@ final class StockSelectionRouter: Routable {
     private let activityIndicator: ActivityIndicator
     private let errorTracker: ErrorTracker
     private let stock: Stock
-    private var currentScreen: Screen
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
     let screenOrder: [Screen]
     var screenIndex = 0
     
+    //MARK: - Outputs
     var didDismiss = PublishSubject<Void>()
     var newPosition = PublishSubject<Position>()
     
@@ -76,7 +76,6 @@ final class StockSelectionRouter: Routable {
         self.activityIndicator = ActivityIndicator()
         self.errorTracker = ErrorTracker()
         self.screenOrder = [.stockDetail, .selectSharesCount]
-        self.currentScreen = .stockDetail
         self.positionInfo = Variable(PositionInfo(stock: stock, posType: nil))
         self.cache.fetchObjects().asObservable()
             .bind(to: _funds)
@@ -112,9 +111,7 @@ extension StockSelectionRouter {
         switch screen {
         case .stockDetail: toStockDetail(stock)
         case .selectSharesCount: toSelectSharesCount(stock)
-        case .selectFunds(let totalPositionValue): toSelectFund(totalPositionValue: totalPositionValue)
         }
-        currentScreen = screen
     }
     
     private func toStockDetail(_ stock: Stock) {
@@ -174,7 +171,7 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
             positionInfo.value.fundIds.append(contentsOf: fundIds)
             createPosition.onNext(())
         } else {
-            navigateTo(screen: .selectFunds(totalPositionValue: sharesCount * stock.latestPrice))
+            toSelectFund(totalPositionValue: sharesCount * stock.latestPrice)
         }
     }
     
@@ -188,6 +185,7 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
     
     //MARK: - Back Button Selected
     func didTapBackButton() {
+        guard let currentScreen = Screen(rawValue: screenIndex) else { return }
         switch currentScreen {
         case .stockDetail:
             self.toPreviousScreen(completion: { [weak self] in
@@ -195,9 +193,7 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
             })
         case .selectSharesCount:
             self.toPreviousScreen()
-        case .selectFunds: break
         }
-        currentScreen = screenOrder[screenIndex]
     }
     
 }

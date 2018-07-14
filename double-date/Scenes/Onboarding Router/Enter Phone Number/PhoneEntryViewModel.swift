@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 protocol PhoneEntryViewModelDelegate: class {
-    func didEnter(phoneNumber: String)
+    func didEnter(countryCode: String, phoneNumber: String)
 }
 
 struct PhoneEntryViewModel {
@@ -19,6 +19,9 @@ struct PhoneEntryViewModel {
     //MARK: - Properties
     private let disposeBag = DisposeBag()
     private let numberText = Variable("")
+    private let countryCode = Variable("+1")
+    private let twilioService = TwilioService()
+    private let errorTracker = ErrorTracker()
     weak var delegate: PhoneEntryViewModelDelegate?
     
     var formattedPhoneNumber: Driver<String> {
@@ -36,6 +39,14 @@ struct PhoneEntryViewModel {
         )
     }
     
+    var phoneParams: [String: Any] {
+        return [
+            "via": "sms",
+            "country_code": countryCode.value,
+            "phone_number": numberText.value
+        ]
+    }
+    
     //MARK: - Inputs
     func bindTextEntry(_ observable: Observable<String>) {
         observable
@@ -45,8 +56,14 @@ struct PhoneEntryViewModel {
     
     func bindContinueButton(_ observable: Observable<Void>) {
         observable
-            .subscribe(onNext: {
-                self.delegate?.didEnter(phoneNumber: self.numberText.value)
+            .flatMapLatest {
+                self.twilioService
+                    .sendVerificationCode(params: self.phoneParams)
+                    .trackNetworkError(self.errorTracker)
+            }
+            .subscribe(onNext: { response in
+                self.delegate?.didEnter(countryCode: self.countryCode.value,
+                                        phoneNumber: self.numberText.value)
             })
             .disposed(by: disposeBag)
     }

@@ -36,10 +36,13 @@ final class Network<T: Codable> {
             .mapArray(type: T.self)
     }
     
-    func getItem(_ path: String, itemId: String) -> Observable<T> {
+    func getItem(_ path: String,
+                 parameters: [String: Any]? = nil,
+                 itemId: String,
+                 headers: [String: String] = [Secrets.tokenKeyString: MyKeychain.shared.getStringFor(Secrets.tokenKeyString) ?? ""]) -> Observable<T> {
         let absolutePath = "\(baseUrl)/\(path)/\(itemId)"
         return manager.rx
-            .responseData(.get, absolutePath, headers: [Secrets.tokenKeyString: token ?? ""])
+            .responseData(.get, absolutePath, parameters: parameters, headers: headers)
             .observeOn(scheduler)
             .mapObject(type: T.self)
     }
@@ -52,14 +55,16 @@ final class Network<T: Codable> {
             .mapOptionalObject(type: T.self)
     }
     
-    func postItem(_ path: String, parameters: [String: Any]) -> Observable<T> {
+    func postItem(_ path: String,
+                  parameters: [String: Any],
+                  headers: [String: String] = [Secrets.tokenKeyString: MyKeychain.shared.getStringFor(Secrets.tokenKeyString) ?? ""]) -> Observable<T> {
         let absolutePath = "\(baseUrl)/\(path)"
         return manager.rx
             .responseData(.post,
                           absolutePath,
                           parameters: parameters,
                           encoding: JSONEncoding.default,
-                          headers: [Secrets.tokenKeyString: token ?? ""])
+                          headers: headers)
             .observeOn(scheduler)
             .mapObject(type: T.self)
     }

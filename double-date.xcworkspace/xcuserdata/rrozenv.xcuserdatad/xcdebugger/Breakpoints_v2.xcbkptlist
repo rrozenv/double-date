@@ -25,22 +25,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "double-date/Generic Protocols/Routable.swift"
-            timestampString = "553050606.5042911"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "toPreviousScreen(completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "double-date/Scenes/Home Router/HomeRouter.swift"
             timestampString = "553050213.520631"
             startingColumnNumber = "9223372036854775807"
@@ -57,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "double-date/Generic Protocols/Routable.swift"
-            timestampString = "553050606.504423"
+            filePath = "double-date/Scenes/Onboarding Router/Enter Verification Code/PhoneVerificationViewModel.swift"
+            timestampString = "553278980.739331"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "toPreviousScreen(completion:)"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "bindContinueButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,13 +57,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "double-date/Generic Protocols/Routable.swift"
-            timestampString = "553050606.504496"
+            filePath = "double-date/API/TwilioService.swift"
+            timestampString = "553278980.739417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "toPreviousScreen(completion:)"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "validateVerificationCode(params:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "double-date/Scenes/Onboarding Router/Enter Phone Number/PhoneEntryViewModel.swift"
+            timestampString = "553278980.739476"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
+            landmarkName = "bindContinueButton(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
