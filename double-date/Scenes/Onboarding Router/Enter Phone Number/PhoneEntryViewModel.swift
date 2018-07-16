@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol PhoneEntryViewModelDelegate: class {
+protocol PhoneEntryViewModelDelegate: BackButtonNavigatable {
     func didEnter(countryCode: String, phoneNumber: String)
 }
 
@@ -43,7 +43,7 @@ struct PhoneEntryViewModel {
         return [
             "via": "sms",
             "country_code": countryCode.value,
-            "phone_number": numberText.value
+            "phone_number": numberText.value.digits
         ]
     }
     
@@ -74,10 +74,10 @@ struct PhoneEntryViewModel {
             .disposed(by: disposeBag)
     }
     
-//    func bindBackButton(_ observable: Observable<Void>) {
-//        observable
-//            .subscribe(onNext: { self.coordinator.toPreviousScreen() })
-//            .disposed(by: disposeBag)
-//    }
+    func bindBackButton(_ observable: Observable<Void>) {
+        observable
+            .subscribe(onNext: { self.delegate?.didTapBackButton() })
+            .disposed(by: disposeBag)
+    }
     
 }

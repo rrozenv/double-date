@@ -45,7 +45,7 @@ class PhoneVerificationViewController: UIViewController, BindableType, CustomNav
     
     func bindViewModel() {
         let backTapped$ = navView.backButton.rx.tap.asObservable()
-        //viewModel.bindBackButton(backTapped$)
+        viewModel.bindBackButton(backTapped$)
         
         let nameText$ = textField.textField.rx.text.orEmpty.asObservable()
         viewModel.bindTextEntry(nameText$)
@@ -63,6 +63,10 @@ class PhoneVerificationViewController: UIViewController, BindableType, CustomNav
                 self.nextButton.isEnabled = $0
                 self.nextButton.backgroundColor = $0 ? .yellow : .gray
             })
+            .disposed(by: disposeBag)
+        
+        viewModel.error
+            .drive(onNext: { [weak self] in self?.displayNetworkError($0) })
             .disposed(by: disposeBag)
     }
     

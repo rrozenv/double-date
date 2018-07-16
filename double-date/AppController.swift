@@ -12,9 +12,9 @@ import RxSwift
 import RxCocoa
 import RxOptional
 
-enum RootRouter {
-    case inital(InitalRouter)
-}
+//enum RootRouter {
+//    case inital(InitalRouter)
+//}
 
 final class AppController: UIViewController {
     
@@ -25,7 +25,7 @@ final class AppController: UIViewController {
     private let userService = UserService()
     private let errorTracker = ErrorTracker()
     private var actingVC: UIViewController = UIViewController()
-    private var rootRouter: Navigateable = InitalRouter()
+    private var rootRouter: Navigateable = OnboardingRouter()
     
     //MARK: - Public Props
     private var currentUser = Variable<User?>(nil)
@@ -95,7 +95,7 @@ extension AppController {
         switch notification.name {
         case Notification.Name.createOnboarding: switchToRouter(OnboardingRouter())
         case Notification.Name.createHomeVc: switchToRouter(HomeRouter())
-        case Notification.Name.logout: switchToRouter(InitalRouter())
+        case Notification.Name.logout: switchToRouter(OnboardingRouter())
         default:
             fatalError("\(#function) - Unable to match notficiation name.")
         }

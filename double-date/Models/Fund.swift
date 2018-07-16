@@ -73,10 +73,11 @@ struct Stock: Codable {
 
 struct Invitation: Codable {
     let _id: String
-    let fundId: String
+    let fund: String
+    let fundName: String
     let sentBy: User
     let recievedByPhoneNumber: String
-    let recievedBy: User?
+    //let recievedBy: User?
     let status: InvitationStatus
 }
 

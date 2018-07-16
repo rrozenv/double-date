@@ -11,44 +11,89 @@ import UIKit
 import RxSwift
 
 final class OnboardingInfo {
-    var firstName: String?
-    var lastName: String?
-    var city: String?
+    var name: String?
     var phoneNumber: String?
+    
+    var isValid: Bool {
+        return name != nil && phoneNumber != nil
+    }
+   
+    var json: [String: Any] {
+        guard isValid else { return [:] }
+        return [
+            "name": name!,
+            "phoneNumber": phoneNumber!.digits
+        ]
+    }
 }
 
 final class OnboardingRouter: Routable {
     
     enum Screen {
-        case firstName
-        case lastName
+        case inital
+        case name
         case phoneNumber
         case verificationCode(countryCode: String, phoneNumber: String)
     }
     
     //MARK: - Private Props
     private let disposeBag = DisposeBag()
-    private let onboardingInfo = OnboardingInfo()
+    private let onboardingInfo: Variable<OnboardingInfo>
+    private let userService = UserService()
+    private let activityTracker = ActivityIndicator()
+    private let errorTracker = ErrorTracker()
+    private let createUser = PublishSubject<Void>()
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
-    let screenOrder: [Screen] = [.phoneNumber]
+    let screenOrder: [Screen] = [.inital, .name, .phoneNumber, .verificationCode(countryCode: "", phoneNumber: "")]
     var screenIndex = 0
     
     init() {
-        self.navigateTo(screen: .phoneNumber)
-        navVc.isNavigationBarHidden = true
+        self.onboardingInfo = Variable(OnboardingInfo())
+        self.navVc.isNavigationBarHidden = true
+        self.setupCreateUser()
+        self.navigateTo(screen: screenOrder[screenIndex])
+        self.errorTracker.asObservable()
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { [weak self] in
+                self?.navVc.displayNetworkError($0)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    private func setupCreateUser() {
+        self.createUser.asObservable()
+            .withLatestFrom(onboardingInfo.asObservable())
+            .filter { $0.isValid }
+            .flatMapLatest { [unowned self] in
+                self.userService.createUser(params: $0.json)
+                    .trackNetworkError(self.errorTracker)
+                    .trackActivity(self.activityTracker)
+            }
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: {
+                AppController.shared.setCurrentUser($0)
+                NotificationCenter.default.post(name: .createHomeVc, object: nil)
+            })
+            .disposed(by: disposeBag)
     }
     
     func navigateTo(screen: Screen) {
         DispatchQueue.main.async {
             switch screen {
+            case .inital: self.toInitalScene()
             case .phoneNumber: self.toPhoneNumber()
             case .verificationCode(countryCode: let code, phoneNumber: let phone):
                 self.toVerificationCode(countryCode: code, phoneNumber: phone)
-            case .firstName: self.toFirstName()
-            case .lastName: self.toLastName()
+            case .name: self.toFirstName()
             }
+        }
+    }
+    
+    func didTapBackButton() {
+        DispatchQueue.main.async {
+            self.toPreviousScreen(completion: nil)
         }
     }
     
@@ -56,20 +101,20 @@ final class OnboardingRouter: Routable {
 
 extension OnboardingRouter {
     
+    private func toInitalScene() {
+        var vc = InitialViewController()
+        var vm = InitialViewModel()
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: false)
+    }
+    
     private func toFirstName() {
         var vc = EnterNameViewController<EnterNameViewModel>()
         var vm = EnterNameViewModel(nameType: .first)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: false)
-    }
-    
-    private func toLastName() {
-        var vc = EnterNameViewController<EnterNameViewModel>()
-        var vm = EnterNameViewModel(nameType: .last)
-        vm.delegate = self
-        vc.setViewModelBinding(model: vm)
-        navVc.pushViewController(vc, animated: true)
     }
     
     private func toPhoneNumber() {
@@ -90,18 +135,18 @@ extension OnboardingRouter {
     
 }
 
-extension OnboardingRouter: EnterNameViewModelDelegate {
+extension OnboardingRouter: InitalViewModelDelegate {
     
-    func didTapBackButton(nameType: EnterNameViewModel.NameType) {
-        self.toPreviousScreen()
+    func didTapContinueButton() {
+        toNextScreen()
     }
     
+}
+
+extension OnboardingRouter: EnterNameViewModelDelegate {
+    
     func didEnter(name: String, type: EnterNameViewModel.NameType) {
-        switch type {
-        case .first:
-            onboardingInfo.firstName = name
-        case .last: onboardingInfo.lastName = name
-        }
+        onboardingInfo.value.name = name
         toNextScreen()
     }
     
@@ -110,16 +155,17 @@ extension OnboardingRouter: EnterNameViewModelDelegate {
 extension OnboardingRouter: PhoneEntryViewModelDelegate {
     
     func didEnter(countryCode: String, phoneNumber: String) {
+        onboardingInfo.value.phoneNumber = phoneNumber
+        screenIndex += 1
         navigateTo(screen: .verificationCode(countryCode: countryCode, phoneNumber: phoneNumber))
     }
     
 }
 
 extension OnboardingRouter: PhoneVerificationViewModelDelegate {
-    
+
     func didValidateVerificationCode() {
-        print("CODE VALIDATED!")
-        //NotificationCenter.default.post(name: .createHomeVc, object: nil)
+        createUser.onNext(())
     }
     
 }

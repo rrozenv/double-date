@@ -61,6 +61,9 @@
 		9834950920EC6653003AEC8B /* PortfolioListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950820EC6653003AEC8B /* PortfolioListViewModel.swift */; };
 		9834950B20EC66B6003AEC8B /* PortfolioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950A20EC66B6003AEC8B /* PortfolioService.swift */; };
 		9834950D20EC71FD003AEC8B /* FundInfoTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */; };
+		9852F97620FC0DD3009E4A9A /* InvitationsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9852F97520FC0DD3009E4A9A /* InvitationsListViewController.swift */; };
+		9852F97820FC0DE1009E4A9A /* InvitationsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9852F97720FC0DE1009E4A9A /* InvitationsListViewModel.swift */; };
+		9852F97A20FC0E34009E4A9A /* InvitationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9852F97920FC0E34009E4A9A /* InvitationService.swift */; };
 		986AE2DC20DDD59700A78E42 /* SelectContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */; };
 		986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DD20DDD5A600A78E42 /* SelectContactsViewModel.swift */; };
 		986AE2E020DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986AE2DF20DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift */; };
@@ -185,6 +188,9 @@
 		9834950820EC6653003AEC8B /* PortfolioListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioListViewModel.swift; sourceTree = "<group>"; };
 		9834950A20EC66B6003AEC8B /* PortfolioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioService.swift; sourceTree = "<group>"; };
 		9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundInfoTabViewController.swift; sourceTree = "<group>"; };
+		9852F97520FC0DD3009E4A9A /* InvitationsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationsListViewController.swift; sourceTree = "<group>"; };
+		9852F97720FC0DE1009E4A9A /* InvitationsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationsListViewModel.swift; sourceTree = "<group>"; };
+		9852F97920FC0E34009E4A9A /* InvitationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationService.swift; sourceTree = "<group>"; };
 		986AE2DB20DDD59700A78E42 /* SelectContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactsViewController.swift; sourceTree = "<group>"; };
 		986AE2DD20DDD5A600A78E42 /* SelectContactsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectContactsViewModel.swift; sourceTree = "<group>"; };
 		986AE2DF20DDD5C700A78E42 /* MultipleSelectionFilterDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionFilterDataSource.swift; sourceTree = "<group>"; };
@@ -344,6 +350,7 @@
 				98FA5C9820E0434C00FA4818 /* Profile */,
 				9834950320EC65E1003AEC8B /* Fund Info */,
 				98D14ECC20EDA1DA0097AC69 /* Postitions List */,
+				9852F97420FC0DA3009E4A9A /* Invitations List */,
 			);
 			path = "Home Router";
 			sourceTree = "<group>";
@@ -485,6 +492,7 @@
 				9831E76F20E950BA00FFBB3D /* PositionService.swift */,
 				9834950A20EC66B6003AEC8B /* PortfolioService.swift */,
 				98E9B30120FA4CDB00CF44DE /* TwilioService.swift */,
+				9852F97920FC0E34009E4A9A /* InvitationService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -529,6 +537,15 @@
 				9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */,
 			);
 			path = "Fund Info";
+			sourceTree = "<group>";
+		};
+		9852F97420FC0DA3009E4A9A /* Invitations List */ = {
+			isa = PBXGroup;
+			children = (
+				9852F97520FC0DD3009E4A9A /* InvitationsListViewController.swift */,
+				9852F97720FC0DE1009E4A9A /* InvitationsListViewModel.swift */,
+			);
+			path = "Invitations List";
 			sourceTree = "<group>";
 		};
 		986AE2DA20DDD55D00A78E42 /* Select Contacts */ = {
@@ -617,8 +634,8 @@
 		98E9B30520FA558700CF44DE /* Enter Verification Code */ = {
 			isa = PBXGroup;
 			children = (
-				98E9B30620FA55C000CF44DE /* PhoneVerificationViewModel.swift */,
 				98E9B30820FA58CF00CF44DE /* PhoneVerificationViewController.swift */,
+				98E9B30620FA55C000CF44DE /* PhoneVerificationViewModel.swift */,
 			);
 			path = "Enter Verification Code";
 			sourceTree = "<group>";
@@ -854,6 +871,7 @@
 				98F77F2E20D59475005F4B66 /* ButtonLabel.swift in Sources */,
 				98C06E7020DB401A00426EEC /* FundDetailsViewController.swift in Sources */,
 				98300A5220D1F69300D7C4BA /* KeyboardAvoidable.swift in Sources */,
+				9852F97820FC0DE1009E4A9A /* InvitationsListViewModel.swift in Sources */,
 				986AE2E220DDD68300A78E42 /* ValueCellDataSource.swift in Sources */,
 				98F77F3020D59497005F4B66 /* EnterNameViewController.swift in Sources */,
 				9809890020E316FD00C32BE0 /* MarketViewModel.swift in Sources */,
@@ -874,12 +892,14 @@
 				98300A5B20D1F72900D7C4BA /* FontBook.swift in Sources */,
 				989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */,
 				98300A5420D1F6B800D7C4BA /* Observable+Ext.swift in Sources */,
+				9852F97A20FC0E34009E4A9A /* InvitationService.swift in Sources */,
 				9806646820DD76FD00951DBD /* FundListViewController.swift in Sources */,
 				98300A3F20D1F5B700D7C4BA /* CustomNavViewable.swift in Sources */,
 				9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */,
 				98CF487E20E6AB5800C426DB /* SelectFundViewController.swift in Sources */,
 				981FAA0220F43CDC005F2C22 /* StockPurchaseInfoViewController.swift in Sources */,
 				9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */,
+				9852F97620FC0DD3009E4A9A /* InvitationsListViewController.swift in Sources */,
 				986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */,
 				986B6DF320E47EA0002BF93C /* StockSelectionRouter.swift in Sources */,
 				988F318A20E17B6000084676 /* AlertViewController.swift in Sources */,

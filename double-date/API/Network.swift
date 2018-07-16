@@ -69,13 +69,17 @@ final class Network<T: Codable> {
             .mapObject(type: T.self)
     }
     
-    func updateItem(_ path: String, itemId: String, parameters: [String: Any]) -> Observable<T> {
+    func updateItem(_ path: String,
+                    itemId: String,
+                    parameters: [String: Any] = [:],
+                    headers: [String: String] = [Secrets.tokenKeyString: MyKeychain.shared.getStringFor(Secrets.tokenKeyString) ?? ""]) -> Observable<T> {
         let absolutePath = "\(baseUrl)/\(path)/\(itemId)"
         return RxAlamofire
             .requestData(.put,
                          absolutePath,
                          parameters: parameters,
-                         encoding: JSONEncoding.default)
+                         encoding: JSONEncoding.default,
+                         headers: headers)
             .observeOn(scheduler)
             .mapObject(type: T.self)
     }

@@ -10,7 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol PhoneVerificationViewModelDelegate: class {
+protocol PhoneVerificationViewModelDelegate: BackButtonNavigatable {
     func didValidateVerificationCode()
 }
 
@@ -20,6 +20,8 @@ struct PhoneVerificationViewModel {
     private let disposeBag = DisposeBag()
     private let verificationCodeText = Variable("")
     private let twilioService = TwilioService()
+    let errorTracker = ErrorTracker()
+    let activityTracker = ActivityIndicator()
     private let countryCode: String
     private let phoneNumber: String
     weak var delegate: PhoneVerificationViewModelDelegate?
@@ -31,6 +33,14 @@ struct PhoneVerificationViewModel {
     
     var isCodeValid: Driver<Bool> {
         return verificationCodeText.asDriver().map { $0.count == 4 }
+    }
+    
+    var isLoading: Driver<Bool> {
+        return activityTracker.asDriver(onErrorJustReturn: false)
+    }
+    
+    var error: Driver<NetworkError> {
+        return errorTracker.asDriver()
     }
     
     var titleHeaderText: Driver<VaryingFontInfo> {
@@ -58,9 +68,14 @@ struct PhoneVerificationViewModel {
         observable
             .flatMapLatest {
                 self.twilioService.validateVerificationCode(params: self.codeParams)
+                    .trackNetworkError(self.errorTracker)
+                    .trackActivity(self.activityTracker)
             }
             .subscribe(onNext: {
-                print($0)
+                guard $0.success else {
+                    self.errorTracker._subject.onNext(NetworkError.custom(CustomError(message: $0.message)))
+                    return
+                }
                 self.delegate?.didValidateVerificationCode()
             })
             .disposed(by: disposeBag)
@@ -72,9 +87,10 @@ struct PhoneVerificationViewModel {
             .disposed(by: disposeBag)
     }
     
-//    func bindBackButton(_ observable: Observable<Void>) {
-//        observable
-//            .subscribe(onNext: { self.coordinator.toPreviousScreen() })
-//            .disposed(by: disposeBag)
-//    }
+    func bindBackButton(_ observable: Observable<Void>) {
+        observable
+            .subscribe(onNext: { self.delegate?.didTapBackButton() })
+            .disposed(by: disposeBag)
+    }
+    
 }

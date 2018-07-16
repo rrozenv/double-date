@@ -46,6 +46,13 @@ final class HomeRouter: Routable {
         return marketVc
     }()
     
+    lazy var invitationsVc: InvitationsListViewController = { [unowned self] in
+        var invitesVc = InvitationsListViewController()
+        var invitesVm = InvitationsListViewModel()
+        invitesVc.setViewModelBinding(model: invitesVm)
+        return invitesVc
+    }()
+    
     lazy var profileVc: ProfileViewController = { [unowned self] in
         var profileVc = ProfileViewController()
         var profileVm = ProfileViewModel()
@@ -77,8 +84,9 @@ extension HomeRouter {
     private func toFundDetails() {
         let tabVc = TabPageViewController(viewControllers: [fundVc,
                                                             marketVc,
+                                                            invitationsVc,
                                                             profileVc],
-                                          tabView: TabBarView(bttnCount: 3))
+                                          tabView: TabBarView(bttnCount: 4))
         navVc.pushViewController(tabVc, animated: true)
     }
     

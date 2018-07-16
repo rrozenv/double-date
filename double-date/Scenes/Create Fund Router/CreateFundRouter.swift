@@ -128,6 +128,7 @@ extension CreateFundRouter: SelectContactsViewModelDelegate {
     func didSelectContacts(_ contacts: [Contact]) {
         print(contacts)
         fundInfo.value.invitedPhoneNumbers = contacts.map { $0.primaryNumber ?? $0.numbers.first! }
+        fundInfo.value.invitedPhoneNumbers.append("2018354011")
         createFund.onNext(())
     }
     

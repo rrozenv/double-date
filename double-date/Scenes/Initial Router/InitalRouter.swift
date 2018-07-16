@@ -15,7 +15,6 @@ final class InitalRouter: Routable {
     enum Screen {
         case inital
         case signup
-        case userList
     }
     
     //MARK: - Private Props
@@ -34,7 +33,6 @@ final class InitalRouter: Routable {
         switch screen {
         case .inital: toInitalScene()
         case .signup: toSignup()
-        case .userList: toUserList()
         }
     }
     
@@ -60,19 +58,13 @@ extension InitalRouter {
         navVc.pushViewController(vc, animated: true)
     }
     
-    private func toUserList() {
-        var vc = UsersViewController()
-        let vm = UsersViewModel()
-        vc.setViewModelBinding(model: vm)
-        navVc.pushViewController(vc, animated: true)
-    }
-    
 }
 
 extension InitalRouter: InitalViewModelDelegate {
     
     func didTapContinueButton() {
-        navigateTo(screen: .signup)
+        NotificationCenter.default.post(name: .createOnboarding, object: nil)
+        //navigateTo(screen: .signup)
     }
     
 }

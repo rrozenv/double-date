@@ -19,9 +19,8 @@ protocol TextEntryable {
     func bindBackButton(_ observable: Observable<Void>)
 }
 
-protocol EnterNameViewModelDelegate: class {
+protocol EnterNameViewModelDelegate: BackButtonNavigatable {
     func didEnter(name: String, type: EnterNameViewModel.NameType)
-    func didTapBackButton(nameType: EnterNameViewModel.NameType)
 }
 
 struct EnterNameViewModel: TextEntryable {
@@ -74,7 +73,7 @@ struct EnterNameViewModel: TextEntryable {
     func bindBackButton(_ observable: Observable<Void>) {
         observable
             .subscribe(onNext: {
-                self.delegate?.didTapBackButton(nameType: self.nameType)
+                self.delegate?.didTapBackButton()
             })
             .disposed(by: disposeBag)
     }

@@ -64,10 +64,15 @@ final class FundTableCell: UITableViewCell {
         countLabel.text = "Return: \(value.portfolioROI * 100.0) %"
     }
     
+    func configureWith(value: Invitation) {
+        mainLabel.text = "You were invited to \(value.fundName) by \(value.sentBy.firstName)"
+        dateLabel.text = "\(value.status.rawValue)"
+    }
+    
 }
 
 extension FundTableCell {
-    
+
     //MARK: View Setup
     private func setupContainerView() {
         containerView = UIView()
