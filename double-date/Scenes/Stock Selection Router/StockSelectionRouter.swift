@@ -10,32 +10,37 @@ import Foundation
 import RxSwift
 
 final class PositionInfo {
-    var stock: Stock?
-    var positionType: PositionType?
+    var stock: Stock
+    var positionType: PositionType
     var fundIds = [String]()
     var sharesCount: Double = 0.0
+    var limitPrice: Double?
     
-    init(stock: Stock?, posType: PositionType?) {
+    init(stock: Stock, posType: PositionType) {
         self.stock = stock
         self.positionType = posType
     }
     
     var isValid: Bool {
-        return stock != nil
-            && positionType != nil
-            && fundIds.isNotEmpty
+        return fundIds.isNotEmpty
             && sharesCount > 0.0
     }
     
     var json: [String: Any] {
         return [
-            "type": positionType!.rawValue,
-            "ticker": stock!.symbol,
-            "buyPrice": stock!.latestPrice,
-            "currentPrice": stock!.latestPrice,
+            "type": positionType.rawValue,
+            "ticker": stock.symbol,
+            "buyPrice": isLimitPriceValid ? limitPrice! : stock.latestPrice,
+            "currentPrice": stock.latestPrice,
             "shares": 20,
-            "fundIds": fundIds
+            "fundIds": fundIds,
+            "orderType": isLimitPriceValid ? "openLimit" : "market"
         ]
+    }
+    
+    private var isLimitPriceValid: Bool {
+        guard let limitPrice = limitPrice else { return false }
+        return limitPrice < stock.latestPrice
     }
 }
 
@@ -76,7 +81,7 @@ final class StockSelectionRouter: Routable {
         self.activityIndicator = ActivityIndicator()
         self.errorTracker = ErrorTracker()
         self.screenOrder = [.stockDetail, .selectSharesCount]
-        self.positionInfo = Variable(PositionInfo(stock: stock, posType: nil))
+        self.positionInfo = Variable(PositionInfo(stock: stock, posType: .buy))
         self.cache.fetchObjects().asObservable()
             .bind(to: _funds)
             .disposed(by: disposeBag)
@@ -164,8 +169,9 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
     }
     
     //MARK: - Shares Selected
-    func didSelectNumberOfShares(_ sharesCount: Double) {
+     func didSelect(sharesCount: Double, limit: Double?) {
         positionInfo.value.sharesCount = sharesCount
+        positionInfo.value.limitPrice = limit
         if _funds.value.count == 1 {
             let fundIds = _funds.value.map { $0._id }
             positionInfo.value.fundIds.append(contentsOf: fundIds)

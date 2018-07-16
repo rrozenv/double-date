@@ -22,6 +22,7 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
     private var sharesTextInputView: TitleTextFieldView!
     private var stockPriceView: CustomStackView<UILabel>!
     private var totalPriceView: CustomStackView<UILabel>!
+    private var limitTextInputView: TitleTextFieldView!
     
     //MARK: - Views
     private var doneButton: UIButton!
@@ -48,6 +49,9 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
         
         let sharesText$ = sharesTextInputView.textField.rx.text.orEmpty.asObservable()
         viewModel.bindSharesText(sharesText$)
+        
+        let limitText$ = limitTextInputView.textField.rx.text.orEmpty.asObservable()
+        viewModel.bindLimitText(limitText$)
         
         viewModel.stock
             .drive(onNext: { [unowned self] in
@@ -118,7 +122,14 @@ extension StockPurchaseInfoViewController {
         totalPriceView.item(at: 1).textAlignment = .right
         totalPriceView.snp.makeConstraints { $0.height.equalTo(60) }
         
-        let stackView = UIStackView(arrangedSubviews: [sharesTextInputView, stockPriceView, totalPriceView])
+        limitTextInputView = TitleTextFieldView()
+        limitTextInputView.configureWith(mainLabelText: "Limit Buy (Optional)", placeHolderText: "$0.00")
+        limitTextInputView.snp.makeConstraints { $0.height.equalTo(60) }
+        
+        let stackView = UIStackView(arrangedSubviews: [sharesTextInputView,
+                                                       stockPriceView,
+                                                       totalPriceView,
+                                                       limitTextInputView])
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.spacing = 2.0

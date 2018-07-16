@@ -27,13 +27,17 @@ struct Portfolio: Codable, Identifiable {
 extension Portfolio {
     var positionsBuyValue: Double {
         return positions.reduce(0.0) { result, pos in
-            result + (pos.buyPrice * pos.shares)
+            return pos.isPendingBuy ?
+                    result :
+                    result + (pos.buyPrice * pos.shares)
         }
     }
     
     var positionsMarketValue: Double {
         return positions.reduce(0.0) { result, pos in
-            result + (pos.currentPrice * pos.shares)
+            return pos.isPendingBuy ?
+                    result :
+                    result + (pos.currentPrice * pos.shares)
         }
     }
     
@@ -47,6 +51,7 @@ struct Position: Codable, Identifiable {
     let user: String
     let fundIds: [String]
     let type: String
+    let orderType: OrderType
     let ticker: String
     let buyPrice: Double
     let currentPrice: Double
@@ -62,6 +67,14 @@ extension Position {
     var profitLoss: Double {
         return (buyPrice * shares) - (currentPrice * shares)
     }
+    
+    var isPendingBuy: Bool {
+        return orderType == .openLimit
+    }
+}
+
+enum OrderType: String, Codable {
+    case openLimit, closedLimit, market
 }
 
 struct Stock: Codable {

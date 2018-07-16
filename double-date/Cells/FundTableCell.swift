@@ -55,7 +55,7 @@ final class FundTableCell: UITableViewCell {
         mainLabel.text = value.ticker
         dateLabel.text = "Entry: \(value.buyPrice)"
         countLabel.text = "Current: \(value.currentPrice.asCurreny)"
-        rightLabel.text = "Total Value: \(value.totalPurchaseValue.asCurreny)"
+        rightLabel.text = "Total Value: \(value.isPendingBuy ? "PENDING BUY" : value.totalPurchaseValue.asCurreny)"
     }
     
     func configureWith(value: Portfolio) {

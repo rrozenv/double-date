@@ -11,7 +11,7 @@ import RxSwift
 import RxCocoa
 
 protocol StockPurchaseInfoViewModelDelegate: BackButtonNavigatable {
-    func didSelectNumberOfShares(_ sharesCount: Double)
+    func didSelect(sharesCount: Double, limit: Double?)
 }
 
 struct StockPurchaseInfoViewModel {
@@ -22,7 +22,9 @@ struct StockPurchaseInfoViewModel {
     private let _portflioCashBalance = Variable<Double?>(nil)
     private let _funds = Variable<[Fund]>([])
     private let cache: Cache = Cache<Fund>(path: "funds")
-    private let _sharesInputText = PublishSubject<String>()
+    private let _sharesInputText = Variable<String>("")
+    private let _limitInputText = Variable<String>("")
+    private let _stopInputText = Variable<String>("")
     
     let activityIndicator = PublishSubject<Bool>()
     let errorTracker = PublishSubject<NetworkError>()
@@ -50,6 +52,7 @@ struct StockPurchaseInfoViewModel {
             .asDriver(onErrorJustReturn: 0.0)
     }
     
+    // Displayed only if user has 1 portfolio
     var portfolioCashBalance: Driver<Double> {
         return _portflioCashBalance.asDriver()
             .filterNil()
@@ -81,13 +84,20 @@ struct StockPurchaseInfoViewModel {
             .disposed(by: disposeBag)
     }
     
+    func bindLimitText(_ observable: Observable<String>) {
+        observable
+            .bind(to: _limitInputText)
+            .disposed(by: disposeBag)
+    }
+    
     func bindContinueButton(_ observable: Observable<Void>) {
         observable
-            .withLatestFrom(_sharesInputText.asObservable())
-            .map { Double($0) }
-            .filterNil()
+            .map { (shares: Double(self._sharesInputText.value),
+                    limit: Double(self._limitInputText.value))
+            }
+            .filter { $0.shares != nil }
             .subscribe(onNext: {
-                self.delegate?.didSelectNumberOfShares($0)
+                self.delegate?.didSelect(sharesCount: $0.shares!, limit: $0.limit)
             })
             .disposed(by: disposeBag)
     }
