@@ -77,11 +77,24 @@ enum OrderType: String, Codable {
     case openLimit, closedLimit, market
 }
 
-struct Stock: Codable {
+struct Quote: Codable {
     let symbol: String
-    let companyName: String
+    let companyName: String?
     let latestPrice: Double
     let changePercent: Double
+}
+
+struct Stock: Codable {
+    let quote: Quote
+//    let symbol: String
+//    let companyName: String?
+//    let latestPrice: Double
+//    let changePercent: Double
+}
+
+struct StockSummary: Codable {
+    let symbol: String
+    let companyName: String?
 }
 
 struct Invitation: Codable {

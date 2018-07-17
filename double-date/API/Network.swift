@@ -38,11 +38,12 @@ final class Network<T: Codable> {
     
     func getItem(_ path: String,
                  parameters: [String: Any]? = nil,
+                 encoding: ParameterEncoding = JSONEncoding.default,
                  itemId: String,
                  headers: [String: String] = [Secrets.tokenKeyString: MyKeychain.shared.getStringFor(Secrets.tokenKeyString) ?? ""]) -> Observable<T> {
         let absolutePath = "\(baseUrl)/\(path)/\(itemId)"
         return manager.rx
-            .responseData(.get, absolutePath, parameters: parameters, headers: headers)
+            .responseData(.get, absolutePath, parameters: parameters, encoding: encoding, headers: headers)
             .observeOn(scheduler)
             .mapObject(type: T.self)
     }

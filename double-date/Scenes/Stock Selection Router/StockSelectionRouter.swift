@@ -29,9 +29,9 @@ final class PositionInfo {
     var json: [String: Any] {
         return [
             "type": positionType.rawValue,
-            "ticker": stock.symbol,
-            "buyPrice": isLimitPriceValid ? limitPrice! : stock.latestPrice,
-            "currentPrice": stock.latestPrice,
+            "ticker": stock.quote.symbol,
+            "buyPrice": isLimitPriceValid ? limitPrice! : stock.quote.latestPrice,
+            "currentPrice": stock.quote.latestPrice,
             "shares": 20,
             "fundIds": fundIds,
             "orderType": isLimitPriceValid ? "openLimit" : "market"
@@ -40,7 +40,7 @@ final class PositionInfo {
     
     private var isLimitPriceValid: Bool {
         guard let limitPrice = limitPrice else { return false }
-        return limitPrice < stock.latestPrice
+        return limitPrice < stock.quote.latestPrice
     }
 }
 
@@ -177,7 +177,7 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
             positionInfo.value.fundIds.append(contentsOf: fundIds)
             createPosition.onNext(())
         } else {
-            toSelectFund(totalPositionValue: sharesCount * stock.latestPrice)
+            toSelectFund(totalPositionValue: sharesCount * stock.quote.latestPrice)
         }
     }
     

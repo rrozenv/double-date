@@ -55,7 +55,7 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
         
         viewModel.stock
             .drive(onNext: { [unowned self] in
-                self.stockPriceView.item(at: 1).text = "\($0.latestPrice)"
+                self.stockPriceView.item(at: 1).text = "\($0.quote.latestPrice)"
             })
             .disposed(by: disposeBag)
         

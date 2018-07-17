@@ -48,7 +48,7 @@ struct StockPurchaseInfoViewModel {
     var totalPurchaseValue: Driver<Double> {
         return _sharesInputText.asObservable()
             .map { Double($0) }
-            .map { ($0 ?? 0.0) * self._stock.value.latestPrice }
+            .map { ($0 ?? 0.0) * self._stock.value.quote.latestPrice }
             .asDriver(onErrorJustReturn: 0.0)
     }
     

@@ -20,38 +20,76 @@ struct MarketViewModel {
     
     //MARK: - Properties
     private let stockService = StockService()
-    private let errorTracker: ErrorTracker
-    private let _stocks = Variable<[Stock]>([])
+    private let errorTracker = ErrorTracker()
+    private let activityIndicator = ActivityIndicator()
+    private let _stocks = Variable<[StockSummary]>([])
+    private let _popularStocks = Variable<[StockSummary]>([])
     weak var delegate: MarketViewModelDelegate?
     
-    //MARK: - Init
-    init(errorTracker: ErrorTracker = ErrorTracker()) {
-        self.errorTracker = errorTracker
-    }
-    
     //MARK: - Outputs
-    var stocks: Driver<[Stock]> {
-        return _stocks.asDriver()
+    var stocks: Driver<[StockSummary]> {
+        return Driver.merge(_popularStocks.asDriver(), _stocks.asDriver())
     }
     
     var error: Driver<NetworkError> {
         return errorTracker.asDriver()
     }
     
+    var isLoading: Driver<Bool> {
+        return activityIndicator.asDriver(onErrorJustReturn: false)
+    }
+    
     //MARK: - Inputs
     func bindFetchStocks(_ observable: Observable<Void>) {
         observable
+            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
             .flatMapLatest {
-                self.stockService.getStocks()
+                self.stockService.getPopularStocks()
                     .trackNetworkError(self.errorTracker)
+                    .trackActivity(self.activityIndicator)
+                    .asDriverOnErrorJustComplete()
+            }
+            .bind(to: _popularStocks)
+            .disposed(by: disposeBag)
+    }
+    
+    func bindSearchText(_ observable: Observable<String>) {
+        observable
+            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
+            .flatMapLatest {
+                self.stockService.getStockFor(query: $0)
+                    .trackNetworkError(self.errorTracker)
+                    .trackActivity(self.activityIndicator)
                     .asDriverOnErrorJustComplete()
             }
             .bind(to: _stocks)
             .disposed(by: disposeBag)
     }
     
+    func bindClearSearch(_ observable: Observable<Void>) {
+        observable
+            .subscribe(onNext: {
+                self._stocks.value = self._popularStocks.value
+            })
+            .disposed(by: disposeBag)
+    }
+    
     func bindSelectedStock(_ observable: Observable<Stock>) {
         observable
+            .subscribe(onNext: {
+                self.delegate?.didSelectStock($0)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func bindSelectedStockSummary(_ observable: Observable<StockSummary>) {
+        observable
+            .flatMapLatest {
+                self.stockService.getDetailsFor(stockSummary: $0)
+                    .trackNetworkError(self.errorTracker)
+                    .trackActivity(self.activityIndicator)
+            }
+            .observeOn(MainScheduler.instance)
             .subscribe(onNext: {
                 self.delegate?.didSelectStock($0)
             })

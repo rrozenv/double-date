@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 enum PositionType: String, Codable {
     case buy, sell
@@ -26,20 +27,29 @@ struct StockDetailViewModel {
     
     //MARK: - Properties
     let disposeBag = DisposeBag()
-    private let _stock: Variable<Stock>
+    private let stockService = StockService()
+    private let _stockSummary: Variable<StockSummary?>
+    private let _stock: Variable<Stock?>
     private let _display = PublishSubject<Void>()
     private let _shouldDismiss = PublishSubject<Void>()
     let activityIndicator = PublishSubject<Bool>()
-    let errorTracker = PublishSubject<NetworkError>()
+    let outerErrorTracker = PublishSubject<NetworkError>()
+    let innerErrorTracker = ErrorTracker()
     weak var delegate: StockDetailViewModelDelegate?
     
     init(stock: Stock) {
         self._stock = Variable(stock)
+        self._stockSummary = Variable(nil)
+    }
+    
+    init(stockSummary: StockSummary) {
+       self._stock = Variable(nil)
+       self._stockSummary = Variable(stockSummary)
     }
     
     //MARK: - Outputs
     var stock: Driver<Stock> {
-        return _stock.asDriver()
+        return _stock.asDriver().filterNil()
     }
     
     var shouldDismiss: Observable<Void> {
@@ -51,10 +61,23 @@ struct StockDetailViewModel {
     }
     
     var error: Driver<NetworkError> {
-        return errorTracker.asDriverOnErrorJustComplete()
+        return Driver.merge(outerErrorTracker.asDriverOnErrorJustComplete(), innerErrorTracker.asDriver())
     }
     
     //MARK: - Inputs
+    func bindFetchStockDetails(_ observable: Observable<Void>) {
+        observable
+            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
+            .map { self._stockSummary.value }
+            .filterNil()
+            .flatMapLatest {
+                self.stockService.getDetailsFor(stockSummary: $0)
+                    .trackNetworkError(self.innerErrorTracker)
+            }
+            .bind(to: _stock)
+            .disposed(by: disposeBag)
+    }
+    
     func bindSelectedPositionType(_ observable: Observable<PositionType>) {
         observable
             .subscribe(onNext: { type in
@@ -72,3 +95,49 @@ struct StockDetailViewModel {
     }
     
 }
+
+/// Testing
+
+//enum MultipleSectionModel {
+//    case quoteSection(title: String, items: [SectionItem])
+//    case newsSection(title: String, items: [SectionItem])
+//}
+//
+//enum SectionItem {
+//    case quoteSectionItem(Stock)
+//    case newsSectionItem(Stock)
+//}
+//
+//extension MultipleSectionModel: SectionModelType {
+//    typealias Item = SectionItem
+//
+//    var items: [SectionItem] {
+//        switch  self {
+//        case .quoteSection(title: _, items: let items):
+//            return items.map {$0}
+//        case .newsSection(title: _, items: let items):
+//            return items.map {$0}
+//        }
+//    }
+//
+//    init(original: MultipleSectionModel, items: [Item]) {
+//        switch original {
+//        case .quoteSection(title: title, items: let items):
+//             self = .quoteSection(title: title, items: items)
+//        case .newsSection(title: title, items: let items):
+//             self = .newsSection(title: title, items: items)
+//        }
+//    }
+//}
+//
+//extension MultipleSectionModel {
+//    var title: String {
+//        switch self {
+//        case .quoteSection(title: let title, items: _):
+//            return title
+//        case .newsSection(title: let title, items: _):
+//            return title
+//        }
+//    }
+//}
+

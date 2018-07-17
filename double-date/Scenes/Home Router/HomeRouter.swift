@@ -138,7 +138,7 @@ extension HomeRouter: FundListViewModelDelegate {
 }
 
 extension HomeRouter: MarketViewModelDelegate {
-    
+   
     func didSelectStock(_ stock: Stock) {
         stockSelectionRouter = StockSelectionRouter(stock: stock)
         

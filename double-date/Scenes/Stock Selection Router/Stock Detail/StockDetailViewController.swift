@@ -40,11 +40,14 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
         let backTapped$ = navView.backButton.rx.tap.asObservable()
         viewModel.bindBackButton(backTapped$)
         
+        let initialLoad$ = Observable.of(())
+        viewModel.bindFetchStockDetails(initialLoad$)
+        
         viewModel.stock
             .drive(onNext: { [unowned self] in
-                self.stackView.item(at: 0).text = $0.companyName
-                self.stackView.item(at: 1).text = "\($0.latestPrice)"
-                self.stackView.item(at: 2).text = "\($0.changePercent)"
+                self.stackView.item(at: 0).text = $0.quote.companyName
+                self.stackView.item(at: 1).text = "\($0.quote.latestPrice)"
+                self.stackView.item(at: 2).text = "\($0.quote.changePercent)"
             })
             .disposed(by: disposeBag)
         
