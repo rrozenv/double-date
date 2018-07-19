@@ -104,7 +104,7 @@ extension MarketViewController {
     
     private func setupSearchBarView() {
         searchBarView = SearchBarView()
-        searchBarView.style(placeHolder: "Search friends...", backColor: Palette.lightGrey.color, searchIcon: #imageLiteral(resourceName: "IC_Search"), clearIcon: #imageLiteral(resourceName: "IC_ClearSearch"))
+        searchBarView.style(placeHolder: "Search by ticker or company...", backColor: Palette.faintGrey.color, searchIcon: #imageLiteral(resourceName: "IC_Search"), clearIcon: #imageLiteral(resourceName: "IC_ClearSearch"))
         
         view.addSubview(searchBarView)
         searchBarView.snp.makeConstraints { (make) in

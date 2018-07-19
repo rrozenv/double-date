@@ -15,7 +15,7 @@ final class ErrorTracker: SharedSequenceConvertibleType {
     let _subject = PublishSubject<NetworkError>()
     
     func trackError<O: ObservableConvertibleType>(from source: O) -> Observable<O.E> {
-        return source.asObservable().do(onError: onError)
+        return source.asObservable().do(onError: onError).catchErrorJustComplete()
     }
     
     func asSharedSequence() -> SharedSequence<SharingStrategy, E> {

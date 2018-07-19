@@ -43,6 +43,7 @@ PODS:
   - RxSwiftExt/Core (3.2.0):
     - RxSwift (~> 4.0)
   - SnapKit (4.0.0)
+  - SwiftChart (1.0.1)
 
 DEPENDENCIES:
   - GoogleSignIn
@@ -55,6 +56,7 @@ DEPENDENCIES:
   - RxSwift (~> 4.0)
   - RxSwiftExt
   - SnapKit (~> 4.0.0)
+  - SwiftChart
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -73,6 +75,7 @@ SPEC REPOS:
     - RxSwift
     - RxSwiftExt
     - SnapKit
+    - SwiftChart
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
@@ -90,7 +93,8 @@ SPEC CHECKSUMS:
   RxSwift: e49536837d9901277638493ea537394d4b55f570
   RxSwiftExt: 64b7140124629a6a084159735f3714f0fb1c61d6
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SwiftChart: ba767a678d568a5ee22d419e146a0582865e1aff
 
-PODFILE CHECKSUM: 88bb70740afdd597abad21b3f2e043872b470bb2
+PODFILE CHECKSUM: 77d2ff9b059161cc925e7a2183fe5710c25d2d25
 
 COCOAPODS: 1.5.0

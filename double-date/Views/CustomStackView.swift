@@ -34,8 +34,9 @@ final class CustomStackView<View: UIView>: UIView {
     }
     
     private func setupStackView(number: Int, props: StackViewProps) {
-        for _ in 0..<number {
+        for i in 0..<number {
             let view = View()
+            view.tag = i
             self.views.append(view)
         }
         

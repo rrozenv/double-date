@@ -12,7 +12,8 @@ import Alamofire
 
 struct StockService {
     
-    let iexNetwork = Network<Stock>(Secrets.iexBaseURL)
+    let iexStockNetwork = Network<Stock>(Secrets.iexBaseURL)
+    let iexChartNetwork = Network<ChartPoint>(Secrets.iexBaseURL)
     let myNetwork = Network<StockSummary>(Secrets.baseURL)
 
     func getPopularStocks() -> Observable<[StockSummary]> {
@@ -28,10 +29,14 @@ struct StockService {
     }
     
     func getDetailsFor(stockSummary: StockSummary) -> Observable<Stock> {
-        return iexNetwork.getItem("stock",
-                                  parameters:  ["types": "quote"],
+        return iexStockNetwork.getItem("stock",
+                                  parameters:  ["types": "quote,news,chart", "range": "1d"],
                                   encoding: URLEncoding.default,
                                   itemId: "\(stockSummary.symbol)/batch")
+    }
+    
+    func getChartFor(symbol: String, range: String) -> Observable<[ChartPoint]> {
+        return iexChartNetwork.getItems("stock/\(symbol)/chart/\(range)")
     }
     
 }

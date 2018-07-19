@@ -84,12 +84,27 @@ struct Quote: Codable {
     let changePercent: Double
 }
 
+struct NewsArticle: Codable {
+    let headline: String
+    let source: String
+    let url: String
+    let summary: String
+    let image: String
+    //let datetime: Date
+}
+
+struct ChartPoint: Codable {
+    let date: String
+    let open: Double?
+    let high: Double?
+    let low: Double?
+    let close: Double?
+}
+
 struct Stock: Codable {
     let quote: Quote
-//    let symbol: String
-//    let companyName: String?
-//    let latestPrice: Double
-//    let changePercent: Double
+    let news: [NewsArticle]
+    let chart: [ChartPoint]
 }
 
 struct StockSummary: Codable {

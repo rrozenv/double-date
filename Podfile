@@ -12,4 +12,5 @@ target 'double-date' do
   pod 'GoogleSignIn'
   pod 'RxAlamofire'
   pod 'KeychainAccess'
+  pod 'SwiftChart'
 end

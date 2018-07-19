@@ -69,6 +69,17 @@ final class FundTableCell: UITableViewCell {
         dateLabel.text = "\(value.status.rawValue)"
     }
     
+    func configureWith(value: Quote) {
+        mainLabel.text = value.symbol
+        dateLabel.text = "\(value.companyName ?? "No Name")"
+        countLabel.text = "\(value.latestPrice)"
+    }
+    
+    func configureWith(value: NewsArticle) {
+        mainLabel.text = value.headline
+        dateLabel.text = value.url
+    }
+    
 }
 
 extension FundTableCell {

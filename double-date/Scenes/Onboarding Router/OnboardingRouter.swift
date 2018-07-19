@@ -156,8 +156,9 @@ extension OnboardingRouter: PhoneEntryViewModelDelegate {
     
     func didEnter(countryCode: String, phoneNumber: String) {
         onboardingInfo.value.phoneNumber = phoneNumber
-        screenIndex += 1
-        navigateTo(screen: .verificationCode(countryCode: countryCode, phoneNumber: phoneNumber))
+        createUser.onNext(()) //REMOVE LATER
+//        screenIndex += 1
+//        navigateTo(screen: .verificationCode(countryCode: countryCode, phoneNumber: phoneNumber))
     }
     
 }
