@@ -35,12 +35,15 @@ extension ChartData {
 }
 
 enum ChartRange: Int, CustomStringConvertible {
-    case day, month
+    case day, month, threeMonths, sixMonths, year
     
     var description: String {
         switch self {
         case .day: return "1d"
         case .month: return "1m"
+        case .threeMonths: return "3m"
+        case .sixMonths: return "6m"
+        case .year: return "1y"
         }
     }
 }
@@ -51,10 +54,8 @@ struct StockDetailViewModel {
     let disposeBag = DisposeBag()
     private let stockService = StockService()
     private let _stockSummary: Variable<StockSummary?>
-   
-    private let _chartData = Variable<[ChartData]>([])
-    private let _chartTimeSeries = Variable<[Double]>([])
-    
+    private let _storedChartData = Variable<[ChartData]>([])
+    private let _currentChartData = Variable<ChartData?>(nil)
     private let _stock: Variable<Stock>
     private let _display = PublishSubject<Void>()
     private let _shouldDismiss = PublishSubject<Void>()
@@ -66,26 +67,29 @@ struct StockDetailViewModel {
     init(stock: Stock) {
         self._stock = Variable(stock)
         self._stockSummary = Variable(nil)
-        self._chartData.value = [
+        self._storedChartData.value = [
             ChartData(range: .day, points: stock.chart),
-            ChartData(range: .month, points: [])
+            ChartData(range: .month, points: []),
+            ChartData(range: .threeMonths, points: []),
+            ChartData(range: .sixMonths, points: []),
+            ChartData(range: .year, points: [])
         ]
     }
     
     //MARK: - Outputs
-    var chartSeries: Driver<[Double]> {
-        return _chartTimeSeries.asDriver()
+    var chartSeries: Driver<ChartData> {
+        return _currentChartData.asDriver().filterNil()
     }
     
-    var sections: Observable<[MultipleSectionModel]> {
+    var sections: Observable<[StockDetailMultipleSectionModel]> {
         return _stock.asObservable()
             .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
             .map {
                 [
-                    MultipleSectionModel.quoteSection(title: "Quote",
+                    StockDetailMultipleSectionModel.quoteSection(title: "Quote",
                                                       items: [.quoteSectionItem($0.quote)]),
-                    MultipleSectionModel.newsSection(title: "News",
-                                                     items: $0.news.map { SectionItem.newsSectionItem($0) })
+                    StockDetailMultipleSectionModel.newsSection(title: "News",
+                                                     items: $0.news.map { StockDetailSectionItem.newsSectionItem($0) })
                 ]
             }
     }
@@ -107,24 +111,11 @@ struct StockDetailViewModel {
     }
     
     //MARK: - Inputs
-    func bindFetchStockDetails(_ observable: Observable<Void>) {
-        observable
-            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
-            .map { self._stockSummary.value }
-            .filterNil()
-            .flatMapLatest {
-                self.stockService.getDetailsFor(stockSummary: $0)
-                    .trackNetworkError(self.innerErrorTracker)
-            }
-            .bind(to: _stock)
-            .disposed(by: disposeBag)
-    }
-    
     func bindSelectedRange(_ observable: Observable<Int>) {
        observable
             .map { ChartRange(rawValue: $0) }.filterNil()
             .map { selectedRange -> Observable<ChartData> in
-                if let chartData = self._chartData.value.first(where: { $0.range == selectedRange }), chartData.points.isNotEmpty {
+                if let chartData = self._storedChartData.value.first(where: { $0.range == selectedRange }), chartData.points.isNotEmpty {
                     return .just(chartData)
                 } else {
                     return self.stockService
@@ -137,8 +128,7 @@ struct StockDetailViewModel {
             .do(onNext: { (chartData) in
                 self.updateStoredChartData(chartData)
             })
-            .map { $0.pointsAsDouble }
-            .bind(to: _chartTimeSeries)
+            .bind(to: _currentChartData)
             .disposed(by: disposeBag)
     }
     
@@ -159,56 +149,27 @@ struct StockDetailViewModel {
     }
     
     private func updateStoredChartData(_ newChartData: ChartData) {
-        guard let index = self._chartData.value.index(where: { $0.range == newChartData.range }) else { fatalError("No index for chart range") }
-        if self._chartData.value[index].points.isEmpty {
-            self._chartData.value[index].points = newChartData.points
+        guard let index = self._storedChartData.value.index(where: { $0.range == newChartData.range }) else { fatalError("No index for chart range") }
+        if self._storedChartData.value[index].points.isEmpty {
+            self._storedChartData.value[index].points = newChartData.points
         }
     }
     
 }
 
-/// Testing
+//    func bindFetchStockDetails(_ observable: Observable<Void>) {
+//        observable
+//            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
+//            .map { self._stockSummary.value }
+//            .filterNil()
+//            .flatMapLatest {
+//                self.stockService.getDetailsFor(stockSummary: $0)
+//                    .trackNetworkError(self.innerErrorTracker)
+//            }
+//            .bind(to: _stock)
+//            .disposed(by: disposeBag)
+//    }
 
-enum MultipleSectionModel {
-    case quoteSection(title: String, items: [SectionItem])
-    case newsSection(title: String, items: [SectionItem])
-}
 
-enum SectionItem {
-    case quoteSectionItem(Quote)
-    case newsSectionItem(NewsArticle)
-}
 
-extension MultipleSectionModel: SectionModelType {
-    typealias Item = SectionItem
-
-    var items: [SectionItem] {
-        switch  self {
-        case .quoteSection(title: _, items: let items):
-            return items.map {$0}
-        case .newsSection(title: _, items: let items):
-            return items.map {$0}
-        }
-    }
-    
-    init(original: MultipleSectionModel, items: [SectionItem]) {
-        switch original {
-        case .quoteSection(title: let title, items: let items):
-            self = .quoteSection(title: title, items: items)
-        case .newsSection(title: let title, items: let items):
-            self = .newsSection(title: title, items: items)
-        }
-    }
-}
-
-extension MultipleSectionModel {
-    var title: String {
-        switch self {
-        case .quoteSection(title: let title, items: _):
-            return title
-        case .newsSection(title: let title, items: _):
-            return title
-        }
-    }
-}
 

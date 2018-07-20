@@ -34,6 +34,7 @@ final class OnboardingRouter: Routable {
         case name
         case phoneNumber
         case verificationCode(countryCode: String, phoneNumber: String)
+        case enableNotifications
     }
     
     //MARK: - Private Props
@@ -72,9 +73,9 @@ final class OnboardingRouter: Routable {
                     .trackActivity(self.activityTracker)
             }
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: {
+            .subscribe(onNext: { [weak self] in
                 AppController.shared.setCurrentUser($0)
-                NotificationCenter.default.post(name: .createHomeVc, object: nil)
+                self?.navigateTo(screen: .enableNotifications)
             })
             .disposed(by: disposeBag)
     }
@@ -87,6 +88,7 @@ final class OnboardingRouter: Routable {
             case .verificationCode(countryCode: let code, phoneNumber: let phone):
                 self.toVerificationCode(countryCode: code, phoneNumber: phone)
             case .name: self.toFirstName()
+            case .enableNotifications: self.toEnableNotifications()
             }
         }
     }
@@ -133,6 +135,14 @@ extension OnboardingRouter {
         navVc.pushViewController(vc, animated: true)
     }
     
+    private func toEnableNotifications() {
+        var vc = EnableNotificationsViewController()
+        var vm = EnableNotificationsViewModel()
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
 }
 
 extension OnboardingRouter: InitalViewModelDelegate {
@@ -156,9 +166,9 @@ extension OnboardingRouter: PhoneEntryViewModelDelegate {
     
     func didEnter(countryCode: String, phoneNumber: String) {
         onboardingInfo.value.phoneNumber = phoneNumber
-        createUser.onNext(()) //REMOVE LATER
-//        screenIndex += 1
-//        navigateTo(screen: .verificationCode(countryCode: countryCode, phoneNumber: phoneNumber))
+        //createUser.onNext(()) //REMOVE LATER
+        screenIndex += 1
+        navigateTo(screen: .verificationCode(countryCode: countryCode, phoneNumber: phoneNumber))
     }
     
 }
@@ -166,7 +176,16 @@ extension OnboardingRouter: PhoneEntryViewModelDelegate {
 extension OnboardingRouter: PhoneVerificationViewModelDelegate {
 
     func didValidateVerificationCode() {
+        screenIndex += 1
         createUser.onNext(())
     }
     
+}
+
+extension OnboardingRouter: EnableNotificationsViewModelDelegate {
+    
+    func didSelectNotificationOption() {
+        NotificationCenter.default.post(name: .createHomeVc, object: nil)
+    }
+
 }

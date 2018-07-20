@@ -9,6 +9,7 @@
 import Foundation
 import RxSwift
 import RxDataSources
+import SwiftChart
 
 final class StockDetailViewController: UIViewController, CustomNavBarViewable, BindableType {
   
@@ -19,7 +20,7 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
     var navView: BackButtonNavView = BackButtonNavView.blackArrow
     var navBackgroundView: UIView = UIView()
     var stackView: CustomStackView<UILabel>!
-    var chartRangeButtons: CustomStackView<UIButton>!
+    var stockChartView: StockChartView = StockChartView()
     
     //MARK: - Views
     private var buyButton: UIButton!
@@ -30,7 +31,6 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
         setupNavBar()
         navView.containerView.backgroundColor = Palette.lightGrey.color
         navBackgroundView.backgroundColor = Palette.lightGrey.color
-        setupChartRangeButtons()
         setupTableView()
         setupBuyButton()
     }
@@ -45,16 +45,12 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
         let backTapped$ = navView.backButton.rx.tap.asObservable()
         viewModel.bindBackButton(backTapped$)
         
-        let initialLoad$ = Observable.of(())
-        viewModel.bindFetchStockDetails(initialLoad$)
+//        let initialLoad$ = Observable.of(())
+//        viewModel.bindFetchStockDetails(initialLoad$)
         
-        //let initalChartRange$ = Observable.of(0)
-        let chartButtonTapped$ = chartRangeButtons.views.map { button in
-            return button.rx.tap.asObservable().map { button.tag }
-        }
-        //chartButtonTapped$.insert(initalChartRange$, at: 0)
-        chartButtonTapped$.forEach {
-            viewModel.bindSelectedRange($0.startWith(0))
+        stockChartView.chartRangeButtons.views.forEach { button in
+            let rangeTappedTag$ = button.rx.tap.asObservable().map { button.tag }
+            viewModel.bindSelectedRange(rangeTappedTag$.startWith(0))
         }
         
         //MARK: - Outputs
@@ -64,8 +60,13 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
             .disposed(by: disposeBag)
         
         viewModel.chartSeries
-            .drive(onNext: {
-                print("Chart time series: \($0)")
+            .drive(onNext: { [weak self] chartData in
+                print("Chart time series: \(chartData.pointsAsDouble)")
+                self?.stockChartView.chart.removeAllSeries()
+                self?.stockChartView.chart.add(ChartSeries(chartData.pointsAsDouble))
+                self?.stockChartView.chartRangeButtons.setBackgroundColor(at: chartData.range.rawValue,
+                                                           color: .red,
+                                                           isUnique: true)
             })
             .disposed(by: disposeBag)
         
@@ -86,8 +87,8 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
 
 extension StockDetailViewController {
     
-    static func dataSource() -> RxTableViewSectionedReloadDataSource<MultipleSectionModel> {
-        return RxTableViewSectionedReloadDataSource<MultipleSectionModel>(
+    static func dataSource() -> RxTableViewSectionedReloadDataSource<StockDetailMultipleSectionModel> {
+        return RxTableViewSectionedReloadDataSource<StockDetailMultipleSectionModel>(
             configureCell: { (dataSource, table, idxPath, _) in
                 switch dataSource[idxPath] {
                 case let .quoteSectionItem(quote):
@@ -99,12 +100,10 @@ extension StockDetailViewController {
                     cell.configureWith(value: article)
                     return cell
                 }
-        },
-            titleForHeaderInSection: { dataSource, index in
+        }, titleForHeaderInSection: { dataSource, index in
                 let section = dataSource[index]
                 return section.title
-        }
-        )
+        })
     }
     
 }
@@ -120,25 +119,6 @@ extension StockDetailViewController {
         }
     }
     
-    private func setupChartRangeButtons() {
-        chartRangeButtons = CustomStackView<UIButton>(number: 2, stackViewProps: StackViewProps(axis: .horizontal, distribution: .fillEqually, spacing: 0))
-        chartRangeButtons.item(at: 0).style(title: "1d",
-                                            font: FontBook.AvenirMedium.of(size: 14),
-                                            backColor: .red,
-                                            titleColor: .white)
-        chartRangeButtons.item(at: 1).style(title: "1m",
-                                            font: FontBook.AvenirMedium.of(size: 14),
-                                            backColor: .blue,
-                                            titleColor: .white)
-        
-        view.addSubview(chartRangeButtons)
-        chartRangeButtons.snp.makeConstraints { (make) in
-            make.left.right.equalTo(view)
-            make.top.equalTo(navView.snp.bottom)
-            make.height.equalTo(50)
-        }
-    }
-    
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.register(FundTableCell.self, forCellReuseIdentifier: FundTableCell.defaultReusableId)
@@ -149,9 +129,15 @@ extension StockDetailViewController {
         tableView.separatorStyle = .singleLine
         tableView.backgroundColor = UIColor.white
         
+        tableView.tableHeaderView = stockChartView
+        stockChartView.snp.makeConstraints { (make) in
+            make.centerX.width.top.equalTo(tableView)
+            //make.height.equalTo(180)
+        }
+        
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(chartRangeButtons.snp.bottom)
+            make.top.equalTo(navView.snp.bottom)
             make.left.right.bottom.equalTo(view)
         }
     }

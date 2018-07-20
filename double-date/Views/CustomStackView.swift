@@ -33,6 +33,17 @@ final class CustomStackView<View: UIView>: UIView {
         return views[index]
     }
     
+    func setBackgroundColor(at index: Int, color: UIColor, isUnique: Bool) {
+        if isUnique {
+            views.forEach {
+                $0.backgroundColor = $0.tag == index ?
+                    color : .white
+            }
+        } else {
+            item(at: index).backgroundColor = color
+        }
+    }
+    
     private func setupStackView(number: Int, props: StackViewProps) {
         for i in 0..<number {
             let view = View()

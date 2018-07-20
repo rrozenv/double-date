@@ -7,8 +7,8 @@
 //
 
 import Foundation
-
 import RxSwift
+import Alamofire
 
 struct TwilioService {
     
@@ -26,6 +26,7 @@ struct TwilioService {
     func validateVerificationCode(params: [String: Any]) -> Observable<TwilioCodeResponse> {
         return verifCodeNetwork.getItem("phones/verification",
                                         parameters: params,
+                                        encoding: URLEncoding.default,
                                         itemId: "check",
                                         headers: headers)
     }

@@ -63,7 +63,7 @@ struct PhoneEntryViewModel {
             }
             .subscribe(onNext: { response in
                 self.delegate?.didEnter(countryCode: self.countryCode.value,
-                                        phoneNumber: self.numberText.value)
+                                        phoneNumber: self.numberText.value.digits)
             })
             .disposed(by: disposeBag)
     }

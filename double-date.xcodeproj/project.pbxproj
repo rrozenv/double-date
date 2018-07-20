@@ -53,7 +53,6 @@
 		98300A5F20D1F77800D7C4BA /* AppController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A5E20D1F77800D7C4BA /* AppController.swift */; };
 		98300A6620D1FEEE00D7C4BA /* InitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6520D1FEEE00D7C4BA /* InitialViewController.swift */; };
 		98300A6A20D1FF4C00D7C4BA /* InitialViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6920D1FF4C00D7C4BA /* InitialViewModel.swift */; };
-		98300A6C20D1FF9000D7C4BA /* InitalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */; };
 		98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */; };
 		98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A6F20D20F1F00D7C4BA /* Routable.swift */; };
 		9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9831E76F20E950BA00FFBB3D /* PositionService.swift */; };
@@ -80,10 +79,14 @@
 		986B6DEF20E46F63002BF93C /* StockDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B6DEE20E46F63002BF93C /* StockDetailViewModel.swift */; };
 		986B6DF120E47C67002BF93C /* FundTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B6DF020E47C67002BF93C /* FundTableCell.swift */; };
 		986B6DF320E47EA0002BF93C /* StockSelectionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B6DF220E47EA0002BF93C /* StockSelectionRouter.swift */; };
+		987F4A4E210232BC000F25C2 /* EnableNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987F4A4D210232BC000F25C2 /* EnableNotificationsViewController.swift */; };
+		987F4A50210232CB000F25C2 /* EnableNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */; };
 		988F318A20E17B6000084676 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988F318920E17B6000084676 /* AlertViewController.swift */; };
 		989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D420D3EB2800AD9F9F /* UserListViewModel.swift */; };
 		989963D720D3EB3500AD9F9F /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D620D3EB3500AD9F9F /* UserListViewController.swift */; };
 		989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */; };
+		98A8467F2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A8467E2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift */; };
+		98A846812100F095008535A6 /* StockChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A846802100F095008535A6 /* StockChartView.swift */; };
 		98B8B78420D303D4004BD6A1 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B8B78320D303D4004BD6A1 /* SignupViewController.swift */; };
 		98B8B78820D30D9E004BD6A1 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B8B78720D30D9E004BD6A1 /* Network.swift */; };
 		98C06E6E20DB3BD400426EEC /* FundDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C06E6D20DB3BD400426EEC /* FundDetailsViewModel.swift */; };
@@ -180,7 +183,6 @@
 		98300A5E20D1F77800D7C4BA /* AppController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		98300A6520D1FEEE00D7C4BA /* InitialViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewController.swift; sourceTree = "<group>"; };
 		98300A6920D1FF4C00D7C4BA /* InitialViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialViewModel.swift; sourceTree = "<group>"; };
-		98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitalRouter.swift; sourceTree = "<group>"; };
 		98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
 		98300A6F20D20F1F00D7C4BA /* Routable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Routable.swift; sourceTree = "<group>"; };
 		9831E76F20E950BA00FFBB3D /* PositionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionService.swift; sourceTree = "<group>"; };
@@ -207,10 +209,15 @@
 		986B6DEE20E46F63002BF93C /* StockDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailViewModel.swift; sourceTree = "<group>"; };
 		986B6DF020E47C67002BF93C /* FundTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundTableCell.swift; sourceTree = "<group>"; };
 		986B6DF220E47EA0002BF93C /* StockSelectionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSelectionRouter.swift; sourceTree = "<group>"; };
+		987F4A4D210232BC000F25C2 /* EnableNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewController.swift; sourceTree = "<group>"; };
+		987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewModel.swift; sourceTree = "<group>"; };
+		987F4A5121023CB1000F25C2 /* double-date.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "double-date.entitlements"; sourceTree = "<group>"; };
 		988F318920E17B6000084676 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		989963D420D3EB2800AD9F9F /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		989963D620D3EB3500AD9F9F /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkActivityLogger.swift; sourceTree = "<group>"; };
+		98A8467E2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailMultipleSectionModel.swift; sourceTree = "<group>"; };
+		98A846802100F095008535A6 /* StockChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockChartView.swift; sourceTree = "<group>"; };
 		98B8B78320D303D4004BD6A1 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		98B8B78720D30D9E004BD6A1 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		98C06E6D20DB3BD400426EEC /* FundDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundDetailsViewModel.swift; sourceTree = "<group>"; };
@@ -319,23 +326,16 @@
 			path = Market;
 			sourceTree = "<group>";
 		};
-		9806647220DD9A3000951DBD /* Initial Router */ = {
-			isa = PBXGroup;
-			children = (
-				98300A6B20D1FF9000D7C4BA /* InitalRouter.swift */,
-				98300A6420D1FE9400D7C4BA /* Inital */,
-				98B8B78220D303B2004BD6A1 /* Sign up */,
-			);
-			path = "Initial Router";
-			sourceTree = "<group>";
-		};
 		9806647320DD9AA300951DBD /* Onboarding Router */ = {
 			isa = PBXGroup;
 			children = (
 				98F77F2520D5921E005F4B66 /* OnboardingRouter.swift */,
+				98B8B78220D303B2004BD6A1 /* Google Sign up */,
+				98300A6420D1FE9400D7C4BA /* Inital */,
 				98F77F2720D5925C005F4B66 /* Name Entry */,
 				9806645220DD5B7B00951DBD /* Enter Phone Number */,
 				98E9B30520FA558700CF44DE /* Enter Verification Code */,
+				987F4A4C21023295000F25C2 /* Enable Notifications */,
 			);
 			path = "Onboarding Router";
 			sourceTree = "<group>";
@@ -399,6 +399,7 @@
 		983009FF20D1ED3C00D7C4BA /* double-date */ = {
 			isa = PBXGroup;
 			children = (
+				987F4A5121023CB1000F25C2 /* double-date.entitlements */,
 				98300A3220D1F01500D7C4BA /* Secrets.swift */,
 				98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */,
 				98300A5E20D1F77800D7C4BA /* AppController.swift */,
@@ -511,7 +512,6 @@
 		98300A6320D1FE8700D7C4BA /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				9806647220DD9A3000951DBD /* Initial Router */,
 				9806647320DD9AA300951DBD /* Onboarding Router */,
 				9806647420DD9AD600951DBD /* Home Router */,
 				986B6DF420E4894A002BF93C /* Stock Selection Router */,
@@ -562,6 +562,7 @@
 			children = (
 				986B6DEC20E46F58002BF93C /* StockDetailViewController.swift */,
 				986B6DEE20E46F63002BF93C /* StockDetailViewModel.swift */,
+				98A8467E2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift */,
 			);
 			path = "Stock Detail";
 			sourceTree = "<group>";
@@ -577,6 +578,15 @@
 			path = "Stock Selection Router";
 			sourceTree = "<group>";
 		};
+		987F4A4C21023295000F25C2 /* Enable Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				987F4A4D210232BC000F25C2 /* EnableNotificationsViewController.swift */,
+				987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */,
+			);
+			path = "Enable Notifications";
+			sourceTree = "<group>";
+		};
 		989963D320D3EB1300AD9F9F /* User List */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,12 +596,12 @@
 			path = "User List";
 			sourceTree = "<group>";
 		};
-		98B8B78220D303B2004BD6A1 /* Sign up */ = {
+		98B8B78220D303B2004BD6A1 /* Google Sign up */ = {
 			isa = PBXGroup;
 			children = (
 				98B8B78320D303D4004BD6A1 /* SignupViewController.swift */,
 			);
-			path = "Sign up";
+			path = "Google Sign up";
 			sourceTree = "<group>";
 		};
 		98C06E6C20DB3BAC00426EEC /* Create Fund */ = {
@@ -663,6 +673,7 @@
 				986AE2EF20DDDC9400A78E42 /* ImageLabelSublabelView.swift */,
 				981FA9FE20F43046005F2C22 /* FundInfoHeaderView.swift */,
 				981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */,
+				98A846802100F095008535A6 /* StockChartView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -747,6 +758,14 @@
 					983009FC20D1ED3C00D7C4BA = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.Wallet = {
+								enabled = 0;
+							};
+						};
 					};
 					98300A1020D1ED3C00D7C4BA = {
 						CreatedOnToolsVersion = 9.2;
@@ -876,7 +895,6 @@
 				98F77F3020D59497005F4B66 /* EnterNameViewController.swift in Sources */,
 				9809890020E316FD00C32BE0 /* MarketViewModel.swift in Sources */,
 				98300A5F20D1F77800D7C4BA /* AppController.swift in Sources */,
-				98300A6C20D1FF9000D7C4BA /* InitalRouter.swift in Sources */,
 				98B8B78820D30D9E004BD6A1 /* Network.swift in Sources */,
 				986AE2DC20DDD59700A78E42 /* SelectContactsViewController.swift in Sources */,
 				986AE2EA20DDD85E00A78E42 /* EmptyView.swift in Sources */,
@@ -892,6 +910,7 @@
 				98300A5B20D1F72900D7C4BA /* FontBook.swift in Sources */,
 				989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */,
 				98300A5420D1F6B800D7C4BA /* Observable+Ext.swift in Sources */,
+				98A846812100F095008535A6 /* StockChartView.swift in Sources */,
 				9852F97A20FC0E34009E4A9A /* InvitationService.swift in Sources */,
 				9806646820DD76FD00951DBD /* FundListViewController.swift in Sources */,
 				98300A3F20D1F5B700D7C4BA /* CustomNavViewable.swift in Sources */,
@@ -930,6 +949,7 @@
 				98300A4B20D1F64B00D7C4BA /* UIView+Ext.swift in Sources */,
 				98300A3A20D1F57B00D7C4BA /* BindableType.swift in Sources */,
 				986AE2EE20DDD94E00A78E42 /* UserContactTableCell.swift in Sources */,
+				98A8467F2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift in Sources */,
 				98300A0120D1ED3C00D7C4BA /* AppDelegate.swift in Sources */,
 				98FA5C9720E01FFB00FA4818 /* Keychain.swift in Sources */,
 				98C06E6E20DB3BD400426EEC /* FundDetailsViewModel.swift in Sources */,
@@ -944,7 +964,9 @@
 				986B6DF120E47C67002BF93C /* FundTableCell.swift in Sources */,
 				98E9B30420FA4F1700CF44DE /* TwilioPhoneResponse.swift in Sources */,
 				9806645F20DD73B400951DBD /* CustomStackView.swift in Sources */,
+				987F4A50210232CB000F25C2 /* EnableNotificationsViewModel.swift in Sources */,
 				9806644E20DD3CD100951DBD /* Fund.swift in Sources */,
+				987F4A4E210232BC000F25C2 /* EnableNotificationsViewController.swift in Sources */,
 				98300A5920D1F70E00D7C4BA /* ErrorTracker.swift in Sources */,
 				986AE2F020DDDC9400A78E42 /* ImageLabelSublabelView.swift in Sources */,
 				9834950720EC6647003AEC8B /* PortfolioListViewController.swift in Sources */,
@@ -1106,6 +1128,7 @@
 			baseConfigurationReference = 999279DFC7C0E1A1AC287809 /* Pods-double-date.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "double-date/double-date.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26Z24PM6F7;
 				INFOPLIST_FILE = "double-date/Info.plist";
@@ -1122,6 +1145,7 @@
 			baseConfigurationReference = F51F2B788A4F68569394B3BD /* Pods-double-date.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "double-date/double-date.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 26Z24PM6F7;
 				INFOPLIST_FILE = "double-date/Info.plist";
