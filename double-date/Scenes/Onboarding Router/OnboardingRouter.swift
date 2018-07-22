@@ -63,6 +63,10 @@ final class OnboardingRouter: Routable {
             .disposed(by: disposeBag)
     }
     
+    deinit {
+        print("OnboardingRouter deinit")
+    }
+    
     private func setupCreateUser() {
         self.createUser.asObservable()
             .withLatestFrom(onboardingInfo.asObservable())

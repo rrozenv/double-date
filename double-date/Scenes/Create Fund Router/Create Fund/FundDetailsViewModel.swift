@@ -15,6 +15,7 @@ struct FundDetails {
     var name: String = ""
     var maxPlayers: Int = 0
     var maxCashBalance: Int = 0
+    var startDate: Date = Date()
     var isValid: Bool {
         return name.count > 3 && maxPlayers > 0
     }
@@ -79,20 +80,29 @@ struct FundDetailsViewModel {
         return fundDetails.asDriver().map { $0.isValid }
     }
     
-    var tableSections: Driver<[FundDetailSection]> {
-        return Driver.of([
-            FundDetailSection(header: "Name", items: [FundDetailSection.Item.name]),
-            FundDetailSection(header: "Starting Cash Balance", items: [FundDetailSection.Item.maxCashBalance]),
-            FundDetailSection(header: "Max Players", items: [FundDetailSection.Item.maxPlayers])
+    var sections: Observable<[FundDetailsMultipleSectionModel]> {
+        return Observable.of([
+            FundDetailsMultipleSectionModel.nameSection(title: "Name", items: [.nameSectionItem(TextFieldTableCellProps.nameSection)]),
+            FundDetailsMultipleSectionModel.maxPlayersSection(title: "Players", items: [.maxPlayersSectionItem(TextFieldTableCellProps.maxPlayersSection)]),
+            FundDetailsMultipleSectionModel.maxCashBalanceSection(title: "Cash Balance", items: [.maxCashBalanceSectionItem(TextFieldTableCellProps.maxCashBalSection)]),
+            FundDetailsMultipleSectionModel.startDateSection(title: "Start Date", items: [.startDateSectionItem(DatePickerTableCellProps(title: "Start Date", startDate: Date()))])
         ])
     }
 
     //MARK: - Inputs
-    func bindTextEntry(text: String, type: FundDetailType) {
+    func bindDateEntry(date: Date, type: FundDetailsSectionItem) {
         switch type {
-        case .name: self.fundDetails.value.name = text
-        case .maxPlayers: self.fundDetails.value.maxPlayers = Int(text)!
-        case .maxCashBalance: self.fundDetails.value.maxCashBalance = Int(text)!
+        case .startDateSectionItem: self.fundDetails.value.startDate = date
+        default: break
+        }
+    }
+    
+    func bindTextEntry(text: String, type: FundDetailsSectionItem) {
+        switch type {
+        case .nameSectionItem: self.fundDetails.value.name = text
+        case .maxPlayersSectionItem: self.fundDetails.value.maxPlayers = Int(text)!
+        case .maxCashBalanceSectionItem: self.fundDetails.value.maxCashBalance = Int(text)!
+        default: break
         }
     }
     

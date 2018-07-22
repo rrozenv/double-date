@@ -1,19 +1,19 @@
 PODS:
-  - Alamofire (4.7.2)
+  - Alamofire (4.7.3)
   - Differentiator (3.0.2)
   - GoogleSignIn (4.1.2):
     - "GoogleToolboxForMac/NSDictionary+URLArguments (~> 2.1)"
     - "GoogleToolboxForMac/NSString+URLArguments (~> 2.1)"
     - GTMOAuth2 (~> 1.0)
     - GTMSessionFetcher/Core (~> 1.1)
-  - GoogleToolboxForMac/DebugUtils (2.1.3):
-    - GoogleToolboxForMac/Defines (= 2.1.3)
-  - GoogleToolboxForMac/Defines (2.1.3)
-  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.1.3)":
-    - GoogleToolboxForMac/DebugUtils (= 2.1.3)
-    - GoogleToolboxForMac/Defines (= 2.1.3)
-    - "GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)"
-  - "GoogleToolboxForMac/NSString+URLArguments (2.1.3)"
+  - GoogleToolboxForMac/DebugUtils (2.1.4):
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+  - GoogleToolboxForMac/Defines (2.1.4)
+  - "GoogleToolboxForMac/NSDictionary+URLArguments (2.1.4)":
+    - GoogleToolboxForMac/DebugUtils (= 2.1.4)
+    - GoogleToolboxForMac/Defines (= 2.1.4)
+    - "GoogleToolboxForMac/NSString+URLArguments (= 2.1.4)"
+  - "GoogleToolboxForMac/NSString+URLArguments (2.1.4)"
   - GTMOAuth2 (1.1.6):
     - GTMSessionFetcher (~> 1.1)
   - GTMSessionFetcher (1.1.15):
@@ -22,25 +22,25 @@ PODS:
   - GTMSessionFetcher/Full (1.1.15):
     - GTMSessionFetcher/Core (= 1.1.15)
   - KeychainAccess (3.1.1)
-  - Kingfisher (4.7.0)
+  - Kingfisher (4.8.0)
   - RxAlamofire (4.2.0):
     - RxAlamofire/Core (= 4.2.0)
   - RxAlamofire/Core (4.2.0):
     - Alamofire (~> 4.5)
     - RxSwift (~> 4)
-  - RxCocoa (4.1.2):
+  - RxCocoa (4.2.0):
     - RxSwift (~> 4.0)
   - RxDataSources (3.0.2):
     - Differentiator (~> 3.0)
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
-  - RxOptional (3.4.0):
+  - RxOptional (3.5.0):
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
-  - RxSwift (4.1.2)
-  - RxSwiftExt (3.2.0):
-    - RxSwiftExt/Core (= 3.2.0)
-  - RxSwiftExt/Core (3.2.0):
+  - RxSwift (4.2.0)
+  - RxSwiftExt (3.3.0):
+    - RxSwiftExt/Core (= 3.3.0)
+  - RxSwiftExt/Core (3.3.0):
     - RxSwift (~> 4.0)
   - SnapKit (4.0.0)
   - SwiftChart (1.0.1)
@@ -78,20 +78,20 @@ SPEC REPOS:
     - SwiftChart
 
 SPEC CHECKSUMS:
-  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
   GoogleSignIn: d9ef55b10f0aa401a5de2747f59b725e4b9732ac
-  GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
+  GoogleToolboxForMac: 91c824d21e85b31c2aae9bb011c5027c9b4e738f
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: 5fa5b80fd20e439ef5f545fb2cb3ca6c6714caa2
   KeychainAccess: 7bd430028059754a3debab3cfc0bd1fc7fb85df3
-  Kingfisher: da6b005aa96d37698e3e4f1ccfe96a5b9bbf27d6
+  Kingfisher: 976d828df2b24834c6a3f2fc4d82cdbd26552be1
   RxAlamofire: 87a9c588541210cc3e4a1f843ccc3ecf3eb98b31
-  RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
+  RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
   RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
-  RxOptional: fabc37fc8e3cf4c336ebaeb5c92b576c64b2e6c5
-  RxSwift: e49536837d9901277638493ea537394d4b55f570
-  RxSwiftExt: 64b7140124629a6a084159735f3714f0fb1c61d6
+  RxOptional: bd32ff8ca9df4177683d56ffeb618a9d4d5d5cad
+  RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
+  RxSwiftExt: 81afb48ab0602f503147417baeb3989d64c7687d
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SwiftChart: ba767a678d568a5ee22d419e146a0582865e1aff
 

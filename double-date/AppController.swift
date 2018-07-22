@@ -12,10 +12,6 @@ import RxSwift
 import RxCocoa
 import RxOptional
 
-//enum RootRouter {
-//    case inital(InitalRouter)
-//}
-
 final class AppController: UIViewController {
     
     static let shared = AppController()
@@ -91,7 +87,6 @@ final class AppController: UIViewController {
 extension AppController {
     
     @objc func switchViewController(with notification: Notification) {
-        print("recieved notif")
         switch notification.name {
         case Notification.Name.createOnboarding: switchToRouter(OnboardingRouter())
         case Notification.Name.createHomeVc: switchToRouter(HomeRouter())

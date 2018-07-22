@@ -44,6 +44,12 @@ final class TextFieldTableCell: UITableViewCell {
         textField.keyboardType = value.keyboardType
     }
     
+    func configureWith(value: TextFieldTableCellProps) {
+        mainLabel.text = value.title
+        textField.placeholder = value.placeHolderText
+        textField.keyboardType = value.keyBoardType
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         disposeBag = DisposeBag()

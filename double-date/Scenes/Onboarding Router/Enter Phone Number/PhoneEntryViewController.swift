@@ -46,8 +46,8 @@ class PhoneEntryViewController: UIViewController, BindableType, CustomNavBarView
     deinit { print("PhoneEntryViewController deinit") }
     
     func bindViewModel() {
-//        let backTapped$ = navView.backButton.rx.tap.asObservable()
-//        viewModel.bindBackButton(backTapped$)
+        let backTapped$ = navView.backButton.rx.tap.asObservable()
+        viewModel.bindBackButton(backTapped$)
         
         let nameText$ = textField.textField.rx.text.orEmpty.asObservable()
         viewModel.bindTextEntry(nameText$)

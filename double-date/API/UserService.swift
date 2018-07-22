@@ -12,6 +12,7 @@ import RxSwift
 struct UserService {
     
     let network = Network<User>(Secrets.baseURL)
+    private let disposeBag = DisposeBag()
     
     func getCurrentUser() -> Observable<User> {
         return network.getItem("users", itemId: "me")
@@ -23,6 +24,13 @@ struct UserService {
     
     func findUserBy(email: String) -> Observable<User?> {
         return network.getOptionalItem("users", itemId: email)
+    }
+    
+    func setApnTokenFor(user: User, token: String) {
+        network.postItem("users/\(user._id)/apnToken",
+                                parameters: ["token": token])
+            .subscribe()
+            .disposed(by: disposeBag)
     }
     
 }

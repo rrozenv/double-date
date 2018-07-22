@@ -48,12 +48,13 @@ struct EnableNotificationsViewModel {
             UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {
                 (granted, error) in
                 print("Permission granted: \(granted)")
-                guard granted else { return }
-                DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
-                    observer.onNext(())
-                    observer.onCompleted()
+                if granted {
+                    DispatchQueue.main.async {
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
                 }
+                observer.onNext(())
+                observer.onCompleted()
             }
             return Disposables.create()
         }

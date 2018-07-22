@@ -30,7 +30,7 @@ struct ChartData {
 
 extension ChartData {
     var pointsAsDouble: [Double] {
-        return points.flatMap { $0.close }
+        return points.compactMap { $0.close }
     }
 }
 

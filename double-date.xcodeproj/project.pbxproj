@@ -79,6 +79,8 @@
 		986B6DEF20E46F63002BF93C /* StockDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B6DEE20E46F63002BF93C /* StockDetailViewModel.swift */; };
 		986B6DF120E47C67002BF93C /* FundTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B6DF020E47C67002BF93C /* FundTableCell.swift */; };
 		986B6DF320E47EA0002BF93C /* StockSelectionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B6DF220E47EA0002BF93C /* StockSelectionRouter.swift */; };
+		987D54C121050A34007B3C53 /* FundDetailsMultipleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987D54C021050A34007B3C53 /* FundDetailsMultipleSectionModel.swift */; };
+		987D54C3210510B7007B3C53 /* DatePickerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987D54C2210510B7007B3C53 /* DatePickerTableCell.swift */; };
 		987F4A4E210232BC000F25C2 /* EnableNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987F4A4D210232BC000F25C2 /* EnableNotificationsViewController.swift */; };
 		987F4A50210232CB000F25C2 /* EnableNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */; };
 		988F318A20E17B6000084676 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988F318920E17B6000084676 /* AlertViewController.swift */; };
@@ -209,6 +211,8 @@
 		986B6DEE20E46F63002BF93C /* StockDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailViewModel.swift; sourceTree = "<group>"; };
 		986B6DF020E47C67002BF93C /* FundTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundTableCell.swift; sourceTree = "<group>"; };
 		986B6DF220E47EA0002BF93C /* StockSelectionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSelectionRouter.swift; sourceTree = "<group>"; };
+		987D54C021050A34007B3C53 /* FundDetailsMultipleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundDetailsMultipleSectionModel.swift; sourceTree = "<group>"; };
+		987D54C2210510B7007B3C53 /* DatePickerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTableCell.swift; sourceTree = "<group>"; };
 		987F4A4D210232BC000F25C2 /* EnableNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewController.swift; sourceTree = "<group>"; };
 		987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewModel.swift; sourceTree = "<group>"; };
 		987F4A5121023CB1000F25C2 /* double-date.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "double-date.entitlements"; sourceTree = "<group>"; };
@@ -609,6 +613,7 @@
 			children = (
 				98C06E6D20DB3BD400426EEC /* FundDetailsViewModel.swift */,
 				98C06E6F20DB401A00426EEC /* FundDetailsViewController.swift */,
+				987D54C021050A34007B3C53 /* FundDetailsMultipleSectionModel.swift */,
 			);
 			path = "Create Fund";
 			sourceTree = "<group>";
@@ -619,6 +624,7 @@
 				98C06E7220DB46A300426EEC /* TextFieldTableCell.swift */,
 				986AE2ED20DDD94E00A78E42 /* UserContactTableCell.swift */,
 				986B6DF020E47C67002BF93C /* FundTableCell.swift */,
+				987D54C2210510B7007B3C53 /* DatePickerTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -752,7 +758,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Cluk Labs";
 				TargetAttributes = {
 					983009FC20D1ED3C00D7C4BA = {
@@ -911,6 +917,7 @@
 				989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */,
 				98300A5420D1F6B800D7C4BA /* Observable+Ext.swift in Sources */,
 				98A846812100F095008535A6 /* StockChartView.swift in Sources */,
+				987D54C3210510B7007B3C53 /* DatePickerTableCell.swift in Sources */,
 				9852F97A20FC0E34009E4A9A /* InvitationService.swift in Sources */,
 				9806646820DD76FD00951DBD /* FundListViewController.swift in Sources */,
 				98300A3F20D1F5B700D7C4BA /* CustomNavViewable.swift in Sources */,
@@ -944,6 +951,7 @@
 				98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */,
 				98300A4F20D1F64B00D7C4BA /* UIStackView+Ext.swift in Sources */,
 				9806645620DD5BE500951DBD /* PhoneEntryViewModel.swift in Sources */,
+				987D54C121050A34007B3C53 /* FundDetailsMultipleSectionModel.swift in Sources */,
 				9806645420DD5BD700951DBD /* PhoneEntryViewController.swift in Sources */,
 				989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */,
 				98300A4B20D1F64B00D7C4BA /* UIView+Ext.swift in Sources */,
@@ -1030,6 +1038,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1037,6 +1046,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -1087,6 +1097,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -1094,6 +1105,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;

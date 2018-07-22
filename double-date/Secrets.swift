@@ -17,3 +17,5 @@ struct Secrets {
     static let iexBaseURL = "https://api.iextrading.com/1.0"
     static let tokenKeyString = "x-auth-token"
 }
+
+//Home: 192.168.1.4:3000
