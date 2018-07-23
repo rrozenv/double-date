@@ -17,9 +17,8 @@ struct ContactViewModel: Queryable {
     var filterById: String { return "\(contact.firstName) \(contact.lastName)" }
 }
 
-protocol SelectContactsViewModelDelegate: class {
+protocol SelectContactsViewModelDelegate: BackButtonNavigatable {
     func didSelectContacts(_ contacts: [Contact])
-    func didTapBackButton()
 }
 
 struct SelectContactsViewModel {

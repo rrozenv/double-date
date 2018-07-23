@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9805770421062B9D0006821E /* CreateFundFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805770321062B9D0006821E /* CreateFundFormViewController.swift */; };
+		9805770621062BAA0006821E /* CreateFundFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805770521062BAA0006821E /* CreateFundFormViewModel.swift */; };
+		98057708210666300006821E /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98057707210666300006821E /* Date+Ext.swift */; };
+		9805770A21067B760006821E /* CurrencyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805770921067B760006821E /* CurrencyTextField.swift */; };
 		9806644E20DD3CD100951DBD /* Fund.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806644D20DD3CD100951DBD /* Fund.swift */; };
 		9806645120DD5A5400951DBD /* CreateFundRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806645020DD5A5400951DBD /* CreateFundRouter.swift */; };
 		9806645420DD5BD700951DBD /* PhoneEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806645320DD5BD700951DBD /* PhoneEntryViewController.swift */; };
@@ -81,6 +85,8 @@
 		986B6DF320E47EA0002BF93C /* StockSelectionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 986B6DF220E47EA0002BF93C /* StockSelectionRouter.swift */; };
 		987D54C121050A34007B3C53 /* FundDetailsMultipleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987D54C021050A34007B3C53 /* FundDetailsMultipleSectionModel.swift */; };
 		987D54C3210510B7007B3C53 /* DatePickerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987D54C2210510B7007B3C53 /* DatePickerTableCell.swift */; };
+		987D54C6210542DA007B3C53 /* DateSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987D54C5210542DA007B3C53 /* DateSelectionViewController.swift */; };
+		987D54C8210542E7007B3C53 /* DateSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987D54C7210542E7007B3C53 /* DateSelectionViewModel.swift */; };
 		987F4A4E210232BC000F25C2 /* EnableNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987F4A4D210232BC000F25C2 /* EnableNotificationsViewController.swift */; };
 		987F4A50210232CB000F25C2 /* EnableNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */; };
 		988F318A20E17B6000084676 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988F318920E17B6000084676 /* AlertViewController.swift */; };
@@ -133,6 +139,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9805770321062B9D0006821E /* CreateFundFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFundFormViewController.swift; sourceTree = "<group>"; };
+		9805770521062BAA0006821E /* CreateFundFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFundFormViewModel.swift; sourceTree = "<group>"; };
+		98057707210666300006821E /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		9805770921067B760006821E /* CurrencyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyTextField.swift; sourceTree = "<group>"; };
 		9806644D20DD3CD100951DBD /* Fund.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fund.swift; sourceTree = "<group>"; };
 		9806645020DD5A5400951DBD /* CreateFundRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFundRouter.swift; sourceTree = "<group>"; };
 		9806645320DD5BD700951DBD /* PhoneEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneEntryViewController.swift; sourceTree = "<group>"; };
@@ -213,6 +223,8 @@
 		986B6DF220E47EA0002BF93C /* StockSelectionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSelectionRouter.swift; sourceTree = "<group>"; };
 		987D54C021050A34007B3C53 /* FundDetailsMultipleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundDetailsMultipleSectionModel.swift; sourceTree = "<group>"; };
 		987D54C2210510B7007B3C53 /* DatePickerTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTableCell.swift; sourceTree = "<group>"; };
+		987D54C5210542DA007B3C53 /* DateSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectionViewController.swift; sourceTree = "<group>"; };
+		987D54C7210542E7007B3C53 /* DateSelectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectionViewModel.swift; sourceTree = "<group>"; };
 		987F4A4D210232BC000F25C2 /* EnableNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewController.swift; sourceTree = "<group>"; };
 		987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewModel.swift; sourceTree = "<group>"; };
 		987F4A5121023CB1000F25C2 /* double-date.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "double-date.entitlements"; sourceTree = "<group>"; };
@@ -293,6 +305,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		9805770221062B790006821E /* Create Game */ = {
+			isa = PBXGroup;
+			children = (
+				9805770321062B9D0006821E /* CreateFundFormViewController.swift */,
+				9805770521062BAA0006821E /* CreateFundFormViewModel.swift */,
+			);
+			path = "Create Game";
+			sourceTree = "<group>";
+		};
 		9806645220DD5B7B00951DBD /* Enter Phone Number */ = {
 			isa = PBXGroup;
 			children = (
@@ -363,7 +384,9 @@
 			isa = PBXGroup;
 			children = (
 				9806645020DD5A5400951DBD /* CreateFundRouter.swift */,
+				9805770221062B790006821E /* Create Game */,
 				98C06E6C20DB3BAC00426EEC /* Create Fund */,
+				987D54C4210542B6007B3C53 /* Date Selection */,
 				986AE2DA20DDD55D00A78E42 /* Select Contacts */,
 			);
 			path = "Create Fund Router";
@@ -456,6 +479,7 @@
 				98300A4520D1F64A00D7C4BA /* UIViewController+Ext.swift */,
 				98300A5320D1F6B800D7C4BA /* Observable+Ext.swift */,
 				98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */,
+				98057707210666300006821E /* Date+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -582,6 +606,15 @@
 			path = "Stock Selection Router";
 			sourceTree = "<group>";
 		};
+		987D54C4210542B6007B3C53 /* Date Selection */ = {
+			isa = PBXGroup;
+			children = (
+				987D54C5210542DA007B3C53 /* DateSelectionViewController.swift */,
+				987D54C7210542E7007B3C53 /* DateSelectionViewModel.swift */,
+			);
+			path = "Date Selection";
+			sourceTree = "<group>";
+		};
 		987F4A4C21023295000F25C2 /* Enable Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -680,6 +713,7 @@
 				981FA9FE20F43046005F2C22 /* FundInfoHeaderView.swift */,
 				981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */,
 				98A846802100F095008535A6 /* StockChartView.swift */,
+				9805770921067B760006821E /* CurrencyTextField.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -882,7 +916,9 @@
 				98300A6A20D1FF4C00D7C4BA /* InitialViewModel.swift in Sources */,
 				98300A5D20D1F73E00D7C4BA /* Palette.swift in Sources */,
 				98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */,
+				9805770421062B9D0006821E /* CreateFundFormViewController.swift in Sources */,
 				98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */,
+				98057708210666300006821E /* Date+Ext.swift in Sources */,
 				986AE2EC20DDD90500A78E42 /* TitleView.swift in Sources */,
 				98FA5C9A20E0436500FA4818 /* ProfileViewController.swift in Sources */,
 				98FA5C9C20E0437000FA4818 /* ProfileViewModel.swift in Sources */,
@@ -898,6 +934,7 @@
 				98300A5220D1F69300D7C4BA /* KeyboardAvoidable.swift in Sources */,
 				9852F97820FC0DE1009E4A9A /* InvitationsListViewModel.swift in Sources */,
 				986AE2E220DDD68300A78E42 /* ValueCellDataSource.swift in Sources */,
+				987D54C8210542E7007B3C53 /* DateSelectionViewModel.swift in Sources */,
 				98F77F3020D59497005F4B66 /* EnterNameViewController.swift in Sources */,
 				9809890020E316FD00C32BE0 /* MarketViewModel.swift in Sources */,
 				98300A5F20D1F77800D7C4BA /* AppController.swift in Sources */,
@@ -919,6 +956,7 @@
 				98A846812100F095008535A6 /* StockChartView.swift in Sources */,
 				987D54C3210510B7007B3C53 /* DatePickerTableCell.swift in Sources */,
 				9852F97A20FC0E34009E4A9A /* InvitationService.swift in Sources */,
+				9805770A21067B760006821E /* CurrencyTextField.swift in Sources */,
 				9806646820DD76FD00951DBD /* FundListViewController.swift in Sources */,
 				98300A3F20D1F5B700D7C4BA /* CustomNavViewable.swift in Sources */,
 				9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */,
@@ -933,6 +971,7 @@
 				98E9B30920FA58CF00CF44DE /* PhoneVerificationViewController.swift in Sources */,
 				98300A3E20D1F5B700D7C4BA /* NotificationName+Ext.swift in Sources */,
 				98300A4120D1F63F00D7C4BA /* ConstraintMaker+Ext.swift in Sources */,
+				9805770621062BAA0006821E /* CreateFundFormViewModel.swift in Sources */,
 				9806646A20DD778500951DBD /* FundListViewModel.swift in Sources */,
 				98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */,
 				9809890220E3173A00C32BE0 /* StockService.swift in Sources */,
@@ -952,6 +991,7 @@
 				98300A4F20D1F64B00D7C4BA /* UIStackView+Ext.swift in Sources */,
 				9806645620DD5BE500951DBD /* PhoneEntryViewModel.swift in Sources */,
 				987D54C121050A34007B3C53 /* FundDetailsMultipleSectionModel.swift in Sources */,
+				987D54C6210542DA007B3C53 /* DateSelectionViewController.swift in Sources */,
 				9806645420DD5BD700951DBD /* PhoneEntryViewController.swift in Sources */,
 				989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */,
 				98300A4B20D1F64B00D7C4BA /* UIView+Ext.swift in Sources */,

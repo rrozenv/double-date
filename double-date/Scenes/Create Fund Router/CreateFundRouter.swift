@@ -33,7 +33,7 @@ final class FundInfo {
 
 final class CreateFundRouter: Routable {
     
-    enum Screen {
+    enum Screen: Int {
         case details
         case invites
     }
@@ -90,16 +90,34 @@ final class CreateFundRouter: Routable {
         }
     }
     
+    func didTapBackButton() {
+        guard let currentScreen = Screen(rawValue: screenIndex) else { return }
+        switch currentScreen {
+        case .details:
+            self.toPreviousScreen(completion: { [weak self] in
+                self?.dismiss.onNext(())
+            })
+        case .invites:
+            self.toPreviousScreen()
+        }
+    }
+    
 }
 
 extension CreateFundRouter {
     
     private func toFundDetails() {
-        var vc = FundDetailsViewController()
-        var vm = FundDetailsViewModel()
+        var vc = CreateFundFormViewController()
+        var vm = CreateFundFormViewModel()
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: false)
+        
+//        var vc = FundDetailsViewController()
+//        var vm = FundDetailsViewModel()
+//        vm.delegate = self
+//        vc.setViewModelBinding(model: vm)
+//        navVc.pushViewController(vc, animated: false)
     }
     
     private func toSelectContacts() {
@@ -112,12 +130,22 @@ extension CreateFundRouter {
 
 }
 
-extension CreateFundRouter: FundDetailsViewModelDelegate {
+//extension CreateFundRouter: FundDetailsViewModelDelegate {
+//
+//    func didEnterFund(details: FundDetails) {
+//        fundInfo.value.name = details.name
+//        fundInfo.value.maxPlayers = details.maxPlayers
+//        fundInfo.value.maxCashBalance = details.maxCashBalance
+//        self.toNextScreen()
+//    }
+//
+//}
+
+extension CreateFundRouter: CreateFundFormViewModelDelegate {
     
     func didEnterFund(details: FundDetails) {
         fundInfo.value.name = details.name
-        fundInfo.value.maxPlayers = details.maxPlayers
-        fundInfo.value.maxCashBalance = details.maxCashBalance
+        fundInfo.value.maxCashBalance = Int(details.maxCashBalance)
         self.toNextScreen()
     }
     
@@ -130,10 +158,6 @@ extension CreateFundRouter: SelectContactsViewModelDelegate {
         fundInfo.value.invitedPhoneNumbers = contacts.map { $0.primaryNumber ?? $0.numbers.first! }
         fundInfo.value.invitedPhoneNumbers.append("2018354011")
         createFund.onNext(())
-    }
-    
-    func didTapBackButton() {
-        self.toPreviousScreen()
     }
     
 }

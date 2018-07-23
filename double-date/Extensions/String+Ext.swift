@@ -30,6 +30,14 @@ extension Double {
         return currencyFormatter.string(from: NSNumber(value: self)) ?? "0.00"
     }
     
+    var asCurrenyOptional: String? {
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.usesGroupingSeparator = true
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.locale = Locale.current
+        return currencyFormatter.string(from: NSNumber(value: self))
+    }
+    
     var asPercentage: String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal

@@ -29,8 +29,6 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         setupNavBar()
-        navView.containerView.backgroundColor = Palette.lightGrey.color
-        navBackgroundView.backgroundColor = Palette.lightGrey.color
         setupTableView()
         setupBuyButton()
     }

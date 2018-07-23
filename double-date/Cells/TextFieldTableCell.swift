@@ -38,12 +38,6 @@ final class TextFieldTableCell: UITableViewCell {
     }
     
     // MARK: - Configuration
-    func configureWith(value: FundDetailType) {
-        mainLabel.text = value.title
-        textField.placeholder = value.placeHolder
-        textField.keyboardType = value.keyboardType
-    }
-    
     func configureWith(value: TextFieldTableCellProps) {
         mainLabel.text = value.title
         textField.placeholder = value.placeHolderText
@@ -82,3 +76,143 @@ extension TextFieldTableCell {
     }
     
 }
+
+final class TextFieldFormView: UIView {
+    
+    // MARK: - Properties
+    var disposeBag = DisposeBag()
+    private var mainLabel: UILabel!
+    var textField: UITextField!
+    var dividerView: UIView!
+    
+    // MARK: - Initialization
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        setupMainLabel()
+        setupTextField()
+        setupContainerStackView()
+        setupDividerView()
+    }
+    
+    // MARK: - Configuration
+    func configureWith(value: TextFieldTableCellProps) {
+        mainLabel.text = value.title
+        textField.placeholder = value.placeHolderText
+        textField.keyboardType = value.keyBoardType
+    }
+    
+}
+
+extension TextFieldFormView {
+    
+    //MARK: View Setup
+    private func setupMainLabel() {
+        mainLabel = UILabel().rxStyle(font: FontBook.AvenirMedium.of(size: 12), color: Palette.aqua.color, alignment: .left)
+    }
+    
+    private func setupTextField() {
+        textField = UITextField()
+        textField.style(placeHolder: "", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black)
+        textField.snp.makeConstraints { $0.height.equalTo(50) }
+    }
+    
+    private func setupContainerStackView() {
+        let stackView = UIStackView(arrangedSubviews: [mainLabel, textField])
+        stackView.axis = .vertical
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 0.5
+        
+        self.addSubview(stackView)
+        stackView.snp.makeConstraints { (make) in
+            make.top.equalTo(self).offset(15)
+            make.bottom.equalTo(self).offset(-2)
+            make.left.right.equalTo(self)
+        }
+    }
+    
+    private func setupDividerView() {
+        dividerView = UIView()
+        dividerView.backgroundColor = Palette.faintGrey.color
+        
+        self.addSubview(dividerView)
+        dividerView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(self)
+            make.height.equalTo(2)
+        }
+    }
+    
+}
+
+final class DatePickerFormView: UIView {
+    
+    // MARK: - Properties
+    var mainLabel: UILabel!
+    var displayedDateButton: UIButton!
+    var dividerView: UIView!
+    
+    // MARK: - Initialization
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        setupMainLabel()
+        setupDisplayedDateButton()
+        setupContainerStackView()
+        setupDividerView()
+    }
+    
+    // MARK: - Configuration
+    func configureWith(value: DatePickerTableCellProps) {
+        mainLabel.text = value.title
+    }
+    
+}
+
+extension DatePickerFormView {
+    
+    //MARK: View Setup
+    private func setupMainLabel() {
+        mainLabel = UILabel().rxStyle(font: FontBook.AvenirMedium.of(size: 12), color: Palette.aqua.color, alignment: .left)
+    }
+    
+    private func setupDisplayedDateButton() {
+        displayedDateButton = UIButton().rxStyle(title: "\(Date())",
+            font: FontBook.AvenirMedium.of(size: 14),
+            backColor: .clear, titleColor: .black)
+        displayedDateButton.contentHorizontalAlignment = .left
+        displayedDateButton.snp.makeConstraints { $0.height.equalTo(50) }
+    }
+    
+    private func setupContainerStackView() {
+        let labelButtonSv = UIStackView(arrangedSubviews: [mainLabel, displayedDateButton])
+        labelButtonSv.axis = .vertical
+        labelButtonSv.distribution = .equalSpacing
+        labelButtonSv.spacing = 0.5
+        
+        self.addSubview(labelButtonSv)
+        labelButtonSv.snp.makeConstraints { (make) in
+            make.top.equalTo(self).offset(15)
+            make.bottom.equalTo(self).offset(-2)
+            make.left.right.equalTo(self)
+        }
+    }
+    
+    private func setupDividerView() {
+        dividerView = UIView()
+        dividerView.backgroundColor = Palette.faintGrey.color
+        
+        self.addSubview(dividerView)
+        dividerView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(self)
+            make.height.equalTo(2)
+        }
+    }
+    
+}
+

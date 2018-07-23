@@ -23,6 +23,8 @@ extension CustomNavBarViewable where Self: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         setupNavView()
         setupNavBarBackgroundView()
+        navView.backgroundColor = Palette.lightGrey.color
+        navBackgroundView.backgroundColor = Palette.lightGrey.color
     }
     
     private func setupNavView() {

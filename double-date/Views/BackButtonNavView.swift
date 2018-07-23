@@ -11,7 +11,7 @@ import UIKit
 
 final class BackButtonNavView: UIView {
     
-    var containerView: UIView!
+    //var containerView: UIView!
     var backButton: UIButton!
     
     //MARK: Initalizer Setup
@@ -22,23 +22,19 @@ final class BackButtonNavView: UIView {
     init(backButtonImage: UIImage, imageSize: CGSize, leftMargin: CGFloat) {
         super.init(frame: .zero)
         self.backgroundColor = .clear
-        setupContainerView()
+        //setupContainerView()
         setupBackButton(image: backButtonImage, imageSize: imageSize, leftMargin: leftMargin)
     }
     
-    func style(backgroundColor: UIColor, backButtonImage: UIImage) {
-        containerView.backgroundColor = backgroundColor
-    }
-    
-    private func setupContainerView() {
-        containerView = UIView()
-        containerView.backgroundColor = UIColor.white
-        
-        self.addSubview(containerView)
-        containerView.snp.makeConstraints { (make) in
-            make.edges.equalTo(self)
-        }
-    }
+//    private func setupContainerView() {
+//        containerView = UIView()
+//        containerView.backgroundColor = UIColor.white
+//
+//        self.addSubview(containerView)
+//        containerView.snp.makeConstraints { (make) in
+//            make.edges.equalTo(self)
+//        }
+//    }
     
     private func setupBackButton(image: UIImage, imageSize: CGSize, leftMargin: CGFloat) {
         backButton = UIButton.paddedImageButton(image: image,
@@ -48,9 +44,9 @@ final class BackButtonNavView: UIView {
                                                 bottom: 15,
                                                 right: 20)
         
-        containerView.addSubview(backButton)
+        self.addSubview(backButton)
         backButton.snp.makeConstraints { (make) in
-            make.left.top.bottom.equalTo(containerView)
+            make.left.top.bottom.equalTo(self)
         }
     }
     

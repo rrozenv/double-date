@@ -28,8 +28,8 @@ class PhoneVerificationViewController: UIViewController, BindableType, CustomNav
         super.loadView()
         self.view.backgroundColor = .white
         setupNavBar()
-        navView.containerView.backgroundColor = Palette.lightGrey.color
-        navBackgroundView.backgroundColor = Palette.lightGrey.color
+//        navView.containerView.backgroundColor = Palette.lightGrey.color
+//        navBackgroundView.backgroundColor = Palette.lightGrey.color
         setupTextField()
         setupNextButton()
         setupContainerStackView()

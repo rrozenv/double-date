@@ -29,8 +29,8 @@ class PhoneEntryViewController: UIViewController, BindableType, CustomNavBarView
         super.loadView()
         self.view.backgroundColor = .white
         setupNavBar()
-        navView.containerView.backgroundColor = Palette.lightGrey.color
-        navBackgroundView.backgroundColor = Palette.lightGrey.color
+//        navView.containerView.backgroundColor = Palette.lightGrey.color
+//        navBackgroundView.backgroundColor = Palette.lightGrey.color
         setupMainLabel()
         setupTextField()
         setupNextButton()

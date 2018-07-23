@@ -20,7 +20,7 @@ class FundDetailsViewController: UIViewController, BindableType {
     private var tableView: UITableView!
     private var datePicker = UIDatePicker()
     private let shouldDisplayDatePicker = Variable(false)
-    var dataSource: RxTableViewSectionedReloadDataSource<FundDetailsMultipleSectionModel>!
+    var dataSource: RxTableViewSectionedAnimatedDataSource<FundDetailsMultipleSectionModel>!
     var isStartDatePickerHidden = true
     
     override func viewDidLoad() {
@@ -40,7 +40,7 @@ class FundDetailsViewController: UIViewController, BindableType {
         viewModel.bindContinueButton(continueTapped$)
         
         //MARK: - Output
-        dataSource = RxTableViewSectionedReloadDataSource<FundDetailsMultipleSectionModel>(configureCell: { [weak self] ds, tv, ip, item in
+        dataSource = RxTableViewSectionedAnimatedDataSource<FundDetailsMultipleSectionModel>(configureCell: { [weak self] ds, tv, ip, item in
             switch ds[ip] {
             case .nameSectionItem(let props),
                  .maxCashBalanceSectionItem(let props),
@@ -55,34 +55,18 @@ class FundDetailsViewController: UIViewController, BindableType {
                     .disposed(by: cell.disposeBag)
                 return cell
             case .startDateSectionItem(let props):
-                let cell = DatePickerTableCell(style: .default, reuseIdentifier: DatePickerTableCell.defaultReusableId)
-//                let cell = tv.dequeueReusableCell(withIdentifier: DatePickerTableCell.defaultReusableId, for: ip) as! DatePickerTableCell
+                let cell = tv.dequeueReusableCell(withIdentifier: DatePickerTableCell.defaultReusableId, for: ip) as! DatePickerTableCell
                 cell.configureWith(value: props)
-                cell.datePicker.rx.date.asObservable()
-                    .subscribe(onNext: { [weak cell] date in
-                        cell?.displayedDateButton.setTitle("\(date)", for: .normal)
-                        self?.viewModel.bindDateEntry(date: date, type: item)
-                    })
-                    .disposed(by: cell.disposeBag)
                 cell.displayedDateButton.rx.tap.asObservable()
-                    .subscribe(onNext: { [weak self, weak cell] in
-                        guard let sSelf = self else { return }
-                        print(sSelf.isStartDatePickerHidden)
-                        sSelf.isStartDatePickerHidden = !sSelf.isStartDatePickerHidden
-                        cell?.datePicker.isHidden = !sSelf.isStartDatePickerHidden
-                        sSelf.tableView.reloadSections([ip.section], animationStyle: .none)
+                    .subscribe(onNext: {
+                        var vc = DateSelectionViewController()
+                        let vm = DateSelectionViewModel()
+                        let selectedDate$ = vm.selectedDate.asObservable()
+                        self?.viewModel.bindDateEntry(selectedDate$)
+                        vc.setViewModelBinding(model: vm)
+                        self?.navigationController?.pushViewController(vc, animated: true)
                     })
                     .disposed(by: cell.disposeBag)
-//                cell.reload.asObservable()
-//                    .subscribe(onNext: {
-//                        self?.tableView.reloadSections([ip.section], animationStyle: .none)
-//                    })
-//                    .disposed(by: cell.disposeBag)
-//                cell.reload.asObservable()
-//                    .subscribe(onNext: {
-//                        self?.tableView.reloadData()
-//                    })
-//                    .disposed(by: cell.disposeBag)
                 return cell
             }
         })
@@ -151,3 +135,14 @@ extension FundDetailsViewController {
     }
     
 }
+
+//                        vm.selectedDate.asObservable()
+//                            .subscribe(onNext: { [weak cell] in
+//                                cell?.displayedDateButton.setTitle("\($0)", for: .normal)
+//                            })
+//                            .disposed(by: vm.disposeBag)
+//                        vc.willDismiss.asObservable()
+//                            .subscribe(onNext: {
+//                                self?.tableView.reloadData()
+//                            })
+//                            .disposed(by: vm.disposeBag)

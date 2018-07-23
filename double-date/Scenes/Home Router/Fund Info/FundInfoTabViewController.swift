@@ -48,8 +48,8 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-        navView.containerView.backgroundColor = Palette.lightGrey.color
-        navBackgroundView.backgroundColor = Palette.lightGrey.color
+//        navView.containerView.backgroundColor = Palette.lightGrey.color
+//        navBackgroundView.backgroundColor = Palette.lightGrey.color
         view.backgroundColor = UIColor.white
         self.actingVc = dataSource.controllerFor(index: 0)!
         self.transiton(to: actingVc!)

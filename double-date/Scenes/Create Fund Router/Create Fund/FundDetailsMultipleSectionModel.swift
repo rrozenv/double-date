@@ -47,46 +47,63 @@ enum FundDetailsSectionItem {
     case maxCashBalanceSectionItem(TextFieldTableCellProps)
     case maxPlayersSectionItem(TextFieldTableCellProps)
     case startDateSectionItem(DatePickerTableCellProps)
-    
-//    var title: String {
-//        switch self {
-//        case .nameSectionItem: return "Name"
-//        case .maxPlayersSectionItem: return "Max Players"
-//        case .maxCashBalanceSectionItem: return "Starting Balance"
-//
-//        }
-//    }
-//
-//    var keyboardType: UIKeyboardType {
-//        switch self {
-//        case .nameSectionItem: return .default
-//        case .maxPlayersSectionItem: return .decimalPad
-//        case .maxCashBalanceSectionItem: return .decimalPad
-//        }
-//    }
-//
-//    var placeHolder: String {
-//        switch self {
-//        case .nameSectionItem: return "Enter Name"
-//        case .maxPlayersSectionItem: return "0"
-//        case .maxCashBalanceSectionItem: return "0"
-//        }
-//    }
 }
 
-extension FundDetailsMultipleSectionModel: SectionModelType {
+extension FundDetailsSectionItem: IdentifiableType, Equatable {
+    static func == (lhs: FundDetailsSectionItem, rhs: FundDetailsSectionItem) -> Bool {
+        return lhs.identity == rhs.identity
+    }
+    
+    var identity: String {
+        switch self {
+        case .nameSectionItem(let props), .maxPlayersSectionItem(let props), .maxCashBalanceSectionItem(let props):
+            return props.title
+        case .startDateSectionItem(let props):
+            return props.title
+        }
+    }
+}
+
+extension FundDetailsMultipleSectionModel: AnimatableSectionModelType {
     typealias Item = FundDetailsSectionItem
     
     var items: [FundDetailsSectionItem] {
-        switch  self {
-        case .nameSection(title: _, items: let items):
-            return items.map { $0 }
-        case .maxPlayersSection(title: _, items: let items):
-            return items.map { $0 }
-        case .maxCashBalanceSection(title: _, items: let items):
-            return items.map { $0 }
-        case .startDateSection(title: _, items: let items):
-            return items.map { $0 }
+        get {
+            switch self {
+            case .nameSection(title: _, items: let items):
+                return items.map { $0 }
+            case .maxPlayersSection(title: _, items: let items):
+                return items.map { $0 }
+            case .maxCashBalanceSection(title: _, items: let items):
+                return items.map { $0 }
+            case .startDateSection(title: _, items: let items):
+                return items.map { $0 }
+            }
+        }
+        set {
+            switch self {
+            case .nameSection(title: _, items: var items):
+                items = newValue
+            case .maxPlayersSection(title: _, items: var items):
+                items = newValue
+            case .maxCashBalanceSection(title: _, items: var items):
+                items = newValue
+            case .startDateSection(title: _, items: var items):
+                items = newValue
+            }
+        }
+    }
+    
+    var identity: String {
+        switch self {
+        case .nameSection(title: let title, items: _):
+            return title
+        case .maxPlayersSection(title: let title, items: _):
+            return title
+        case .maxCashBalanceSection(title: let title, items: _):
+            return title
+        case .startDateSection(title: let title, items: _):
+            return title
         }
     }
     
@@ -118,3 +135,26 @@ extension FundDetailsMultipleSectionModel {
         }
     }
 }
+
+enum FundDetailsSectionType {
+    case name, maxPlayers, maxCashBalance
+}
+
+struct TestSectionModel: SectionModelType {
+    let title: String
+    var items: [Item]
+}
+
+extension TestSectionModel: AnimatableSectionModelType {
+    typealias Item = Int
+    
+    var identity: String {
+        return title
+    }
+    
+    init(original: TestSectionModel, items: [Item]) {
+        self = original
+        self.items = items
+    }
+}
+

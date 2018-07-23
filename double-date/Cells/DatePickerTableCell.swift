@@ -22,9 +22,6 @@ final class DatePickerTableCell: UITableViewCell {
     static let defaultReusableId: String = "DatePickerTableCell"
     private var mainLabel: UILabel!
     var displayedDateButton: UIButton!
-    var datePicker: UIDatePicker!
-    var isDatePickerHidden = true
-    var reload = PublishSubject<Void>()
     
     // MARK: - Initialization
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -42,24 +39,14 @@ final class DatePickerTableCell: UITableViewCell {
         self.selectionStyle = .none
         setupMainLabel()
         setupDisplayedDateButton()
-        setupDatePicker()
         setupContainerStackView()
     }
     
     // MARK: - Configuration
     func configureWith(value: DatePickerTableCellProps) {
         mainLabel.text = value.title
-        datePicker.setDate(value.startDate, animated: true)
-        datePicker.minimumDate = value.startDate
-        
-//        displayedDateButton.rx.tap.asObservable()
-//            .subscribe(onNext: { [unowned self] in
-//                print(!self.isDatePickerHidden)
-//                self.isDatePickerHidden = !self.isDatePickerHidden
-//                self.datePicker.isHidden = !self.isDatePickerHidden
-//                self.reload.onNext(())
-//            })
-//            .disposed(by: disposeBag)
+//        datePicker.setDate(value.startDate, animated: true)
+//        datePicker.minimumDate = value.startDate
     }
     
     override func prepareForReuse() {
@@ -83,22 +70,20 @@ extension DatePickerTableCell {
             backColor: .clear, titleColor: .black)
     }
     
-    private func setupDatePicker() {
-        datePicker = UIDatePicker()
-        //datePicker.snp.makeConstraints { $0.height.equalTo(140) }
-    }
+//    private func setupDatePicker() {
+//        datePicker = UIDatePicker()
+//        //datePicker.snp.makeConstraints { $0.height.equalTo(140) }
+//    }
 
     private func setupContainerStackView() {
         let labelButtonSv = UIStackView(arrangedSubviews: [mainLabel, displayedDateButton])
         labelButtonSv.axis = .horizontal
         labelButtonSv.distribution = .fillEqually
         
-        let stackView = UIStackView(arrangedSubviews: [labelButtonSv, datePicker])
+        let stackView = UIStackView(arrangedSubviews: [labelButtonSv])
         stackView.axis = .vertical
         stackView.distribution = .equalSpacing
         stackView.spacing = 5.0
-        
-        datePicker.isHidden = true
         
         contentView.addSubview(stackView)
         stackView.snp.makeConstraints { (make) in

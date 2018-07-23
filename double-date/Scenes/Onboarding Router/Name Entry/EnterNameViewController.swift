@@ -30,8 +30,8 @@ class EnterNameViewController<ViewModel: TextEntryable>: UIViewController, Binda
         self.view.backgroundColor = .white
         //resignKeyboardOnViewTouch()
         setupNavBar()
-        navView.containerView.backgroundColor = Palette.lightGrey.color
-        navBackgroundView.backgroundColor = Palette.lightGrey.color
+//        navView.containerView.backgroundColor = Palette.lightGrey.color
+//        navBackgroundView.backgroundColor = Palette.lightGrey.color
         setupMainLabel()
         setupTextField()
         setupNextButton()

@@ -31,8 +31,8 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         setupNavBar()
-        navView.containerView.backgroundColor = Palette.lightGrey.color
-        navBackgroundView.backgroundColor = Palette.lightGrey.color
+//        navView.containerView.backgroundColor = Palette.lightGrey.color
+//        navBackgroundView.backgroundColor = Palette.lightGrey.color
         createViews()
         setupDoneButton()
         setupCashBalanceLabel()
