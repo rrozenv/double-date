@@ -14,16 +14,11 @@ struct FundDetails {
     var name: String = ""
     var maxCashBalance: String = "0"
     var startDate: Date = Date()
-    var endDate: Date = Date()
+    var endDate: Date = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
     
     var isValid: Bool {
-        guard let maxCashBalInt = Int(maxCashBalance.digits) else { return false }
-        return name.count > 3 &&
-               maxCashBalInt > 0
-    }
-    
-    var validCashBalance: Double? {
-        return Double(maxCashBalance.digits) ?? nil
+        guard let cashDigitsOnly = Int(maxCashBalance.digits) else { return false }
+        return name.count > 3 && (cashDigitsOnly/10) > 0 && startDate < endDate
     }
 }
 
@@ -42,25 +37,12 @@ struct CreateFundFormViewModel {
     private let fundDetails = Variable<FundDetails>(FundDetails())
     weak var delegate: CreateFundFormViewModelDelegate?
     
-//    var formattedMaxCashBalance: Driver<String?> {
-//        return fundDetails.asDriver()
-//            .map { Double($0.maxCashBalance) }
-//            .do(onNext: {
-//                print($0)
-//            })
-//            .filterNil()
-//            .filter { $0 > 0.0 }
-//            .map {
-//                $0.asCurreny
-//            }
-//    }
-
     var isNextButtonEnabled: Driver<Bool> {
         return fundDetails.asDriver().map { $0.isValid }
     }
     
     var selectedDates: Driver<(start: String, end: String)> {
-        return fundDetails.asDriver().map { ($0.startDate.dayYear, $0.endDate.dayYear) }
+        return fundDetails.asDriver().map { ($0.startDate.dayMonthYearString, $0.endDate.dayMonthYearString) }
     }
     
     //MARK: - Inputs
@@ -81,9 +63,7 @@ struct CreateFundFormViewModel {
             .subscribe(onNext: { text in
                 switch type {
                 case .name: self.fundDetails.value.name = text
-                case .maxCashBalance:
-                    //guard let asDouble = Double(text.digits)?.asCurreny else { return }
-                    self.fundDetails.value.maxCashBalance = text
+                case .maxCashBalance: self.fundDetails.value.maxCashBalance = text
                 default: break
                 }
             })
@@ -93,6 +73,7 @@ struct CreateFundFormViewModel {
     func bindContinueButton(_ observable: Observable<Void>) {
         observable
             .subscribe(onNext: {
+                print(self.fundDetails.value)
                 self.delegate?.didEnterFund(details: self.fundDetails.value)
             })
             .disposed(by: disposeBag)

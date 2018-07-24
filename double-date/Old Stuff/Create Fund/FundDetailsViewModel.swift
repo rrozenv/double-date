@@ -29,13 +29,6 @@ struct FundDetailsViewModel {
         FundDetailsMultipleSectionModel.maxCashBalanceSection(title: "Cash Balance", items: [.maxCashBalanceSectionItem(TextFieldTableCellProps.maxCashBalSection)]),
         FundDetailsMultipleSectionModel.startDateSection(title: "Start Date", items: [.startDateSectionItem(DatePickerTableCellProps(title: "Start Date", startDate: Date()))])
     ])
-    
-//    private var _testSections = Variable<[TestSectionModel]>([
-//        TestSectionModel(title:"Name", items: [.nameSectionItem(TextFieldTableCellProps.nameSection)]),
-//        TestSectionModel(title:"Players", items: [.maxPlayersSectionItem(TextFieldTableCellProps.maxPlayersSection)]),
-//        TestSectionModel(title:"Cash Balance", items: [.maxCashBalanceSectionItem(TextFieldTableCellProps.maxCashBalSection)]),
-//        TestSectionModel(title:"Start Date", items: [.startDateSectionItem(DatePickerTableCellProps(title: "Start Date", startDate: Date()))])
-//    ])
 
     var isNextButtonEnabled: Driver<Bool> {
         return fundDetails.asDriver().map { $0.isValid }
@@ -45,18 +38,10 @@ struct FundDetailsViewModel {
         return _sections.asObservable()
     }
     
-//    var testSections: Observable<[TestSectionModel]> {
-//        return _testSections.asObservable()
-//    }
-
     //MARK: - Inputs
     func bindDateEntry(_ observable: Observable<Date>) {
         observable
-            .subscribe(onNext: {
-                self.fundDetails.value.startDate = $0
-                guard let index = self._sections.value.index(where: { $0.title == "Start Date" }) else { return }
-                self._sections.value[index].items[0] = .startDateSectionItem(DatePickerTableCellProps(title: "Start Date", startDate: $0))
-            })
+            .subscribe()
             .disposed(by: disposeBag)
     }
     

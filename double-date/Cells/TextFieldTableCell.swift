@@ -80,9 +80,10 @@ extension TextFieldTableCell {
 final class TextFieldFormView: UIView {
     
     // MARK: - Properties
+    let inputType: TextFieldInputType
     var disposeBag = DisposeBag()
     private var mainLabel: UILabel!
-    var textField: UITextField!
+    var textField: StyledTextField!
     var dividerView: UIView!
     
     // MARK: - Initialization
@@ -90,7 +91,8 @@ final class TextFieldFormView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init() {
+    init(inputType: TextFieldInputType) {
+        self.inputType = inputType
         super.init(frame: .zero)
         setupMainLabel()
         setupTextField()
@@ -101,8 +103,11 @@ final class TextFieldFormView: UIView {
     // MARK: - Configuration
     func configureWith(value: TextFieldTableCellProps) {
         mainLabel.text = value.title
-        textField.placeholder = value.placeHolderText
-        textField.keyboardType = value.keyBoardType
+        textField.styleTextField(placeHolder: value.placeHolderText,
+                                 font: FontBook.AvenirMedium.of(size: 14),
+                                 backColor: .white,
+                                 titleColor: .black,
+                                 keyboardType: value.keyBoardType)
     }
     
 }
@@ -115,8 +120,11 @@ extension TextFieldFormView {
     }
     
     private func setupTextField() {
-        textField = UITextField()
-        textField.style(placeHolder: "", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black)
+        textField = StyledTextField(style: .background,
+                                    inputType: inputType,
+                                    alignment: .left,
+                                    padding: 0)
+        textField.styleTextField(placeHolder: "", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black, keyboardType: inputType == .phoneNumber || inputType == .currency ? .numberPad : .default)
         textField.snp.makeConstraints { $0.height.equalTo(50) }
     }
     

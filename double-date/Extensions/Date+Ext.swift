@@ -10,9 +10,15 @@ import Foundation
 
 extension Date {
     
-    var dayYear: String {
+    var dayMonthYearString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy"
+        return dateFormatter.string(from: self)
+    }
+    
+    var dayMonthYearISO8601String: String {
+        let dateFormatter = ISO8601DateFormatter()
+        dateFormatter.formatOptions = [.withInternetDateTime]
         return dateFormatter.string(from: self)
     }
     

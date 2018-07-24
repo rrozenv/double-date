@@ -12,21 +12,29 @@ import RxSwift
 
 final class FundInfo {
     var name: String?
-    var maxPlayers: Int?
     var maxCashBalance: Int?
+    var startDate: Date?
+    var endDate: Date?
     var invitedPhoneNumbers: [String] = []
     
     var isValid: Bool {
-        guard let name = name, let maxPlayers = maxPlayers, let maxCashBalance = maxCashBalance else { return false }
-        return name.count > 3 && maxPlayers > 0 && invitedPhoneNumbers.count > 0 && maxCashBalance > 0
+        guard let name = name,
+              let maxCashBalance = maxCashBalance,
+              let startDate = startDate,
+              let endDate = endDate else { return false }
+        return name.count > 3 &&
+               invitedPhoneNumbers.count > 0 &&
+               maxCashBalance > 0 &&
+               startDate < endDate
     }
     
     var params: [String: Any] {
         return [
             "name": name ?? "",
-            "maxPlayers": maxPlayers ?? 0,
             "maxCashBalance": maxCashBalance ?? 0,
-            "invitedPhoneNumbers": invitedPhoneNumbers
+            "invitedPhoneNumbers": invitedPhoneNumbers,
+            "startDate": startDate?.dayMonthYearISO8601String ?? "",
+            "endDate": endDate?.dayMonthYearISO8601String ?? ""
         ]
     }
 }
@@ -62,7 +70,7 @@ final class CreateFundRouter: Routable {
             .withLatestFrom(fundInfo.asObservable())
             .filter { $0.isValid }
             .flatMapLatest { [unowned self] in
-                self.fundService.create(params:  $0.params)
+                self.fundService.create(params: $0.params)
                     .trackNetworkError(self.errorTracker)
                     .asDriverOnErrorJustComplete()
             }
@@ -112,12 +120,6 @@ extension CreateFundRouter {
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: false)
-        
-//        var vc = FundDetailsViewController()
-//        var vm = FundDetailsViewModel()
-//        vm.delegate = self
-//        vc.setViewModelBinding(model: vm)
-//        navVc.pushViewController(vc, animated: false)
     }
     
     private func toSelectContacts() {
@@ -130,22 +132,14 @@ extension CreateFundRouter {
 
 }
 
-//extension CreateFundRouter: FundDetailsViewModelDelegate {
-//
-//    func didEnterFund(details: FundDetails) {
-//        fundInfo.value.name = details.name
-//        fundInfo.value.maxPlayers = details.maxPlayers
-//        fundInfo.value.maxCashBalance = details.maxCashBalance
-//        self.toNextScreen()
-//    }
-//
-//}
-
 extension CreateFundRouter: CreateFundFormViewModelDelegate {
     
     func didEnterFund(details: FundDetails) {
         fundInfo.value.name = details.name
-        fundInfo.value.maxCashBalance = Int(details.maxCashBalance)
+        fundInfo.value.maxCashBalance = (Int(details.maxCashBalance)! / 100)
+        fundInfo.value.startDate = details.startDate
+        fundInfo.value.endDate = details.endDate
+        //print("ISO Date: \(details.startDate.dayMonthYearISO8601String)")
         self.toNextScreen()
     }
     
@@ -154,9 +148,10 @@ extension CreateFundRouter: CreateFundFormViewModelDelegate {
 extension CreateFundRouter: SelectContactsViewModelDelegate {
     
     func didSelectContacts(_ contacts: [Contact]) {
-        print(contacts)
+        //print(contacts)
         fundInfo.value.invitedPhoneNumbers = contacts.map { $0.primaryNumber ?? $0.numbers.first! }
         fundInfo.value.invitedPhoneNumbers.append("2018354011")
+        print(fundInfo.value)
         createFund.onNext(())
     }
     

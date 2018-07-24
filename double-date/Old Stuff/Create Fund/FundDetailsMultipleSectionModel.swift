@@ -80,18 +80,6 @@ extension FundDetailsMultipleSectionModel: AnimatableSectionModelType {
                 return items.map { $0 }
             }
         }
-        set {
-            switch self {
-            case .nameSection(title: _, items: var items):
-                items = newValue
-            case .maxPlayersSection(title: _, items: var items):
-                items = newValue
-            case .maxCashBalanceSection(title: _, items: var items):
-                items = newValue
-            case .startDateSection(title: _, items: var items):
-                items = newValue
-            }
-        }
     }
     
     var identity: String {

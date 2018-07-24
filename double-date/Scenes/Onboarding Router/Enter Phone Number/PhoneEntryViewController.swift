@@ -29,8 +29,6 @@ class PhoneEntryViewController: UIViewController, BindableType, CustomNavBarView
         super.loadView()
         self.view.backgroundColor = .white
         setupNavBar()
-//        navView.containerView.backgroundColor = Palette.lightGrey.color
-//        navBackgroundView.backgroundColor = Palette.lightGrey.color
         setupMainLabel()
         setupTextField()
         setupNextButton()
@@ -40,7 +38,7 @@ class PhoneEntryViewController: UIViewController, BindableType, CustomNavBarView
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        textField.textField.becomeFirstResponder()
+        textField.showKeyboard()
     }
     
     deinit { print("PhoneEntryViewController deinit") }
@@ -49,19 +47,13 @@ class PhoneEntryViewController: UIViewController, BindableType, CustomNavBarView
         let backTapped$ = navView.backButton.rx.tap.asObservable()
         viewModel.bindBackButton(backTapped$)
         
-        let nameText$ = textField.textField.rx.text.orEmpty.asObservable()
-        viewModel.bindTextEntry(nameText$)
+        viewModel.bindTextEntry(textField.textOutput)
         
         let nextTapped$ = nextButton.rx.tap.asObservable()
         viewModel.bindContinueButton(nextTapped$)
         
         let clearTapped$ = textField.clearButton.rx.tap.asObservable()
-            .do(onNext: { [unowned self] in self.textField.textField.text = nil })
         viewModel.bindClearButton(clearTapped$)
-        
-        viewModel.formattedPhoneNumber
-            .drive(textField.textField.rx.text)
-            .disposed(by: disposeBag)
         
         viewModel.isPhoneNumberValid
             .drive(onNext: { [unowned self] in
@@ -90,7 +82,7 @@ class PhoneEntryViewController: UIViewController, BindableType, CustomNavBarView
                                     padding: 40)
         textField.countryCodeButton?.label.style(font: FontBook.AvenirHeavy.of(size: 18), color: .black, alignment: .center)
         textField.countryCodeButton?.label.text = "+1"
-        textField.textField.style(placeHolder: "Enter Phone Number", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black)
+        textField.styleTextField(placeHolder: "Enter Phone Number", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black, keyboardType: .numberPad)
     }
     
     private func setupNextButton() {

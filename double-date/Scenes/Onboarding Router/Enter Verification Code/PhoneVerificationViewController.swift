@@ -38,7 +38,7 @@ class PhoneVerificationViewController: UIViewController, BindableType, CustomNav
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        textField.textField.becomeFirstResponder()
+        textField.showKeyboard()
     }
     
     deinit { print("PhoneVerificationViewController deinit") }
@@ -47,14 +47,14 @@ class PhoneVerificationViewController: UIViewController, BindableType, CustomNav
         let backTapped$ = navView.backButton.rx.tap.asObservable()
         viewModel.bindBackButton(backTapped$)
         
-        let nameText$ = textField.textField.rx.text.orEmpty.asObservable()
-        viewModel.bindTextEntry(nameText$)
+        //let nameText$ = textField.textField.rx.text.orEmpty.asObservable()
+        viewModel.bindTextEntry(textField.textOutput)
         
         let nextTapped$ = nextButton.rx.tap.asObservable()
         viewModel.bindContinueButton(nextTapped$)
         
         let clearTapped$ = textField.clearButton.rx.tap.asObservable()
-            .do(onNext: { [unowned self] in self.textField.textField.text = nil })
+            .do(onNext: { [unowned self] in self.textField.clearText() })
         viewModel.bindClearButton(clearTapped$)
         
         viewModel.isCodeValid
@@ -75,7 +75,7 @@ class PhoneVerificationViewController: UIViewController, BindableType, CustomNav
                                     inputType: .regularText,
                                     alignment: .center,
                                     padding: 0)
-        textField.textField.style(placeHolder: "Enter Verification Code", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black)
+        textField.styleTextField(placeHolder: "Enter Verification Code", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black, keyboardType: .numberPad)
     }
     
     private func setupNextButton() {

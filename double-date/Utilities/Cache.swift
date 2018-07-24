@@ -53,8 +53,10 @@ final class Cache<T: Codable & Identifiable> {
                 .appendingPathComponent(FileNames.objectsFileName)
             self.createDirectoryIfNeeded(at: directoryURL)
             do {
+                let encoder = JSONEncoder()
+                encoder.dateEncodingStrategy = .iso8601
                 try NSKeyedArchiver
-                    .archivedData(withRootObject: try! JSONEncoder().encode(objects)).write(to: path)
+                    .archivedData(withRootObject: try! encoder.encode(objects)).write(to: path)
                 observer(.completed)
             } catch {
                 observer(.error(NetworkError.cacheEncodingError(error)))
@@ -113,7 +115,9 @@ final class Cache<T: Codable & Identifiable> {
             }
             
             do {
-                let objects = try JSONDecoder().decode([T].self, from: data)
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .iso8601
+                let objects = try decoder.decode([T].self, from: data)
                 print("Retrieved \(objects.count) from cache")
                 observer(MaybeEvent.success(objects))
             } catch {
@@ -131,7 +135,9 @@ final class Cache<T: Codable & Identifiable> {
             return nil
         }
         do {
-            return try JSONDecoder().decode([T].self, from: data)
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            return try decoder.decode([T].self, from: data)
         } catch {
             return nil
         }
@@ -147,8 +153,10 @@ final class Cache<T: Codable & Identifiable> {
     
     private func encodeObjects(_ objects: [T], to path: URL, completion: (Bool) -> Void) {
         do {
+            let encoder = JSONEncoder()
+            encoder.dateEncodingStrategy = .iso8601
             try NSKeyedArchiver
-                .archivedData(withRootObject: try! JSONEncoder().encode(objects)).write(to: path)
+                .archivedData(withRootObject: try! encoder.encode(objects)).write(to: path)
             completion(true)
         } catch {
             completion(false)

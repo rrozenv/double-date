@@ -20,7 +20,6 @@ class CreateFundFormViewController: UIViewController, CustomNavBarViewable, Bind
     private var nameFormView: TextFieldFormView!
     private var initalInvestmentFormView: TextFieldFormView!
     private var currencyTextField: CurrencyTextField!
-    private var maxPlayersFormView: TextFieldFormView!
     private var startDateFormView: DatePickerFormView!
     private var endDateFormView: DatePickerFormView!
     private var datePicker = UIDatePicker()
@@ -49,17 +48,14 @@ class CreateFundFormViewController: UIViewController, CustomNavBarViewable, Bind
         let backTapped$ = navView.backButton.rx.tap.asObservable()
         viewModel.bindBackButton(backTapped$)
         
-        let nameTextInput$ = nameFormView.textField.rx.text.orEmpty.asObservable().filterEmpty()
-        //let initalInvTextInput$ = initalInvestmentFormView.textField.rx.text.orEmpty.asObservable().filterEmpty()
-        let currencyTextInput$ = currencyTextField.amount.asObservable().map { String($0) }
-        //let maxPlayersTextInput$ = initalInvestmentFormView.textField.rx.text.orEmpty.asObservable().filterEmpty()
+        let nameTextInput$ = nameFormView.textField.textOutput.filterEmpty()
+        let initalInvTextInput$ = initalInvestmentFormView.textField.textOutput.filterEmpty()
         let startDateTextInput$ = datePicker.rx.date.asObservable()
             .filter { [unowned self] _ in !self.isStartDatePickerHidden }
         let endDateTextInput$ = datePicker.rx.date.asObservable()
             .filter { [unowned self] _ in !self.isEndDatePickerHidden }
         viewModel.bindTextEntry(nameTextInput$, type: .name)
-        viewModel.bindTextEntry(currencyTextInput$, type: .maxCashBalance)
-        //viewModel.bindTextEntry(maxPlayersTextInput$, type: .maxPlayers)
+        viewModel.bindTextEntry(initalInvTextInput$, type: .maxCashBalance)
         viewModel.bindDateEntry(startDateTextInput$, type: .startDate)
         viewModel.bindDateEntry(endDateTextInput$, type: .endDate)
         
@@ -78,15 +74,18 @@ class CreateFundFormViewController: UIViewController, CustomNavBarViewable, Bind
             })
             .disposed(by: disposeBag)
         
-//        viewModel.formattedMaxCashBalance
-//            .drive(initalInvestmentFormView.textField.rx.text)
-//            .disposed(by: disposeBag)
+        initalInvestmentFormView.textField.enterLowerCurrencyAmt
+            .subscribe(onNext: { [unowned self] in
+                self.displayEnterLowerCapitalAmount(amount: $0)
+            })
+            .disposed(by: disposeBag)
         
         //MARK: - View Updates
         startDateFormView.displayedDateButton.rx.tap.asObservable()
             .subscribe(onNext: { [unowned self] in
                 self.resignFirstResponder()
                 self.isStartDatePickerHidden = !self.isStartDatePickerHidden
+                self.isEndDatePickerHidden = !self.isStartDatePickerHidden
                 self.datePicker.isHidden = self.isStartDatePickerHidden
             })
             .disposed(by: disposeBag)
@@ -95,6 +94,7 @@ class CreateFundFormViewController: UIViewController, CustomNavBarViewable, Bind
             .subscribe(onNext: { [unowned self] in
                 self.resignFirstResponder()
                 self.isEndDatePickerHidden = !self.isEndDatePickerHidden
+                self.isStartDatePickerHidden = !self.isEndDatePickerHidden
                 self.datePicker.isHidden = self.isEndDatePickerHidden
             })
             .disposed(by: disposeBag)
@@ -109,26 +109,34 @@ class CreateFundFormViewController: UIViewController, CustomNavBarViewable, Bind
     
 }
 
+extension CreateFundFormViewController {
+    
+    private func displayEnterLowerCapitalAmount(amount: Int) {
+        let alertInfo = AlertViewController.AlertInfo.enterLowerCapitalAmount(amount: amount)
+        let alertVc = AlertViewController(alertInfo: alertInfo, okAction: nil)
+        self.displayAlert(vc: alertVc)
+    }
+    
+}
+
 
 extension CreateFundFormViewController {
     
     private func setupForm() {
-        nameFormView = TextFieldFormView()
+        nameFormView = TextFieldFormView(inputType: .regularText)
         nameFormView.configureWith(value: TextFieldTableCellProps(title: "Game Name", keyBoardType: .default, placeHolderText: "Enter Name..."))
-        initalInvestmentFormView = TextFieldFormView()
-        initalInvestmentFormView.configureWith(value: TextFieldTableCellProps(title: "Stating Capital", keyBoardType: .decimalPad, placeHolderText: "Enter Amount..."))
-        maxPlayersFormView = TextFieldFormView()
-        maxPlayersFormView.configureWith(value: TextFieldTableCellProps(title: "Max Players", keyBoardType: .decimalPad, placeHolderText: "Enter Player Amount..."))
+        
+        initalInvestmentFormView = TextFieldFormView(inputType: .currency)
+        initalInvestmentFormView.configureWith(value: TextFieldTableCellProps(title: "Stating Capital", keyBoardType: .numberPad, placeHolderText: "$0.00"))
+        
         startDateFormView = DatePickerFormView()
         startDateFormView.configureWith(value: DatePickerTableCellProps(title: "Start Date", startDate: Date()))
+        
         endDateFormView = DatePickerFormView()
         endDateFormView.configureWith(value: DatePickerTableCellProps(title: "End Date", startDate: Date()))
         
-        currencyTextField = CurrencyTextField()
-        //currencyTextField.snp.makeConstraints { $0.height.equalTo(60) }
-        
         let sv = UIStackView(arrangedSubviews: [nameFormView,
-                                                currencyTextField,
+                                                initalInvestmentFormView,
                                                 startDateFormView,
                                                 endDateFormView])
         sv.axis = .vertical
@@ -146,6 +154,7 @@ extension CreateFundFormViewController {
         datePicker.isHidden = isStartDatePickerHidden
         datePicker.backgroundColor = .white
         datePicker.datePickerMode = .date
+        datePicker.minimumDate = Date()
         
         view.addSubview(datePicker)
         datePicker.snp.makeConstraints { (make) in

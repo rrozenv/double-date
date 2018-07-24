@@ -44,8 +44,10 @@ extension Routable {
     }
     
     func displayAlert(vc: AlertViewController)  {
-        vc.modalPresentationStyle = .overCurrentContext
-        navVc.present(vc, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            vc.modalPresentationStyle = .overCurrentContext
+            self.navVc.present(vc, animated: true, completion: nil)
+        }
     }
     
 }

@@ -41,7 +41,7 @@ class EnterNameViewController<ViewModel: TextEntryable>: UIViewController, Binda
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        textField.textField.becomeFirstResponder()
+        textField.showKeyboard()
     }
     
     deinit { print("EnterNameViewController deinit") }
@@ -50,14 +50,14 @@ class EnterNameViewController<ViewModel: TextEntryable>: UIViewController, Binda
         let backTapped$ = navView.backButton.rx.tap.asObservable()
         viewModel.bindBackButton(backTapped$)
         
-        let nameText$ = textField.textField.rx.text.orEmpty.asObservable()
-        viewModel.bindTextEntry(nameText$)
+        //let nameText$ = textField.textField.rx.text.orEmpty.asObservable()
+        viewModel.bindTextEntry(textField.textOutput)
         
         let nextTapped$ = nextButton.rx.tap.asObservable()
         viewModel.bindContinueButton(nextTapped$)
         
         let clearTapped$ = textField.clearButton.rx.tap.asObservable()
-            .do(onNext: { [unowned self] in self.textField.textField.text = nil })
+            .do(onNext: { [unowned self] in self.textField.clearText() })
         viewModel.bindClearButton(clearTapped$)
         
         viewModel.isNextButtonEnabled
@@ -82,7 +82,7 @@ class EnterNameViewController<ViewModel: TextEntryable>: UIViewController, Binda
     
     private func setupTextField() {
         textField = StyledTextField(style: .underline, inputType: .regularText, alignment: .left, padding: 20.0)
-        textField.textField.style(placeHolder: "Enter Name", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black)
+        textField.styleTextField(placeHolder: "Enter Name", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black, keyboardType: .default)
     }
     
     private func setupNextButton() {

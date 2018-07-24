@@ -47,7 +47,7 @@ final class FundTableCell: UITableViewCell {
     // MARK: - Configuration
     func configureWith(value: Fund) {
         mainLabel.text = value.name
-        dateLabel.text = "Max \(value.maxPlayers) players"
+        //dateLabel.text = "Max \(value.maxPlayers) players"
         countLabel.text = "Return: \(value.currentUserPortfolio.portfolioROI.asPercentage)"
     }
     

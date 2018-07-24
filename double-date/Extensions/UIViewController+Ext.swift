@@ -68,9 +68,18 @@ extension UIViewController {
             debugPrint(error)
         }
         guard let info = alertInfo else { return }
-        let alertVc = AlertViewController(alertInfo: info, okAction: nil)
-        alertVc.modalPresentationStyle = .overCurrentContext
-        self.present(alertVc, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            let alertVc = AlertViewController(alertInfo: info, okAction: nil)
+            alertVc.modalPresentationStyle = .overCurrentContext
+            self.present(alertVc, animated: true, completion: nil)
+        }
+    }
+    
+    func displayAlert(vc: AlertViewController)  {
+        DispatchQueue.main.async {
+            vc.modalPresentationStyle = .overCurrentContext
+            self.present(vc, animated: true, completion: nil)
+        }
     }
     
 }

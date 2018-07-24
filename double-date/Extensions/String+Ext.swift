@@ -20,6 +20,18 @@ extension NumberFormatter {
     
 }
 
+extension Int {
+    
+    var asCurreny: String {
+        let currencyFormatter = NumberFormatter()
+        currencyFormatter.usesGroupingSeparator = true
+        currencyFormatter.numberStyle = .currency
+        currencyFormatter.locale = Locale.current
+        return currencyFormatter.string(from: NSNumber(value: self)) ?? "0"
+    }
+    
+}
+
 extension Double {
    
     var asCurreny: String {
@@ -49,7 +61,7 @@ extension Double {
 
 extension String {
     
-    var date: Date? {
+    var dateFromISO8601: Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         let calendar = Calendar.current

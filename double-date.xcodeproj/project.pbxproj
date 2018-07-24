@@ -385,8 +385,6 @@
 			children = (
 				9806645020DD5A5400951DBD /* CreateFundRouter.swift */,
 				9805770221062B790006821E /* Create Game */,
-				98C06E6C20DB3BAC00426EEC /* Create Fund */,
-				987D54C4210542B6007B3C53 /* Date Selection */,
 				986AE2DA20DDD55D00A78E42 /* Select Contacts */,
 			);
 			path = "Create Fund Router";
@@ -427,6 +425,7 @@
 			isa = PBXGroup;
 			children = (
 				987F4A5121023CB1000F25C2 /* double-date.entitlements */,
+				98300A0720D1ED3C00D7C4BA /* Assets.xcassets */,
 				98300A3220D1F01500D7C4BA /* Secrets.swift */,
 				98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */,
 				98300A5E20D1F77800D7C4BA /* AppController.swift */,
@@ -439,7 +438,7 @@
 				98300A5020D1F66500D7C4BA /* Generic Protocols */,
 				98300A5520D1F6CD00D7C4BA /* Utilities */,
 				98300A3B20D1F5A600D7C4BA /* Extensions */,
-				98300A0720D1ED3C00D7C4BA /* Assets.xcassets */,
+				9836FD6121079A2E0017C3BA /* Old Stuff */,
 				98300A0920D1ED3C00D7C4BA /* LaunchScreen.storyboard */,
 				98300A0C20D1ED3C00D7C4BA /* Info.plist */,
 			);
@@ -565,6 +564,15 @@
 				9834950C20EC71FD003AEC8B /* FundInfoTabViewController.swift */,
 			);
 			path = "Fund Info";
+			sourceTree = "<group>";
+		};
+		9836FD6121079A2E0017C3BA /* Old Stuff */ = {
+			isa = PBXGroup;
+			children = (
+				987D54C4210542B6007B3C53 /* Date Selection */,
+				98C06E6C20DB3BAC00426EEC /* Create Fund */,
+			);
+			path = "Old Stuff";
 			sourceTree = "<group>";
 		};
 		9852F97420FC0DA3009E4A9A /* Invitations List */ = {

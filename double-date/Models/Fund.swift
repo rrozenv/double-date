@@ -12,7 +12,8 @@ struct Fund: Codable, Identifiable {
     let _id: String
     let admin: User
     let name: String
-    let maxPlayers: Int
+    let startDate: Date
+    let endDate: Date
     var currentUserPortfolio: Portfolio
     let portfolios: [String]
 }

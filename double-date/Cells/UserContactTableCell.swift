@@ -55,7 +55,7 @@ final class UserContactTableCell: UITableViewCell, ValueCell {
     
     func configureWith(value: FundViewModel) {
         imageNameSublabelView.topLabel.text = value.fund.name
-        imageNameSublabelView.subLabel.text = "\(value.fund.maxPlayers)"
+        //imageNameSublabelView.subLabel.text = "\(value.fund.maxPlayers)"
         isSelect = value.isSelected
     }
     

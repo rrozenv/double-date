@@ -53,7 +53,7 @@ final class AlertViewController: UIViewController {
     }
     
     deinit {
-        print("deinit of custom contorl")
+        print("AlertViewController deinit")
     }
     
 }
@@ -156,6 +156,13 @@ extension AlertViewController {
                              okButtonTitle: "Got It",
                              cancelButtonTitle: nil)
         }
+        
+        static func enterLowerCapitalAmount(amount: Int) -> AlertInfo  {
+            return AlertInfo(header: "Enter Lower Amount",
+                message: "Please enter an amount lower than $1 Billion.",
+                okButtonTitle: "Got It",
+                cancelButtonTitle: nil)
+        }
     }
     
 }
@@ -163,15 +170,12 @@ extension AlertViewController {
 final class CustomAlertView: UIView {
     
     var containerView: UIView!
-    
     var headerLabel: UILabel!
     var messageLabel: UILabel!
     var labelStackView: UIStackView!
-    
     var okButton: UIButton!
     var cancelButton: UIButton!
     var stackView: UIStackView!
-    
     var singleButton: UIButton!
     
     required init?(coder aDecoder: NSCoder) {
@@ -238,7 +242,9 @@ final class CustomAlertView: UIView {
     
     fileprivate func setupMessageLabel() {
         messageLabel = UILabel()
-        messageLabel.font = FontBook.AvenirHeavy.of(size: 13)
+        messageLabel.numberOfLines = 0
+        messageLabel.font = FontBook.AvenirMedium.of(size: 12)
+        messageLabel.textAlignment = .center
         messageLabel.textColor = UIColor.black
     }
     
@@ -250,8 +256,9 @@ final class CustomAlertView: UIView {
         
         containerView.addSubview(labelStackView)
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
-        labelStackView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
-        labelStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0).isActive = true
+        labelStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
+        labelStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
+        labelStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10).isActive = true
         switch buttonCount {
         case .one:
             labelStackView.bottomAnchor.constraint(equalTo: singleButton.topAnchor, constant: -10).isActive = true

@@ -81,7 +81,11 @@ extension ObservableType {
             }
             
             let decoder = JSONDecoder()
-            
+            //decoder.dateDecodingStrategy = .iso8601
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss000Z"
+            decoder.dateDecodingStrategy = .formatted(formatter)
+          
             do {
                 let object = try decoder.decode(T.self, from: jsonData)
                 return Observable.just(object)
@@ -110,6 +114,7 @@ extension ObservableType {
             }
             
             let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
             
             do {
                 let object = try decoder.decode(T.self, from: jsonData)
@@ -134,6 +139,7 @@ extension ObservableType {
             }
             
             let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
             
             do {
                 let objects = try decoder.decode([T].self, from: jsonData)
