@@ -11,6 +11,58 @@ import RxSwift
 import RxCocoa
 import RxOptional
 
+final class LoadingView: UIView {
+    
+    var loadingIndicator: UIActivityIndicatorView!
+    var backgroundView: UIView!
+    
+    // MARK: - Initialization
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    init() {
+        super.init(frame: .zero)
+        self.backgroundColor = UIColor.clear
+        setupBackgroundView()
+        setupLoadingIndicator()
+    }
+    
+    private func setupBackgroundView() {
+        backgroundView = UIView()
+        backgroundView.backgroundColor = UIColor.black.withAlphaComponent(0.2)
+        
+        self.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { (make) in
+            make.width.height.equalTo(60)
+            make.edges.equalTo(self)
+        }
+    }
+    
+    private func setupLoadingIndicator() {
+        loadingIndicator = UIActivityIndicatorView(activityIndicatorStyle: .white)
+        
+        backgroundView.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { (make) in
+            make.center.equalTo(backgroundView)
+        }
+    }
+}
+
+protocol LoadingIndicatable: class {
+    var loadingView: LoadingView { get set }
+}
+
+extension LoadingIndicatable where Self: UIViewController {
+    func setupLoadingIndicator() {
+        loadingView.isHidden = true
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { (make) in
+            make.center.equalTo(view)
+        }
+    }
+}
+
 class MarketViewController: UIViewController, BindableType {
     
     let disposeBag = DisposeBag()

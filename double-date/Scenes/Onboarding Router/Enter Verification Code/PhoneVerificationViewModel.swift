@@ -43,10 +43,8 @@ struct PhoneVerificationViewModel {
         return errorTracker.asDriver()
     }
     
-    var titleHeaderText: Driver<VaryingFontInfo> {
-        return Driver.of(
-            VaryingFontInfo(originalText: "Enter VERIFICATION CODE...", fontDict: ["Enter": FontBook.AvenirMedium.of(size: 14), "VERIFICATION CODE...": FontBook.AvenirHeavy.of(size: 14)], fontColor: .black)
-        )
+    var titleHeaderText: Driver<String> {
+        return Driver.of("Enter the verification code \nyou recieved via SMS.")
     }
     
     var codeParams: [String: Any] {

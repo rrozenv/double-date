@@ -14,7 +14,12 @@ protocol PhoneEntryViewModelDelegate: BackButtonNavigatable {
     func didEnter(countryCode: String, phoneNumber: String)
 }
 
-struct PhoneEntryViewModel {
+protocol LoadingTrackable {
+    var activityIndicator: ActivityIndicator { get }
+    var isLoading: Driver<Bool> { get }
+}
+
+struct PhoneEntryViewModel: LoadingTrackable {
     
     //MARK: - Properties
     private let disposeBag = DisposeBag()
@@ -22,6 +27,7 @@ struct PhoneEntryViewModel {
     private let countryCode = Variable("+1")
     private let twilioService = TwilioService()
     private let errorTracker = ErrorTracker()
+    let activityIndicator = ActivityIndicator()
     weak var delegate: PhoneEntryViewModelDelegate?
     
     var formattedPhoneNumber: Driver<String> {
@@ -33,10 +39,16 @@ struct PhoneEntryViewModel {
         return numberText.asDriver().map { $0.isPhoneNumber }
     }
     
-    var titleHeaderText: Driver<VaryingFontInfo> {
-        return Driver.of(
-            VaryingFontInfo(originalText: "What's your PHONE NUMBER?", fontDict: ["What's your": FontBook.AvenirMedium.of(size: 14), "PHONE NUMBER?": FontBook.AvenirHeavy.of(size: 14)], fontColor: .black)
-        )
+    var titleHeaderText: Driver<String> {
+        return Driver.of("Great, let’s verify your account \nwith a phone number.")
+    }
+    
+    var isLoading: Driver<Bool> {
+        return activityIndicator.asDriver(onErrorJustReturn: false)
+    }
+    
+    var error: Driver<NetworkError> {
+        return errorTracker.asDriver()
     }
     
     var phoneParams: [String: Any] {
@@ -60,6 +72,7 @@ struct PhoneEntryViewModel {
                 self.twilioService
                     .sendVerificationCode(params: self.phoneParams)
                     .trackNetworkError(self.errorTracker)
+                    .trackActivity(self.activityIndicator)
             }
             .subscribe(onNext: { response in
                 self.delegate?.didEnter(countryCode: self.countryCode.value,
