@@ -24,7 +24,7 @@ enum TextFieldInputType {
 final class StyledTextField: UIView {
     
     //MARK: - Private Views
-    private var textField: PaddedTextField!
+    var textField: PaddedTextField!
     private var underlineView: UIView!
     
     //MARK: - Public Views
@@ -57,7 +57,11 @@ final class StyledTextField: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(style: TextFieldStyle, inputType: TextFieldInputType, alignment: NSTextAlignment, padding: CGFloat) {
+    init(style: TextFieldStyle,
+         inputType: TextFieldInputType,
+         clearButton: Bool,
+         alignment: NSTextAlignment,
+         padding: CGFloat) {
         self.style = style
         self.inputType = inputType
         super.init(frame: .zero)
@@ -65,8 +69,8 @@ final class StyledTextField: UIView {
         setupTextfield(padding: padding, alignment: alignment)
         setupUnderlineView()
         setupStackView()
-        setupClearButton()
-        
+        if clearButton { setupClearButton() }
+
         if inputType == .phoneNumber {
             setupCountryCodeButton()
             textField.rx.text.orEmpty.asObservable().map { $0.phoneRepresentable() ?? $0 }
@@ -92,12 +96,14 @@ extension StyledTextField {
         textField.text = nil
     }
     
-    func styleTextField(placeHolder: String, font: UIFont, backColor: UIColor, titleColor: UIColor, keyboardType: UIKeyboardType) {
+    func styleTextField(placeHolder: String, placeHolderColor: UIColor = Palette.lightGrey.color, font: UIFont, backColor: UIColor, titleColor: UIColor, keyboardType: UIKeyboardType = .default, returnKeyType: UIReturnKeyType = .default) {
         textField.style(placeHolder: placeHolder,
                         font: font,
                         backColor: backColor,
                         titleColor: titleColor)
+        textField.attributedPlaceholder = NSAttributedString(string: placeHolder, attributes: [NSAttributedStringKey.foregroundColor: placeHolderColor])
         textField.keyboardType = keyboardType
+        textField.returnKeyType = returnKeyType
     }
     
 }

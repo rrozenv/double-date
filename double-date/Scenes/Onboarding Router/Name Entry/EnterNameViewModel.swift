@@ -23,7 +23,7 @@ protocol EnterNameViewModelDelegate: BackButtonNavigatable {
     func didEnter(name: String, type: EnterNameViewModel.NameType)
 }
 
-struct EnterNameViewModel: TextEntryable {
+struct EnterNameViewModel {
     
     enum NameType {
         case first, last
@@ -43,10 +43,8 @@ struct EnterNameViewModel: TextEntryable {
         return text.asDriver().map { $0.isNotEmpty }
     }
     
-    var titleHeaderText: Driver<VaryingFontInfo> {
-        return Observable.just(nameType)
-            .map { self.createVaryingFontInfoFor(nameType: $0) }
-            .asDriverOnErrorJustComplete()
+    var titleHeaderText: Driver<String> {
+        return Driver.of("Hi there, what's \nyour name?")
     }
     
     //MARK: - Inputs
@@ -58,15 +56,10 @@ struct EnterNameViewModel: TextEntryable {
     
     func bindContinueButton(_ observable: Observable<Void>) {
         observable
+            .filter { !self.text.value.isEmpty }
             .subscribe(onNext: {
                 self.delegate?.didEnter(name: self.text.value, type: self.nameType)
             })
-            .disposed(by: disposeBag)
-    }
-    
-    func bindClearButton(_ observable: Observable<Void>) {
-        observable
-            .subscribe(onNext: { self.text.value = "" })
             .disposed(by: disposeBag)
     }
     
@@ -84,7 +77,7 @@ extension EnterNameViewModel {
     private func createVaryingFontInfoFor(nameType: NameType) -> VaryingFontInfo {
         switch nameType {
         case .first:
-            return VaryingFontInfo(originalText: "What's your FIRST NAME?", fontDict: ["What's your": FontBook.AvenirMedium.of(size: 14), "FIRST NAME?": FontBook.AvenirBlack.of(size: 15)], fontColor: .black)
+            return VaryingFontInfo(originalText: "What's your first name?", fontDict: ["What's your": FontBook.AvenirMedium.of(size: 14), "first name?": FontBook.AvenirHeavy.of(size: 15)], fontColor: .black)
         case .last:
             return VaryingFontInfo(originalText: "What's your LAST NAME?", fontDict: ["What's your": FontBook.AvenirMedium.of(size: 14), "LAST NAME?": FontBook.AvenirBlack.of(size: 15)], fontColor: .black)
         }

@@ -25,8 +25,8 @@ class PhoneEntryViewController: UIViewController, BindableType, CustomNavBarView
     let disposeBag = DisposeBag()
     var viewModel: PhoneEntryViewModel!
     
-    override func loadView() {
-        super.loadView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         self.view.backgroundColor = .white
         setupNavBar()
         setupMainLabel()
@@ -34,12 +34,18 @@ class PhoneEntryViewController: UIViewController, BindableType, CustomNavBarView
         setupNextButton()
         setupContainerStackView()
         bindKeyboardNotifications(bottomOffset: 100)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         textField.showKeyboard()
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        textField.showKeyboard()
+//    }
+    
+//    override func viewDidAppear(_ animated: Bool) {
+//        super.viewDidAppear(animated)
+//        textField.showKeyboard()
+//    }
     
     deinit { print("PhoneEntryViewController deinit") }
     
@@ -78,6 +84,7 @@ class PhoneEntryViewController: UIViewController, BindableType, CustomNavBarView
     private func setupTextField() {
         textField = StyledTextField(style: .underline,
                                     inputType: .phoneNumber,
+                                    clearButton: true,
                                     alignment: .left,
                                     padding: 40)
         textField.countryCodeButton?.label.style(font: FontBook.AvenirHeavy.of(size: 18), color: .black, alignment: .center)

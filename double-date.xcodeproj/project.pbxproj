@@ -93,6 +93,8 @@
 		989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D420D3EB2800AD9F9F /* UserListViewModel.swift */; };
 		989963D720D3EB3500AD9F9F /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D620D3EB3500AD9F9F /* UserListViewController.swift */; };
 		989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */; };
+		9899D6072108DEFD00939353 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899D6062108DEFD00939353 /* PageIndicatorView.swift */; };
+		9899D6092108E4E700939353 /* PageIndicatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899D6082108E4E700939353 /* PageIndicatable.swift */; };
 		98A8467F2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A8467E2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift */; };
 		98A846812100F095008535A6 /* StockChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A846802100F095008535A6 /* StockChartView.swift */; };
 		98B8B78420D303D4004BD6A1 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B8B78320D303D4004BD6A1 /* SignupViewController.swift */; };
@@ -232,6 +234,8 @@
 		989963D420D3EB2800AD9F9F /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		989963D620D3EB3500AD9F9F /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
 		989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkActivityLogger.swift; sourceTree = "<group>"; };
+		9899D6062108DEFD00939353 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
+		9899D6082108E4E700939353 /* PageIndicatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatable.swift; sourceTree = "<group>"; };
 		98A8467E2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailMultipleSectionModel.swift; sourceTree = "<group>"; };
 		98A846802100F095008535A6 /* StockChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockChartView.swift; sourceTree = "<group>"; };
 		98B8B78320D303D4004BD6A1 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -489,6 +493,7 @@
 				98300A3920D1F57B00D7C4BA /* BindableType.swift */,
 				98300A5120D1F69300D7C4BA /* KeyboardAvoidable.swift */,
 				98300A6F20D20F1F00D7C4BA /* Routable.swift */,
+				9899D6082108E4E700939353 /* PageIndicatable.swift */,
 			);
 			path = "Generic Protocols";
 			sourceTree = "<group>";
@@ -722,6 +727,7 @@
 				981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */,
 				98A846802100F095008535A6 /* StockChartView.swift */,
 				9805770921067B760006821E /* CurrencyTextField.swift */,
+				9899D6062108DEFD00939353 /* PageIndicatorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -938,6 +944,7 @@
 				981FAA0620F43D93005F2C22 /* TitleTextFieldView.swift in Sources */,
 				98D14ECE20EDA1FB0097AC69 /* PositionsListViewController.swift in Sources */,
 				98F77F2E20D59475005F4B66 /* ButtonLabel.swift in Sources */,
+				9899D6072108DEFD00939353 /* PageIndicatorView.swift in Sources */,
 				98C06E7020DB401A00426EEC /* FundDetailsViewController.swift in Sources */,
 				98300A5220D1F69300D7C4BA /* KeyboardAvoidable.swift in Sources */,
 				9852F97820FC0DE1009E4A9A /* InvitationsListViewModel.swift in Sources */,
@@ -972,6 +979,7 @@
 				981FAA0220F43CDC005F2C22 /* StockPurchaseInfoViewController.swift in Sources */,
 				9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */,
 				9852F97620FC0DD3009E4A9A /* InvitationsListViewController.swift in Sources */,
+				9899D6092108E4E700939353 /* PageIndicatable.swift in Sources */,
 				986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */,
 				986B6DF320E47EA0002BF93C /* StockSelectionRouter.swift in Sources */,
 				988F318A20E17B6000084676 /* AlertViewController.swift in Sources */,

@@ -10,19 +10,16 @@ import Foundation
 import UIKit
 
 enum Palette {
-    case aqua, maroon, lightGrey, faintGrey, mustard, darkGrey, brightYellow, darkYellow, red, darkNavy, purple
+    case aqua, lightGrey, faintGrey, lightBlue, faintBlue, darkGrey, darkNavy, purple
     
     var color: UIColor {
         switch self {
-        case .maroon: return UIColor(hex: 0xBD7C7C)
         case .lightGrey: return UIColor(hex: 0xD2D2D2)
-        case .faintGrey: return UIColor(hex: 0xF3F3F3)
-        case .mustard: return UIColor(hex: 0xD4B06D)
+        case .faintGrey: return UIColor(hex: 0xFAFAFA)
         case .darkGrey: return UIColor(hex: 0x717171)
-        case .brightYellow: return UIColor(hex: 0xFCDF1D)
-        case .darkYellow: return UIColor(hex: 0x94712D)
-        case .red: return UIColor(hex: 0xF25D5D)
-        case .darkNavy: return UIColor(hex: 0x0B0A1F)
+        case .darkNavy: return UIColor(hex: 0x2D3C44)
+        case .lightBlue: return UIColor(hex: 0x8FA8B5)
+        case .faintBlue: return UIColor(hex: 0xCAD5DA)
         case .purple: return UIColor(hex: 0x68669F)
         case .aqua: return UIColor(hex: 0x73C3BA)
         }

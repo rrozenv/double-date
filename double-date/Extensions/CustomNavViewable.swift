@@ -23,15 +23,15 @@ extension CustomNavBarViewable where Self: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         setupNavView()
         setupNavBarBackgroundView()
-        navView.backgroundColor = Palette.lightGrey.color
-        navBackgroundView.backgroundColor = Palette.lightGrey.color
+        navView.backgroundColor = Palette.faintGrey.color
+        navBackgroundView.backgroundColor = Palette.faintGrey.color
     }
     
     private func setupNavView() {
         view.addSubview(navView)
         navView.snp.makeConstraints { (make) in
             make.left.right.equalTo(view)
-            make.height.equalTo(60)
+            make.height.equalTo(50)
             make.topEqualTo(view)
         }
     }

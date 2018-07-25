@@ -116,7 +116,7 @@ extension OnboardingRouter {
     }
     
     private func toFirstName() {
-        var vc = EnterNameViewController<EnterNameViewModel>()
+        var vc = EnterNameViewController()
         var vm = EnterNameViewModel(nameType: .first)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)

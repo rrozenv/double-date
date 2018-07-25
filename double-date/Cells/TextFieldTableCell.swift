@@ -122,6 +122,7 @@ extension TextFieldFormView {
     private func setupTextField() {
         textField = StyledTextField(style: .background,
                                     inputType: inputType,
+                                    clearButton: true,
                                     alignment: .left,
                                     padding: 0)
         textField.styleTextField(placeHolder: "", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black, keyboardType: inputType == .phoneNumber || inputType == .currency ? .numberPad : .default)

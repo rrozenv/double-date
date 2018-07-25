@@ -73,6 +73,7 @@ class PhoneVerificationViewController: UIViewController, BindableType, CustomNav
     private func setupTextField() {
         textField = StyledTextField(style: .underline,
                                     inputType: .regularText,
+                                    clearButton: true,
                                     alignment: .center,
                                     padding: 0)
         textField.styleTextField(placeHolder: "Enter Verification Code", font: FontBook.AvenirMedium.of(size: 14), backColor: .white, titleColor: .black, keyboardType: .numberPad)
