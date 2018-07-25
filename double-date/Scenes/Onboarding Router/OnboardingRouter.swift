@@ -183,12 +183,14 @@ extension OnboardingRouter {
 extension OnboardingRouter: InitalViewModelDelegate {
     
     func didTapContinueButton() {
+        self.onboardingInfo.value.onboardType = .signup
+        self.screenOrder = [.inital, .name, .phoneNumber(displayType: .signup), .verificationCode(countryCode: "", phoneNumber: "")]
         toNextScreen()
     }
     
     func didTapLogInButton() {
         self.onboardingInfo.value.onboardType = .login
-        self.screenOrder =  [.inital, .phoneNumber(displayType: .login), .verificationCode(countryCode: "", phoneNumber: "")]
+        self.screenOrder = [.inital, .phoneNumber(displayType: .login), .verificationCode(countryCode: "", phoneNumber: "")]
         toNextScreen()
     }
     
