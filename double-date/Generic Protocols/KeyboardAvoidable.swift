@@ -31,3 +31,28 @@ extension KeyboardAvoidable where Self: UIViewController {
             .disposed(by: disposeBag)
     }
 }
+
+protocol KeyboardAvoidableTest: class {
+    var disposeBag: DisposeBag { get }
+    var keyboardIsVisible: Bool { get set }
+    var adjustableConstraint: NSLayoutConstraint! { get set }
+    func bindKeyboardNotifications(bottomOffset: CGFloat, initalConst: CGFloat)
+}
+
+extension KeyboardAvoidableTest where Self: UIViewController {
+    func bindKeyboardNotifications(bottomOffset: CGFloat = 0.0, initalConst: CGFloat = 0.0) {
+        UIDevice.keyboardHeightWillChange
+            .subscribe(onNext: { [weak self] height in
+                guard let sSelf = self else { return }
+                if sSelf.keyboardIsVisible {
+                   sSelf.adjustableConstraint.constant = initalConst
+                } else {
+                   sSelf.adjustableConstraint.constant = -height - bottomOffset
+                }
+                UIView.animate(withDuration: 0.5) { sSelf.view.layoutIfNeeded() }
+                sSelf.keyboardIsVisible = !sSelf.keyboardIsVisible
+            })
+            .disposed(by: disposeBag)
+    }
+}
+

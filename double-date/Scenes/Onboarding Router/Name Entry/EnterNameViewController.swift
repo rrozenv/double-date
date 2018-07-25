@@ -11,46 +11,49 @@ import RxSwift
 import RxCocoa
 import SnapKit
 
-class EnterNameViewController<ViewModel: TextEntryable>: UIViewController, BindableType, CustomNavBarViewable, KeyboardAvoidable {
-    
+class EnterNameViewController<ViewModel: TextEntryable>: UIViewController, BindableType, CustomNavBarViewable, KeyboardAvoidableTest {
+
     private var mainLabel: UILabel!
     private var textField: StyledTextField!
     private var nextButton: UIButton!
     private var containerStackView: UIStackView!
     var navView: BackButtonNavView = BackButtonNavView.blackArrow
     var navBackgroundView: UIView = UIView()
-    var adjustableConstraint: Constraint!
-    var latestKeyboardHeight: CGFloat = 0
+    var keyboardIsVisible: Bool = false
+    var adjustableConstraint: NSLayoutConstraint!
     
     let disposeBag = DisposeBag()
     var viewModel: ViewModel!
     
-    override func loadView() {
-        super.loadView()
+    override func viewDidLoad() {
+        super.viewDidLoad()
         self.view.backgroundColor = .white
-        //resignKeyboardOnViewTouch()
         setupNavBar()
-//        navView.containerView.backgroundColor = Palette.lightGrey.color
-//        navBackgroundView.backgroundColor = Palette.lightGrey.color
         setupMainLabel()
         setupTextField()
         setupNextButton()
         setupContainerStackView()
-        bindKeyboardNotifications(bottomOffset: 100)
+        bindKeyboardNotifications(bottomOffset: 60, initalConst: -200)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         textField.showKeyboard()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.resignFirstResponder()
+        keyboardIsVisible = false
+    }
+ 
     deinit { print("EnterNameViewController deinit") }
     
     func bindViewModel() {
         let backTapped$ = navView.backButton.rx.tap.asObservable()
+            //.do(onNext: { [unowned self] in self.resignFirstResponder() })
         viewModel.bindBackButton(backTapped$)
         
-        //let nameText$ = textField.textField.rx.text.orEmpty.asObservable()
         viewModel.bindTextEntry(textField.textOutput)
         
         let nextTapped$ = nextButton.rx.tap.asObservable()
@@ -99,11 +102,17 @@ class EnterNameViewController<ViewModel: TextEntryable>: UIViewController, Binda
         containerStackView.spacing = 30.0
         
         self.view.addSubview(containerStackView)
-        containerStackView.snp.makeConstraints { (make) in
-            make.left.equalTo(view).offset(26.0)
-            make.right.equalTo(view).offset(-26.0)
-            self.adjustableConstraint = make.bottom.equalTo(view).offset(-100).constraint
-        }
+        containerStackView.translatesAutoresizingMaskIntoConstraints = false
+        containerStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 26).isActive = true
+        containerStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -26).isActive = true
+        self.adjustableConstraint = containerStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200)
+        self.adjustableConstraint.isActive = true
+        
+//        containerStackView.snp.makeConstraints { (make) in
+//            make.left.equalTo(view).offset(26.0)
+//            make.right.equalTo(view).offset(-26.0)
+//            self.adjustableConstraint = make.bottom.equalTo(view).offset(-100).constraint
+//        }
     }
     
 }

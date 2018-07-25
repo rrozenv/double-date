@@ -120,7 +120,7 @@ extension OnboardingRouter {
         var vm = EnterNameViewModel(nameType: .first)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
-        navVc.pushViewController(vc, animated: false)
+        navVc.pushViewController(vc, animated: true)
     }
     
     private func toPhoneNumber() {

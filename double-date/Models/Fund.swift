@@ -12,8 +12,8 @@ struct Fund: Codable, Identifiable {
     let _id: String
     let admin: User
     let name: String
-    let startDate: Date
-    let endDate: Date
+//    let startDate: Date
+//    let endDate: Date
     var currentUserPortfolio: Portfolio
     let portfolios: [String]
 }
@@ -43,6 +43,7 @@ extension Portfolio {
     }
     
     var portfolioROI: Double {
+        guard positions.isNotEmpty else { return 0.0 }
         return (positionsMarketValue - positionsBuyValue) / positionsMarketValue
     }
 }

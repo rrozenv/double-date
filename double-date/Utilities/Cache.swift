@@ -54,7 +54,7 @@ final class Cache<T: Codable & Identifiable> {
             self.createDirectoryIfNeeded(at: directoryURL)
             do {
                 let encoder = JSONEncoder()
-                encoder.dateEncodingStrategy = .iso8601
+                encoder.dateEncodingStrategy = .formatted(DateFormatter.iso8601)
                 try NSKeyedArchiver
                     .archivedData(withRootObject: try! encoder.encode(objects)).write(to: path)
                 observer(.completed)
@@ -116,7 +116,7 @@ final class Cache<T: Codable & Identifiable> {
             
             do {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601)
                 let objects = try decoder.decode([T].self, from: data)
                 print("Retrieved \(objects.count) from cache")
                 observer(MaybeEvent.success(objects))
@@ -136,7 +136,7 @@ final class Cache<T: Codable & Identifiable> {
         }
         do {
             let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .iso8601
+            decoder.dateDecodingStrategy = .formatted(DateFormatter.iso8601)
             return try decoder.decode([T].self, from: data)
         } catch {
             return nil
@@ -154,7 +154,7 @@ final class Cache<T: Codable & Identifiable> {
     private func encodeObjects(_ objects: [T], to path: URL, completion: (Bool) -> Void) {
         do {
             let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .iso8601
+            encoder.dateEncodingStrategy = .formatted(DateFormatter.iso8601)
             try NSKeyedArchiver
                 .archivedData(withRootObject: try! encoder.encode(objects)).write(to: path)
             completion(true)

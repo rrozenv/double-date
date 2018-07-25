@@ -12,6 +12,7 @@ import RxSwift
 
 extension UIDevice {
     static var iPhoneX: Bool { return UIScreen.main.nativeBounds.height == 2436 }
+    
     static var keyboardHeightWillChange: Observable<CGFloat> {
         let keyBoardWillShow$ = NotificationCenter.default
             .rx.notification(NSNotification.Name.UIKeyboardWillShow)
@@ -23,4 +24,17 @@ extension UIDevice {
             .merge()
             .distinctUntilChanged()
     }
+    
+    static var keyboardWillShow: Observable<CGFloat> {
+        return NotificationCenter.default
+            .rx.notification(NSNotification.Name.UIKeyboardWillShow)
+            .map { KeyboardWillShowPayload(userInfo: $0.userInfo!).endFrame.height }
+    }
+    
+    static var keyboardWillHide: Observable<CGFloat> {
+        return NotificationCenter.default
+            .rx.notification(NSNotification.Name.UIKeyboardWillHide)
+            .map { _ in CGFloat(0) }
+    }
+    
 }

@@ -33,8 +33,8 @@ final class FundInfo {
             "name": name ?? "",
             "maxCashBalance": maxCashBalance ?? 0,
             "invitedPhoneNumbers": invitedPhoneNumbers,
-            "startDate": startDate?.dayMonthYearISO8601String ?? "",
-            "endDate": endDate?.dayMonthYearISO8601String ?? ""
+            "startDate": startDate?.iso8601String ?? "",
+            "endDate": endDate?.iso8601String ?? ""
         ]
     }
 }
@@ -119,7 +119,7 @@ extension CreateFundRouter {
         var vm = CreateFundFormViewModel()
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
-        navVc.pushViewController(vc, animated: false)
+        navVc.pushViewController(vc, animated: true)
     }
     
     private func toSelectContacts() {
@@ -127,7 +127,7 @@ extension CreateFundRouter {
         var vm = SelectContactsViewModel()
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
-        navVc.pushViewController(vc, animated: false)
+        navVc.pushViewController(vc, animated: true)
     }
 
 }

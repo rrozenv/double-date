@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "double-date/Scenes/Create Fund Router/CreateFundRouter.swift"
-            timestampString = "554150994.238771"
+            timestampString = "554181500.119658"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "21"
@@ -57,13 +57,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "double-date/Scenes/Create Fund Router/CreateFundRouter.swift"
-            timestampString = "554150994.238845"
+            filePath = "double-date/Generic Protocols/KeyboardAvoidable.swift"
+            timestampString = "554181500.11974"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "143"
-            endingLineNumber = "143"
-            landmarkName = "didEnterFund(details:)"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "bindKeyboardNotifications(bottomOffset:initalConst:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "double-date/Generic Protocols/KeyboardAvoidable.swift"
+            timestampString = "554181500.119807"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "bindKeyboardNotifications(bottomOffset:initalConst:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "double-date/Generic Protocols/KeyboardAvoidable.swift"
+            timestampString = "554181500.119868"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "bindKeyboardNotifications(bottomOffset:initalConst:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

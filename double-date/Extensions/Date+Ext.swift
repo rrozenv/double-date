@@ -16,10 +16,18 @@ extension Date {
         return dateFormatter.string(from: self)
     }
     
-    var dayMonthYearISO8601String: String {
-        let dateFormatter = ISO8601DateFormatter()
-        dateFormatter.formatOptions = [.withInternetDateTime]
-        return dateFormatter.string(from: self)
+    var iso8601String: String {
+        return DateFormatter.iso8601.string(from: self)
+    }
+    
+}
+
+extension DateFormatter {
+    
+    static var iso8601: DateFormatter {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        return dateFormatter
     }
     
 }

@@ -49,6 +49,11 @@ extension UIViewController {
         view.endEditing(true)
     }
     
+    override open func touchesBegan(_ touches: Set<UITouch>,
+                               with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
 }
 
 extension UIViewController {
