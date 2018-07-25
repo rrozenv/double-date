@@ -11,19 +11,32 @@ import UIKit
 import RxSwift
 
 final class OnboardingInfo {
+    var onboardType: PhoneEntryViewModel.DisplayType = .signup
     var name: String?
     var phoneNumber: String?
     
     var isValid: Bool {
-        return name != nil && phoneNumber != nil
+        switch onboardType {
+        case .signup:
+            return name != nil && phoneNumber != nil
+        case .login:
+            return phoneNumber != nil
+        }
     }
    
     var json: [String: Any] {
         guard isValid else { return [:] }
-        return [
-            "name": name!,
-            "phoneNumber": phoneNumber!.digits
-        ]
+        switch onboardType {
+        case .signup:
+            return [
+                "name": name!,
+                "phoneNumber": phoneNumber!.digits
+            ]
+        case .login:
+            return [
+                "phoneNumber": phoneNumber!.digits
+            ]
+        }
     }
 }
 
@@ -32,7 +45,7 @@ final class OnboardingRouter: Routable {
     enum Screen {
         case inital
         case name
-        case phoneNumber
+        case phoneNumber(displayType: PhoneEntryViewModel.DisplayType)
         case verificationCode(countryCode: String, phoneNumber: String)
         case enableNotifications
     }
@@ -47,7 +60,7 @@ final class OnboardingRouter: Routable {
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
-    let screenOrder: [Screen] = [.inital, .name, .phoneNumber, .verificationCode(countryCode: "", phoneNumber: "")]
+    var screenOrder: [Screen] = [.inital, .name, .phoneNumber(displayType: .signup), .verificationCode(countryCode: "", phoneNumber: "")]
     var screenIndex = 0
     
     init() {
@@ -71,24 +84,42 @@ final class OnboardingRouter: Routable {
         self.createUser.asObservable()
             .withLatestFrom(onboardingInfo.asObservable())
             .filter { $0.isValid }
-            .flatMapLatest { [unowned self] in
-                self.userService.createUser(params: $0.json)
-                    .trackNetworkError(self.errorTracker)
-                    .trackActivity(self.activityTracker)
+            .map { [unowned self] info -> Observable<User> in
+                switch info.onboardType {
+                case .signup: return self.createUserObservable(info: info)
+                case .login: return self.loginUserObservable()
+                }
             }
+            .switchLatest()
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] in
-                AppController.shared.setCurrentUser($0)
-                self?.navigateTo(screen: .enableNotifications)
+            .subscribe(onNext: { [weak self] user in
+                guard let sSelf = self else { return }
+                AppController.shared.setCurrentUser(user)
+                switch sSelf.onboardingInfo.value.onboardType {
+                case .signup: self?.navigateTo(screen: .enableNotifications)
+                case .login: NotificationCenter.default.post(name: .createHomeVc, object: nil)
+                }
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func createUserObservable(info: OnboardingInfo) -> Observable<User> {
+        return self.userService.createUser(params: info.json)
+            .trackNetworkError(self.errorTracker)
+            .trackActivity(self.activityTracker)
+    }
+    
+    private func loginUserObservable() -> Observable<User> {
+        return self.userService.loginUser(phoneNumber: onboardingInfo.value.phoneNumber!)
+            .trackNetworkError(self.errorTracker)
+            .trackActivity(self.activityTracker)
     }
     
     func navigateTo(screen: Screen) {
         DispatchQueue.main.async {
             switch screen {
             case .inital: self.toInitalScene()
-            case .phoneNumber: self.toPhoneNumber()
+            case .phoneNumber(let displayType): self.toPhoneNumber(displayType: displayType)
             case .verificationCode(countryCode: let code, phoneNumber: let phone):
                 self.toVerificationCode(countryCode: code, phoneNumber: phone)
             case .name: self.toFirstName()
@@ -123,9 +154,9 @@ extension OnboardingRouter {
         navVc.pushViewController(vc, animated: true)
     }
     
-    private func toPhoneNumber() {
+    private func toPhoneNumber(displayType: PhoneEntryViewModel.DisplayType) {
         var vc = PhoneEntryViewController()
-        var vm = PhoneEntryViewModel()
+        var vm = PhoneEntryViewModel(displayType: displayType)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: true)
@@ -155,6 +186,12 @@ extension OnboardingRouter: InitalViewModelDelegate {
         toNextScreen()
     }
     
+    func didTapLogInButton() {
+        self.onboardingInfo.value.onboardType = .login
+        self.screenOrder =  [.inital, .phoneNumber(displayType: .login), .verificationCode(countryCode: "", phoneNumber: "")]
+        toNextScreen()
+    }
+    
 }
 
 extension OnboardingRouter: EnterNameViewModelDelegate {
@@ -170,7 +207,6 @@ extension OnboardingRouter: PhoneEntryViewModelDelegate {
     
     func didEnter(countryCode: String, phoneNumber: String) {
         onboardingInfo.value.phoneNumber = phoneNumber
-        //createUser.onNext(()) //REMOVE LATER
         screenIndex += 1
         navigateTo(screen: .verificationCode(countryCode: countryCode, phoneNumber: phoneNumber))
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import Alamofire
 
 struct UserService {
     
@@ -22,6 +23,10 @@ struct UserService {
         return network.postUser("users", parameters: params)
     }
     
+    func loginUser(phoneNumber: String) -> Observable<User> {
+        return network.loginUser("users/login", parameters: ["phoneNumber": phoneNumber], encoding: URLEncoding.default)
+    }
+
     func findUserBy(email: String) -> Observable<User?> {
         return network.getOptionalItem("users", itemId: email)
     }

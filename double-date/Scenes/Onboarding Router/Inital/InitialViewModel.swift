@@ -12,6 +12,7 @@ import RxCocoa
 
 protocol InitalViewModelDelegate: class {
     func didTapContinueButton()
+    func didTapLogInButton()
 }
 
 struct InitialViewModel {
@@ -27,6 +28,12 @@ struct InitialViewModel {
     func bindContinueButton(_ observable: Observable<Void>) {
         observable
             .subscribe(onNext: { self.delegate?.didTapContinueButton() })
+            .disposed(by: disposeBag)
+    }
+    
+    func bindLogInButton(_ observable: Observable<Void>) {
+        observable
+            .subscribe(onNext: { self.delegate?.didTapLogInButton() })
             .disposed(by: disposeBag)
     }
     

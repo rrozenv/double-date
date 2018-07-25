@@ -21,7 +21,12 @@ protocol LoadingTrackable {
 
 struct PhoneEntryViewModel: LoadingTrackable {
     
+    enum DisplayType {
+        case signup, login
+    }
+    
     //MARK: - Properties
+    let displayType: DisplayType
     private let disposeBag = DisposeBag()
     private let numberText = Variable("")
     private let countryCode = Variable("+1")
@@ -39,8 +44,17 @@ struct PhoneEntryViewModel: LoadingTrackable {
         return numberText.asDriver().map { $0.isPhoneNumber }
     }
     
+    var titleHeaderString: String {
+        switch displayType {
+        case .signup:
+            return "Great, let’s verify your account \nwith a phone number."
+        case .login:
+            return "Welcome back, what's \nyour phone number?"
+        }
+    }
+    
     var titleHeaderText: Driver<String> {
-        return Driver.of("Great, let’s verify your account \nwith a phone number.")
+        return Driver.of(titleHeaderString)
     }
     
     var isLoading: Driver<Bool> {
@@ -57,6 +71,10 @@ struct PhoneEntryViewModel: LoadingTrackable {
             "country_code": countryCode.value,
             "phone_number": numberText.value.digits
         ]
+    }
+    
+    init(displayType: DisplayType) {
+        self.displayType = displayType
     }
     
     //MARK: - Inputs

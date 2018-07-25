@@ -19,11 +19,13 @@ final class InitialViewController: UIViewController, BindableType {
     
     //MARK: - Views
     private var continueButton: UIButton!
+    private var loginButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         createContinueButton()
+        createLogInButton()
     }
     
     deinit { print("InitialViewController deinit") }
@@ -31,6 +33,9 @@ final class InitialViewController: UIViewController, BindableType {
     func bindViewModel() {
         let continueTapped$ = continueButton.rx.tap.asObservable()
         viewModel.bindContinueButton(continueTapped$)
+        
+        let loginTapped$ = loginButton.rx.tap.asObservable()
+        viewModel.bindLogInButton(loginTapped$)
     }
 
 }
@@ -43,6 +48,17 @@ extension InitialViewController {
         view.addSubview(continueButton)
         continueButton.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(view)
+            make.height.equalTo(56)
+        }
+    }
+    
+    private func createLogInButton() {
+        loginButton = UIButton().rxStyle(title: "Log In", font: FontBook.AvenirMedium.of(size: 14), backColor: Palette.purple.color, titleColor: .white)
+        
+        view.addSubview(loginButton)
+        loginButton.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view)
+            make.bottom.equalTo(continueButton.snp.top)
             make.height.equalTo(56)
         }
     }

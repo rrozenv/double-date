@@ -104,15 +104,33 @@ extension Network where T == User {
             .responseData(.post, absolutePath,
                           parameters: parameters,
                           encoding: JSONEncoding.default)
-            .do(onNext: { response, _ in
-                guard let token = response.allHeaderFields[Secrets.tokenKeyString] as? String else {
-                    return
-                }
-                let saved = MyKeychain.shared.save(value: token, key: Secrets.tokenKeyString)
-                if saved { print("Auth token was saved...") }
+            .do(onNext: { [weak self] response, _ in
+                self?.saveAuthToken(response)
             })
             .observeOn(scheduler)
             .mapObject(type: T.self)
+    }
+    
+    func loginUser(_ path: String,
+                   parameters: [String: Any]? = nil,
+                   encoding: ParameterEncoding = JSONEncoding.default,
+                   headers: [String: String] = [Secrets.tokenKeyString: MyKeychain.shared.getStringFor(Secrets.tokenKeyString) ?? ""]) -> Observable<T> {
+        let absolutePath = "\(baseUrl)/\(path)"
+        return manager.rx
+            .responseData(.get, absolutePath, parameters: parameters, encoding: encoding, headers: headers)
+            .do(onNext: { [weak self] response, _ in
+                self?.saveAuthToken(response)
+            })
+            .observeOn(scheduler)
+            .mapObject(type: T.self)
+    }
+    
+    private func saveAuthToken(_ response: HTTPURLResponse) {
+        guard let token = response.allHeaderFields[Secrets.tokenKeyString] as? String else {
+            return
+        }
+        let saved = MyKeychain.shared.save(value: token, key: Secrets.tokenKeyString)
+        if saved { print("Auth token was saved...") }
     }
     
 }
