@@ -26,7 +26,7 @@ extension DateFormatter {
     
     static var iso8601: DateFormatter {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
         return dateFormatter
     }
     

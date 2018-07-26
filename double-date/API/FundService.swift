@@ -26,6 +26,7 @@ struct FundService {
     }
     
     func getFunds() -> Observable<[Fund]> {
+        //return network.getItems("funds", headers: [Secrets.tokenKeyString: token ?? ""])
         let cachedFunds = cache.fetchObjects().asObservable()
         let networkFunds = network.getItems("funds", headers: [Secrets.tokenKeyString: token ?? ""])
             .flatMap {

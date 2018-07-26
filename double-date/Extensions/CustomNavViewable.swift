@@ -15,6 +15,7 @@ protocol CustomNavBarViewable: class {
     var navView: View { get set }
     var navBackgroundView: UIView { get set }
     func setupNavBar()
+    func setTitleLabel(_ label: UILabel)
 }
 
 extension CustomNavBarViewable where Self: UIViewController {
@@ -25,6 +26,11 @@ extension CustomNavBarViewable where Self: UIViewController {
         setupNavBarBackgroundView()
         navView.backgroundColor = Palette.faintGrey.color
         navBackgroundView.backgroundColor = Palette.faintGrey.color
+    }
+    
+    func setTitleLabel(_ label: UILabel) {
+        navView.addSubview(label)
+        label.snp.makeConstraints { $0.center.equalTo(navView).offset(2) }
     }
     
     private func setupNavView() {

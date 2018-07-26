@@ -12,10 +12,18 @@ struct Fund: Codable, Identifiable {
     let _id: String
     let admin: User
     let name: String
-//    let startDate: Date
-//    let endDate: Date
+    let startDate: Date
+    let endDate: Date
     var currentUserPortfolio: Portfolio
     let portfolios: [String]
+}
+
+extension Fund {
+    var daysLeft: Int {
+        let days = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day
+        print("days left: \(days ?? 0)")
+        return days ?? 0
+    }
 }
 
 struct Portfolio: Codable, Identifiable {

@@ -11,16 +11,24 @@ import RxSwift
 import RxCocoa
 import RxOptional
 
-class FundListViewController: UIViewController, BindableType {
+class FundListViewController: UIViewController, CustomNavBarViewable, BindableType {
     
     let disposeBag = DisposeBag()
     var viewModel: FundListViewModel!
+    
+    var navView = UIView()
+    var navBackgroundView: UIView = UIView()
     private var continueButton: UIButton!
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = Palette.appBackground.color
+        setupNavBar()
+        navView.backgroundColor = Palette.appBackground.color
+        navBackgroundView.backgroundColor = Palette.appBackground.color
+        setTitleLabel(UILabel(title: "MY FUNDS").rxStyle(font: FontBook.AvenirHeavy.of(size: 11), color: Palette.lightBlue.color))
         setupTableView()
         createContinueButton()
     }
@@ -28,6 +36,9 @@ class FundListViewController: UIViewController, BindableType {
     deinit { print("FundListViewController deinit") }
     
     func bindViewModel() {
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         //MARK: - Input
         let createTapped$ = continueButton.rx.tap.asObservable()
         viewModel.bindCreateFund(createTapped$)
@@ -42,7 +53,7 @@ class FundListViewController: UIViewController, BindableType {
         
         //MARK: - Output
         viewModel.funds
-            .drive(tableView.rx.items(cellIdentifier: FundTableCell.defaultReusableId, cellType: FundTableCell.self)) { row, element, cell in
+            .drive(tableView.rx.items(cellIdentifier: FundSummaryTableCell.defaultReusableId, cellType: FundSummaryTableCell.self)) { row, element, cell in
                 cell.configureWith(value: element)
             }
             .disposed(by: disposeBag)
@@ -72,13 +83,15 @@ class FundListViewController: UIViewController, BindableType {
     }
     
     private func createContinueButton() {
-        continueButton = UIButton().rxStyle(title: "+", font: FontBook.AvenirMedium.of(size: 14), backColor: Palette.aqua.color, titleColor: .white)
+        continueButton = UIButton()
+        continueButton.imageView?.contentMode = .scaleAspectFit
+        continueButton.setImage(#imageLiteral(resourceName: "IC_Plus"), for: .normal)
+        continueButton.dropShadow()
         
         view.addSubview(continueButton)
         continueButton.snp.makeConstraints { (make) in
             make.right.equalTo(view).offset(-20)
-            make.top.equalTo(view).offset(40)
-            make.height.width.equalTo(56)
+            make.centerY.equalTo(navView).offset(2)
         }
     }
     
@@ -100,17 +113,19 @@ extension FundListViewController {
     
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
-        tableView.register(FundTableCell.self, forCellReuseIdentifier: FundTableCell.defaultReusableId)
+        tableView.register(FundSummaryTableCell.self, forCellReuseIdentifier: FundSummaryTableCell.defaultReusableId)
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 0
         tableView.estimatedSectionFooterHeight = 0
-        tableView.separatorStyle = .singleLine
-        tableView.backgroundColor = UIColor.white
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = Palette.appBackground.color
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.edges.equalTo(view)
+            //make.edges.equalTo(view)
+            make.left.bottom.right.equalTo(view)
+            make.top.equalTo(navView.snp.bottom)
         }
         
         refreshControl = UIRefreshControl()

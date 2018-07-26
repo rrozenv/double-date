@@ -29,6 +29,7 @@
 		981FAA0220F43CDC005F2C22 /* StockPurchaseInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981FAA0120F43CDC005F2C22 /* StockPurchaseInfoViewController.swift */; };
 		981FAA0420F43CEA005F2C22 /* StockPurchaseInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981FAA0320F43CEA005F2C22 /* StockPurchaseInfoViewModel.swift */; };
 		981FAA0620F43D93005F2C22 /* TitleTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */; };
+		9826B46E210A131E00E29902 /* FundSummaryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */; };
 		98300A0120D1ED3C00D7C4BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */; };
 		98300A0820D1ED3C00D7C4BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0720D1ED3C00D7C4BA /* Assets.xcassets */; };
 		98300A0B20D1ED3C00D7C4BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0920D1ED3C00D7C4BA /* LaunchScreen.storyboard */; };
@@ -163,6 +164,7 @@
 		981FAA0120F43CDC005F2C22 /* StockPurchaseInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockPurchaseInfoViewController.swift; sourceTree = "<group>"; };
 		981FAA0320F43CEA005F2C22 /* StockPurchaseInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockPurchaseInfoViewModel.swift; sourceTree = "<group>"; };
 		981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextFieldView.swift; sourceTree = "<group>"; };
+		9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundSummaryTableCell.swift; sourceTree = "<group>"; };
 		983009FD20D1ED3C00D7C4BA /* double-date.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "double-date.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98300A0720D1ED3C00D7C4BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -671,6 +673,7 @@
 				986AE2ED20DDD94E00A78E42 /* UserContactTableCell.swift */,
 				986B6DF020E47C67002BF93C /* FundTableCell.swift */,
 				987D54C2210510B7007B3C53 /* DatePickerTableCell.swift */,
+				9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -965,6 +968,7 @@
 				9834950D20EC71FD003AEC8B /* FundInfoTabViewController.swift in Sources */,
 				98F77F2620D5921E005F4B66 /* OnboardingRouter.swift in Sources */,
 				9806646320DD740800951DBD /* TabBarView.swift in Sources */,
+				9826B46E210A131E00E29902 /* FundSummaryTableCell.swift in Sources */,
 				98300A5B20D1F72900D7C4BA /* FontBook.swift in Sources */,
 				989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */,
 				98300A5420D1F6B800D7C4BA /* Observable+Ext.swift in Sources */,
