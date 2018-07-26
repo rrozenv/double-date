@@ -31,6 +31,12 @@ struct MarketViewModel {
         return Driver.merge(_popularStocks.asDriver(), _stocks.asDriver())
     }
     
+    var displayEmptyView: Driver<Bool> {
+        return stocks.asObservable()
+            .map { $0.isNotEmpty }
+            .asDriver(onErrorJustReturn: true)
+    }
+ 
     var error: Driver<NetworkError> {
         return errorTracker.asDriver()
     }
@@ -56,12 +62,16 @@ struct MarketViewModel {
     func bindSearchText(_ observable: Observable<String>) {
         observable
             .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
-            .flatMapLatest {
-                self.stockService.getStockFor(query: $0)
-                    .trackNetworkError(self.errorTracker)
-                    .trackActivity(self.activityIndicator)
-                    .asDriverOnErrorJustComplete()
+            .map { text -> Observable<[StockSummary]> in
+                if text.isEmpty || text == "" {
+                   return self._popularStocks.asObservable()
+                } else {
+                    return self.stockService.getStockFor(query: text)
+                        .trackNetworkError(self.errorTracker)
+                        .trackActivity(self.activityIndicator)
+                }
             }
+            .switchLatest()
             .bind(to: _stocks)
             .disposed(by: disposeBag)
     }

@@ -15,12 +15,13 @@ enum Palette {
     var color: UIColor {
         switch self {
         case .appBackground: return UIColor(hex: 0xFCFEFF)
+        //case .appBackground: return UIColor(hex: 0xF2F6F8)
         case .lightGrey: return UIColor(hex: 0xC0C0C0)
         case .faintGrey: return UIColor(hex: 0xFAFAFA)
         case .darkGrey: return UIColor(hex: 0x717171)
         case .darkNavy: return UIColor(hex: 0x2D3C44)
         case .lightBlue: return UIColor(hex: 0x8FA8B5)
-        case .faintBlue: return UIColor(hex: 0xCAD5DA)
+        case .faintBlue: return UIColor(hex: 0xF2F6F8)
         case .purple: return UIColor(hex: 0x68669F)
         case .aqua: return UIColor(hex: 0x32DEA4)
         }

@@ -65,10 +65,7 @@ class PhoneVerificationViewController: UIViewController, BindableType, CustomNav
         
         viewModel.isLoading
             .drive(onNext: { [weak self] in
-                $0 ? self?.loadingView.loadingIndicator.startAnimating() :
-                    self?.loadingView.loadingIndicator.stopAnimating()
-                
-                self?.loadingView.isHidden = $0 ? false : true
+                self?.animateLoadingView($0)
             })
             .disposed(by: disposeBag)
         

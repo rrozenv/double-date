@@ -71,13 +71,13 @@ class SelectContactsViewController: UIViewController, BindableType, CustomNavBar
         let enableContactsTapped$ = contactsNotEnabledView.button.rx.tap.asObservable()
         viewModel.bindDidSelectEnableContacts(enableContactsTapped$)
         
-        searchBarView.clearButton.rx.tap
-            .do(onNext: { [unowned self] in self.searchBarView.searchTextField.text = nil })
-            .subscribe(onNext: { [weak self] in
-                self?.dataSource.resetSearchFilter()
-                self?.tableView.reloadData()
-            })
-            .disposed(by: disposeBag)
+//        searchBarView.clearButton.rx.tap
+//            .do(onNext: { [unowned self] in self.searchBarView.searchTextField.text = nil })
+//            .subscribe(onNext: { [weak self] in
+//                self?.dataSource.resetSearchFilter()
+//                self?.tableView.reloadData()
+//            })
+//            .disposed(by: disposeBag)
         
         searchBarView.searchTextField.rx.text.orEmpty.asObservable()
             .subscribe(onNext: { [weak self] in

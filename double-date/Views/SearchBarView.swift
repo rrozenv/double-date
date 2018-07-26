@@ -13,7 +13,7 @@ final class SearchBarView: UIView {
     
     var searchTextField: PaddedTextField!
     var searchIconImageView: UIImageView!
-    var clearButton: UIButton!
+    //var clearButton: UIButton!
     
     //MARK: Initalizer Setup
     required init?(coder aDecoder: NSCoder) {
@@ -24,14 +24,14 @@ final class SearchBarView: UIView {
         super.init(frame: .zero)
         setupSearchTextfield()
         setupSearchIcon()
-        setupClearSearchButton()
+        //setupClearSearchButton()
     }
     
     func style(placeHolder: String, backColor: UIColor, searchIcon: UIImage, clearIcon: UIImage) {
         searchTextField.placeholder = placeHolder
         searchTextField.backgroundColor = backColor
         searchIconImageView.image = searchIcon
-        clearButton.setImage(clearIcon, for: .normal)
+        //clearButton.setImage(clearIcon, for: .normal)
     }
     
 }
@@ -39,7 +39,7 @@ final class SearchBarView: UIView {
 extension SearchBarView {
     
     private func setupSearchTextfield() {
-        searchTextField = PaddedTextField(padding: 38)
+        searchTextField = PaddedTextField(padding: 40)
         searchTextField.layer.cornerRadius = 2.0
         searchTextField.layer.masksToBounds = true
         searchTextField.font = FontBook.AvenirMedium.of(size: 14)
@@ -62,15 +62,15 @@ extension SearchBarView {
         }
     }
     
-    private func setupClearSearchButton() {
-        clearButton = UIButton()
-        
-        self.addSubview(clearButton)
-        clearButton.snp.makeConstraints { (make) in
-            make.right.equalTo(searchTextField).offset(-10)
-            make.width.height.equalTo(20)
-            make.centerY.equalTo(searchTextField)
-        }
-    }
+//    private func setupClearSearchButton() {
+//        clearButton = UIButton()
+//
+//        self.addSubview(clearButton)
+//        clearButton.snp.makeConstraints { (make) in
+//            make.right.equalTo(searchTextField).offset(-10)
+//            make.width.height.equalTo(20)
+//            make.centerY.equalTo(searchTextField)
+//        }
+//    }
     
 }
