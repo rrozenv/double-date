@@ -97,9 +97,9 @@ extension HomeRouter: FundListViewModelDelegate {
     func didTapCreateFund(_ vm: FundListViewModel) {
         createFundRouter = CreateFundRouter()
         
-        createFundRouter!.newFund.asObservable()
+        let newFund$ = createFundRouter!.newFund.asObservable()
             .filterNil()
-            .bind(to: vm.bindNewFund)
+        vm.bindNewFund(newFund$, disposeBag: nil)
         
         createFundRouter!.dismiss.asObservable()
             .subscribe(onNext: { [weak self] in
@@ -116,7 +116,7 @@ extension HomeRouter: FundListViewModelDelegate {
         portfolioListVc.setViewModelBinding(model: portfolioListVm)
         
         var positionsListVc = PositionsListViewController()
-        let positionsListVm = PositionsListViewModel(positions: fund.currentUserPortfolio.positions)
+        let positionsListVm = PositionsListViewModel(fund: fund)
         positionsListVc.setViewModelBinding(model: positionsListVm)
         
         let tabAppearence = TabAppearence(type: .underline(.blue),
@@ -131,6 +131,18 @@ extension HomeRouter: FundListViewModelDelegate {
                                                                 portfolioListVc],
                                               tabView: TabOptionsView(appearence: tabAppearence),
                                               fund: fund)
+        
+        let newFund$ = positionsListVm._fund.asObservable().share()
+        newFund$
+            .bind(to: tabVc._fund)
+            .disposed(by: tabVc.disposeBag)
+    
+        fundVc.viewModel.bindNewFund(newFund$, disposeBag: tabVc.disposeBag)
+        
+        positionsListVc._scrollViewDidScroll
+            .bind(to: tabVc.scrollViewDidScroll)
+            .disposed(by: tabVc.disposeBag)
+        
         tabVc.delegate = self
         navVc.pushViewController(tabVc, animated: true)
     }

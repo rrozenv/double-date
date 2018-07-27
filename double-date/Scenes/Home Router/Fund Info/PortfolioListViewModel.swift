@@ -18,7 +18,7 @@ struct PortfolioListViewModel {
     private let portfolioService: PortfolioService
     private let errorTracker: ErrorTracker
     private let _portfolios = Variable<[Portfolio]>([])
-    private let _fund: Variable<Fund>
+    let _fund: Variable<Fund>
     
     //MARK: - Init
     init(fund: Fund, errorTracker: ErrorTracker = ErrorTracker()) {

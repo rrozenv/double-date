@@ -38,4 +38,8 @@ struct FundService {
         return cachedFunds.concat(networkFunds)
     }
     
+    func getFund(id: String) -> Observable<Fund> {
+        return network.getItem("funds", itemId: id)
+    }
+    
 }

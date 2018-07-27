@@ -75,9 +75,10 @@ class FundListViewController: UIViewController, CustomNavBarViewable, BindableTy
     private func toCreateFundRouter() {
         let navVc = UINavigationController()
         let router = CreateFundRouter()
-        router.newFund.asObservable()
+        
+        let newFund$ = router.newFund.asObservable()
             .filterNil()
-            .bind(to: viewModel.bindNewFund)
+        viewModel.bindNewFund(newFund$, disposeBag: nil)
         
         navigationController?.present(navVc, animated: true, completion: nil)
     }

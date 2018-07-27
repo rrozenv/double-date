@@ -25,7 +25,7 @@ class PortfolioListViewController: UIViewController, BindableType {
         //createContinueButton()
     }
     
-    deinit { print("FundInfoViewController deinit") }
+    deinit { print("PortfolioListViewController deinit") }
     
     func bindViewModel() {
         //MARK: - Input

@@ -67,12 +67,16 @@ struct FundListViewModel {
             .disposed(by: disposeBag)
     }
     
-    func bindNewFund(_ observable: Observable<Fund>) {
+    func bindNewFund(_ observable: Observable<Fund>, disposeBag: DisposeBag?) {
         observable
-            .subscribe(onNext: {
-                self._funds.value.insert($0, at: 0)
+            .subscribe(onNext: { fund in
+                guard let index = self._funds.value.index(where: { $0._id == fund._id }) else {
+                    self._funds.value.insert(fund, at: 0)
+                    return
+                }
+                self._funds.value[index] = fund
             })
-            .disposed(by: disposeBag)
+            .disposed(by: disposeBag ?? self.disposeBag)
     }
     
     func bindNewPosition(_ observable: Observable<Position>) {

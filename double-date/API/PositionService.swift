@@ -15,7 +15,7 @@ struct PositionService {
     private let token = MyKeychain.shared.getStringFor(Secrets.tokenKeyString)
     private let cache: Cache = Cache<Position>(path: "positions")
     
-    func getPositions() -> Observable<[Position]> {
+    func getAllPositions() -> Observable<[Position]> {
         let cachedPositions = cache.fetchObjects().asObservable()
         let networkPositions = network.getItems("positions", headers: [Secrets.tokenKeyString: token ?? ""])
             .flatMap {
@@ -25,6 +25,16 @@ struct PositionService {
                     .concat(Observable.just($0))
             }
         return cachedPositions.concat(networkPositions)
+    }
+    
+    func getPositionsFor(fundId: String) -> Observable<[Position]> {
+        return network.getItems("positions/fund/\(fundId)", headers: [Secrets.tokenKeyString: token ?? ""])
+    }
+    
+    func closePosition(posId: String, portfolioId: String) -> Observable<Position> {
+        return network.updateItem("positions/\(posId)",
+                                  itemId: "close",
+                                  parameters: ["portfolioId": portfolioId])
     }
     
     func create(params: [String: Any]) -> Observable<Position> {

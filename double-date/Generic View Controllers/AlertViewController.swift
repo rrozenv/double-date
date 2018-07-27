@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import SnapKit
+import RxSwift
 
 final class AlertViewController: UIViewController {
     
@@ -18,6 +19,7 @@ final class AlertViewController: UIViewController {
                               message: "Message",
                               okButtonTitle: nil,
                               cancelButtonTitle: nil)
+    var okTapped$ = PublishSubject<Void>()
     var okAction: (() -> ())?
     var cancelAction: (() -> ())?
     
@@ -73,6 +75,7 @@ extension AlertViewController {
     }
     
     @objc fileprivate func didSelectOkButton(_ sender: UIButton) {
+        self.okTapped$.onNext(())
         self.dismiss(animated: true, completion: { self.okAction?() })
     }
     
@@ -155,6 +158,20 @@ extension AlertViewController {
                              message: "You purchased \(position.ticker) for $\(position.shares * position.buyPrice)",
                              okButtonTitle: "Got It",
                              cancelButtonTitle: nil)
+        }
+        
+        static func closePositionAlert(position: Position) -> AlertInfo  {
+            return AlertInfo(header: "Close Position?",
+                message: "Would you like to close your position in \(position.ticker) for a \(position.positionROI > 0.0 ? "profit" : "loss") of: \(position.profitLossDouble.asCurreny)",
+                okButtonTitle: "Close",
+                cancelButtonTitle: "Cancel")
+        }
+        
+        static func closePositionConfirmation(position: Position) -> AlertInfo  {
+            return AlertInfo(header: "Success",
+                             message: "You closed your position in \(position.ticker) for a \(position.positionROI > 0.0 ? "profit" : "loss") of: \(position.profitLossDouble.asCurreny)",
+                okButtonTitle: "Got It",
+                cancelButtonTitle: nil)
         }
         
         static func enterLowerCapitalAmount(amount: Int) -> AlertInfo  {

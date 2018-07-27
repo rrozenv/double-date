@@ -16,12 +16,12 @@ protocol FundInfoTabViewControllerDelegate: class {
 
 final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
     
-    private let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
     private var dataSource: TabControllerDataSource!
     private let userService = UserService()
     private let errorTracker = ErrorTracker()
     private var actingVc: UIViewController?
-    private var _fund: Variable<Fund>!
+    var _fund: Variable<Fund>!
     
     private var tabView: (UIView & TabBarViewable)!
     private var headerView: FundInfoHeaderView!
@@ -29,6 +29,8 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
     weak var delegate: FundInfoTabViewControllerDelegate?
     var navView: BackButtonNavView = BackButtonNavView.blackArrow
     var navBackgroundView: UIView = UIView()
+    
+    var scrollViewDidScroll = PublishSubject<UIScrollView>()
     
     required init(coder aDecoder: NSCoder) { super.init(coder: aDecoder)! }
     
@@ -48,8 +50,6 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
-//        navView.containerView.backgroundColor = Palette.lightGrey.color
-//        navBackgroundView.backgroundColor = Palette.lightGrey.color
         view.backgroundColor = UIColor.white
         self.actingVc = dataSource.controllerFor(index: 0)!
         self.transiton(to: actingVc!)
@@ -62,8 +62,8 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
         _fund.asObservable()
             .subscribe(onNext: { [unowned self] in
                 self.headerView
-                    .populateInfoWith(titleText: "\($0.currentUserPortfolio.cashBalance.asCurreny)",
-                                      subTitleText: "\($0.currentUserPortfolio.portfolioROI)%")
+                    .populateInfoWith(titleText: "\($0.currentUserPortfolio.netEquity.asCurreny)",
+                                      subTitleText: "\($0.currentUserPortfolio.portfolioROI.asPercentage)")
             })
             .disposed(by: disposeBag)
         
@@ -80,6 +80,11 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
             .subscribe(onNext: { [unowned self] in
                 self.delegate?.didTapBackButton()
             })
+            .disposed(by: disposeBag)
+        
+        // Need to adjust child vc height as table is scrolled
+        scrollViewDidScroll.asObservable()
+            .subscribe()
             .disposed(by: disposeBag)
     }
     
@@ -118,3 +123,4 @@ extension FundInfoTabViewController {
     }
     
 }
+

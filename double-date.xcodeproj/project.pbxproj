@@ -31,6 +31,7 @@
 		981FAA0620F43D93005F2C22 /* TitleTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */; };
 		9826B46E210A131E00E29902 /* FundSummaryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */; };
 		9826B470210A257800E29902 /* StockSearchTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9826B46F210A257800E29902 /* StockSearchTableCell.swift */; };
+		9826B472210A58A700E29902 /* PositionSummaryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */; };
 		98300A0120D1ED3C00D7C4BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */; };
 		98300A0820D1ED3C00D7C4BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0720D1ED3C00D7C4BA /* Assets.xcassets */; };
 		98300A0B20D1ED3C00D7C4BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0920D1ED3C00D7C4BA /* LaunchScreen.storyboard */; };
@@ -167,6 +168,7 @@
 		981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleTextFieldView.swift; sourceTree = "<group>"; };
 		9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundSummaryTableCell.swift; sourceTree = "<group>"; };
 		9826B46F210A257800E29902 /* StockSearchTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchTableCell.swift; sourceTree = "<group>"; };
+		9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionSummaryTableCell.swift; sourceTree = "<group>"; };
 		983009FD20D1ED3C00D7C4BA /* double-date.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "double-date.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98300A0720D1ED3C00D7C4BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -677,6 +679,7 @@
 				987D54C2210510B7007B3C53 /* DatePickerTableCell.swift */,
 				9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */,
 				9826B46F210A257800E29902 /* StockSearchTableCell.swift */,
+				9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -983,6 +986,7 @@
 				9806646820DD76FD00951DBD /* FundListViewController.swift in Sources */,
 				98300A3F20D1F5B700D7C4BA /* CustomNavViewable.swift in Sources */,
 				9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */,
+				9826B472210A58A700E29902 /* PositionSummaryTableCell.swift in Sources */,
 				98CF487E20E6AB5800C426DB /* SelectFundViewController.swift in Sources */,
 				981FAA0220F43CDC005F2C22 /* StockPurchaseInfoViewController.swift in Sources */,
 				9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */,

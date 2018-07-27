@@ -32,7 +32,7 @@ final class PositionInfo {
             "ticker": stock.quote.symbol,
             "buyPrice": isLimitPriceValid ? limitPrice! : stock.quote.latestPrice,
             "currentPrice": stock.quote.latestPrice,
-            "shares": 20,
+            "shares": sharesCount,
             "fundIds": fundIds,
             "orderType": isLimitPriceValid ? "openLimit" : "market"
         ]

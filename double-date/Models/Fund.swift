@@ -46,8 +46,12 @@ extension Portfolio {
         return positions.reduce(0.0) { result, pos in
             return pos.isPendingBuy ?
                     result :
-                    result + (pos.currentPrice * pos.shares)
+                    result + (pos.status != .open ? (pos.sellPrice! * pos.shares) : (pos.currentPrice * pos.shares))
         }
+    }
+    
+    var netEquity: Double {
+        return (positionsMarketValue - positionsBuyValue) + cashBalance
     }
     
     var portfolioROI: Double {
@@ -59,6 +63,7 @@ extension Portfolio {
 struct Position: Codable, Identifiable {
     let _id: String
     let user: String
+    let status: PositionStatus
     let fundIds: [String]
     let type: String
     let orderType: OrderType
@@ -74,8 +79,12 @@ extension Position {
         return buyPrice * shares
     }
     
-    var profitLoss: Double {
-        return (buyPrice * shares) - (currentPrice * shares)
+    var profitLossDouble: Double {
+        return (currentPrice * shares) - (buyPrice * shares)
+    }
+    
+    var positionROI: Double {
+        return (currentPrice - buyPrice) / currentPrice
     }
     
     var isPendingBuy: Bool {
@@ -85,6 +94,10 @@ extension Position {
 
 enum OrderType: String, Codable {
     case openLimit, closedLimit, market
+}
+
+enum PositionStatus: String, Codable {
+    case open, closed
 }
 
 struct Quote: Codable {

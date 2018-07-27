@@ -43,7 +43,7 @@ struct ProfileViewModel {
     func bindFetchPositions(_ observable: Observable<Void>) {
         observable
             .flatMapLatest {
-                self.positionService.getPositions()
+                self.positionService.getAllPositions()
                     .trackNetworkError(self.errorTracker)
                     .asDriverOnErrorJustComplete()
             }
