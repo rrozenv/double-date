@@ -28,7 +28,8 @@ struct PositionService {
     }
     
     func getPositionsFor(fundId: String) -> Observable<[Position]> {
-        return network.getItems("positions/fund/\(fundId)", headers: [Secrets.tokenKeyString: token ?? ""])
+        return network.getItems("positions/fund/\(fundId)",
+            headers: [Secrets.tokenKeyString: token ?? ""])
     }
     
     func closePosition(posId: String, portfolioId: String) -> Observable<Position> {

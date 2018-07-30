@@ -109,6 +109,9 @@
 		98CF488020E6AB6900C426DB /* SelectFundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */; };
 		98D14ECE20EDA1FB0097AC69 /* PositionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */; };
 		98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */; };
+		98DCE82E210F621F00106F2D /* PositionListMultipleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE82D210F621F00106F2D /* PositionListMultipleSectionModel.swift */; };
+		98DCE830210F676600106F2D /* InvitationTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE82F210F676600106F2D /* InvitationTableCell.swift */; };
+		98DCE832210FB81D00106F2D /* LeaderBoardTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */; };
 		98E9B30220FA4CDB00CF44DE /* TwilioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30120FA4CDB00CF44DE /* TwilioService.swift */; };
 		98E9B30420FA4F1700CF44DE /* TwilioPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30320FA4F1700CF44DE /* TwilioPhoneResponse.swift */; };
 		98E9B30720FA55C000CF44DE /* PhoneVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30620FA55C000CF44DE /* PhoneVerificationViewModel.swift */; };
@@ -253,6 +256,9 @@
 		98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundViewModel.swift; sourceTree = "<group>"; };
 		98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewController.swift; sourceTree = "<group>"; };
 		98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewModel.swift; sourceTree = "<group>"; };
+		98DCE82D210F621F00106F2D /* PositionListMultipleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionListMultipleSectionModel.swift; sourceTree = "<group>"; };
+		98DCE82F210F676600106F2D /* InvitationTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationTableCell.swift; sourceTree = "<group>"; };
+		98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderBoardTableCell.swift; sourceTree = "<group>"; };
 		98E9B30120FA4CDB00CF44DE /* TwilioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioService.swift; sourceTree = "<group>"; };
 		98E9B30320FA4F1700CF44DE /* TwilioPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioPhoneResponse.swift; sourceTree = "<group>"; };
 		98E9B30620FA55C000CF44DE /* PhoneVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewModel.swift; sourceTree = "<group>"; };
@@ -680,6 +686,8 @@
 				9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */,
 				9826B46F210A257800E29902 /* StockSearchTableCell.swift */,
 				9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */,
+				98DCE82F210F676600106F2D /* InvitationTableCell.swift */,
+				98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -698,6 +706,7 @@
 			children = (
 				98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */,
 				98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */,
+				98DCE82D210F621F00106F2D /* PositionListMultipleSectionModel.swift */,
 			);
 			path = "Postitions List";
 			sourceTree = "<group>";
@@ -964,6 +973,7 @@
 				98300A5F20D1F77800D7C4BA /* AppController.swift in Sources */,
 				98B8B78820D30D9E004BD6A1 /* Network.swift in Sources */,
 				9826B470210A257800E29902 /* StockSearchTableCell.swift in Sources */,
+				98DCE82E210F621F00106F2D /* PositionListMultipleSectionModel.swift in Sources */,
 				986AE2DC20DDD59700A78E42 /* SelectContactsViewController.swift in Sources */,
 				986AE2EA20DDD85E00A78E42 /* EmptyView.swift in Sources */,
 				98300A5720D1F6FB00D7C4BA /* ActivityIndicator.swift in Sources */,
@@ -974,6 +984,7 @@
 				9834950920EC6653003AEC8B /* PortfolioListViewModel.swift in Sources */,
 				9834950D20EC71FD003AEC8B /* FundInfoTabViewController.swift in Sources */,
 				98F77F2620D5921E005F4B66 /* OnboardingRouter.swift in Sources */,
+				98DCE832210FB81D00106F2D /* LeaderBoardTableCell.swift in Sources */,
 				9806646320DD740800951DBD /* TabBarView.swift in Sources */,
 				9826B46E210A131E00E29902 /* FundSummaryTableCell.swift in Sources */,
 				98300A5B20D1F72900D7C4BA /* FontBook.swift in Sources */,
@@ -1040,6 +1051,7 @@
 				986B6DF120E47C67002BF93C /* FundTableCell.swift in Sources */,
 				98E9B30420FA4F1700CF44DE /* TwilioPhoneResponse.swift in Sources */,
 				9806645F20DD73B400951DBD /* CustomStackView.swift in Sources */,
+				98DCE830210F676600106F2D /* InvitationTableCell.swift in Sources */,
 				987F4A50210232CB000F25C2 /* EnableNotificationsViewModel.swift in Sources */,
 				9806644E20DD3CD100951DBD /* Fund.swift in Sources */,
 				987F4A4E210232BC000F25C2 /* EnableNotificationsViewController.swift in Sources */,

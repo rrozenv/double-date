@@ -64,5 +64,11 @@ extension User: Decodable {
     
 }
 
+extension User {
+    var fullName: String {
+        return firstName + " " + lastName
+    }
+}
+
 
 

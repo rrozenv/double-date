@@ -23,8 +23,8 @@ struct InvitationService {
         return network.updateItem("invitations", itemId: "\(id)/accept")
     }
     
-//    func create(params: [String: Any]) -> Observable<Position> {
-//        return network.postItem("positions", parameters: params)
-//    }
+    func rejectInvite(id: String) -> Observable<Invitation> {
+        return network.updateItem("invitations", itemId: "\(id)/reject")
+    }
     
 }

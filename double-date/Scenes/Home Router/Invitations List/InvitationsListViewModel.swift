@@ -37,12 +37,20 @@ struct InvitationsListViewModel {
             .disposed(by: disposeBag)
     }
     
-    func bindSelectedInvite(_ observable: Observable<Invitation>) {
+    func bindSelectedInvite(_ observable: Observable<(invite: Invitation, status: InvitationStatus)>) {
         observable
-            .flatMapLatest {
-                self.invitationService.acceptInvite(id: $0._id)
-                    .trackNetworkError(self.errorTracker)
+            .map { invite, status -> Observable<Invitation> in
+                switch status {
+                case .accepted:
+                    return self.invitationService.acceptInvite(id: invite._id)
+                        .trackNetworkError(self.errorTracker)
+                case .rejected:
+                    return self.invitationService.rejectInvite(id: invite._id)
+                        .trackNetworkError(self.errorTracker)
+                default: return .just(invite)
+                }
             }
+            .switchLatest()
             .subscribe(onNext: { invite in
                 if let index = self._invitations.value.index(where: { $0._id == invite._id }) {
                     self._invitations.value.remove(at: index)

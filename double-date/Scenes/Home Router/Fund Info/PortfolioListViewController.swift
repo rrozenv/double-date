@@ -39,8 +39,8 @@ class PortfolioListViewController: UIViewController, BindableType {
         
         //MARK: - Output
         viewModel.portfolios
-            .drive(tableView.rx.items(cellIdentifier: FundTableCell.defaultReusableId, cellType: FundTableCell.self)) { row, element, cell in
-                cell.configureWith(value: element)
+            .drive(tableView.rx.items(cellIdentifier: LeaderBoardTableCell.defaultReusableId, cellType: LeaderBoardTableCell.self)) { row, element, cell in
+                cell.configureWith(value: element, index: row)
             }
             .disposed(by: disposeBag)
         
@@ -57,17 +57,6 @@ class PortfolioListViewController: UIViewController, BindableType {
             })
             .disposed(by: disposeBag)
     }
-    
-//    private func createContinueButton() {
-//        continueButton = UIButton().rxStyle(title: "+", font: FontBook.AvenirMedium.of(size: 14), backColor: Palette.aqua.color, titleColor: .white)
-//
-//        view.addSubview(continueButton)
-//        continueButton.snp.makeConstraints { (make) in
-//            make.right.equalTo(view).offset(-20)
-//            make.top.equalTo(view).offset(40)
-//            make.height.width.equalTo(56)
-//        }
-//    }
     
 }
 
@@ -87,7 +76,7 @@ extension PortfolioListViewController {
     
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
-        tableView.register(FundTableCell.self, forCellReuseIdentifier: FundTableCell.defaultReusableId)
+        tableView.register(LeaderBoardTableCell.self, forCellReuseIdentifier: LeaderBoardTableCell.defaultReusableId)
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 0

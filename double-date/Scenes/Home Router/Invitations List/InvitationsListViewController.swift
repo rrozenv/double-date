@@ -20,6 +20,7 @@ final class InvitationsListViewController: UIViewController, BindableType {
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
     private var initalLoadTrigger = PublishSubject<Void>()
+    private var _inviteResult = PublishSubject<(invite: Invitation, status: InvitationStatus)>()
     private var didAppearOnce = false
     
     override func viewDidLoad() {
@@ -42,8 +43,19 @@ final class InvitationsListViewController: UIViewController, BindableType {
         let fetchInvites$ = Observable.of(initalLoadTrigger.asObservable(), refreshControl$).merge().share()
         viewModel.bindFetchInvites(fetchInvites$)
         
-        let inviteTapped$ = tableView.rx.modelSelected(Invitation.self).asObservable()
-        viewModel.bindSelectedInvite(inviteTapped$)
+        let inviteResult$ = _inviteResult.asObservable()
+        viewModel.bindSelectedInvite(inviteResult$)
+        
+        tableView.rx.modelSelected(Invitation.self).asObservable()
+            .subscribe(onNext: { [unowned self] (invite) in
+                let alertVc = AlertViewController(alertInfo: AlertViewController.AlertInfo.acceptInvitation(invite: invite), okAction: {
+                    self._inviteResult.onNext((invite: invite, status: .accepted))
+                }, cancelAction: {
+                    self._inviteResult.onNext((invite: invite, status: .rejected))
+                })
+                self.displayAlert(vc: alertVc)
+            })
+            .disposed(by: disposeBag)
         
         //MARK: - Output
         viewModel.invitations

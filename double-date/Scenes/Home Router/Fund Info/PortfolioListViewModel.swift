@@ -44,6 +44,7 @@ struct PortfolioListViewModel {
                     .trackNetworkError(self.errorTracker)
                     .asDriverOnErrorJustComplete()
             }
+            .map { $0.sorted(by: { $0.portfolioROI > $1.portfolioROI }) }
             .bind(to: _portfolios)
             .disposed(by: disposeBag)
     }

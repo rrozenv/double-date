@@ -26,11 +26,25 @@ struct PositionsListViewModel {
     }
     
     //MARK: - Outputs
-    var positions: Driver<[Position]> {
+    var sections: Observable<[PositionListMultipleSectionModel]> {
         return _positions.asObservable()
-            .map { $0.filter { $0.status == .open } }
-            .asDriverOnErrorJustComplete()
+            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
+            .map { allPos in
+                [PositionListMultipleSectionModel
+                    .openPositons(title: "OPEN",
+                                  items: allPos.filter { $0.status == .open }),
+                 PositionListMultipleSectionModel
+                    .closedPositons(title: "CLOSED",
+                                    items: allPos.filter { $0.status == .closed })
+                ]
+            }
     }
+    
+//    var positions: Driver<[Position]> {
+//        return _positions.asObservable()
+//            .map { $0.filter { $0.status == .open } }
+//            .asDriverOnErrorJustComplete()
+//    }
     
     var displayDidClosePositionAlert: Driver<Position> {
         return _didClosePosition.asDriverOnErrorJustComplete()

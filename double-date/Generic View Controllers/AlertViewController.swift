@@ -180,6 +180,13 @@ extension AlertViewController {
                 okButtonTitle: "Got It",
                 cancelButtonTitle: nil)
         }
+        
+        static func acceptInvitation(invite: Invitation) -> AlertInfo  {
+            return AlertInfo(header: "Accept Invite>",
+                             message: "Would you like to accept or reject your invite to: \(invite.fundName)?",
+                okButtonTitle: "Accept",
+                cancelButtonTitle: "Reject")
+        }
     }
     
 }
@@ -194,6 +201,7 @@ final class CustomAlertView: UIView {
     var cancelButton: UIButton!
     var stackView: UIStackView!
     var singleButton: UIButton!
+    var dividerView: UIView!
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -211,6 +219,7 @@ final class CustomAlertView: UIView {
             setupOkButton()
             setupCancelButton()
             setupButtonStackView()
+            setupDividerView()
         }
         
         setupHeaderLabel()
@@ -230,12 +239,14 @@ final class CustomAlertView: UIView {
     
     fileprivate func setupOkButton() {
         okButton = UIButton()
-        okButton.backgroundColor = UIColor.red
+        okButton.setTitleColor(Palette.aqua.color, for: .normal)
+        okButton.backgroundColor = UIColor.white
     }
     
     fileprivate func setupCancelButton() {
         cancelButton = UIButton()
-        cancelButton.backgroundColor = UIColor.orange
+        cancelButton.setTitleColor(Palette.lightBlue.color, for: .normal)
+        cancelButton.backgroundColor = UIColor.white
     }
     
     fileprivate func setupButtonStackView() {
@@ -253,40 +264,40 @@ final class CustomAlertView: UIView {
     
     fileprivate func setupHeaderLabel() {
         headerLabel = UILabel()
-        headerLabel.font = FontBook.AvenirHeavy.of(size: 13)
-        headerLabel.textColor = UIColor.black
+        headerLabel.font = FontBook.AvenirHeavy.of(size: 15)
+        headerLabel.textColor = Palette.darkNavy.color
     }
     
     fileprivate func setupMessageLabel() {
         messageLabel = UILabel()
         messageLabel.numberOfLines = 0
-        messageLabel.font = FontBook.AvenirMedium.of(size: 12)
+        messageLabel.font = FontBook.AvenirMedium.of(size: 13)
         messageLabel.textAlignment = .center
-        messageLabel.textColor = UIColor.black
+        messageLabel.textColor = Palette.lightBlue.color
     }
     
     fileprivate func setupLabelStackView(given buttonCount: AlertViewController.ButtonCount) {
         labelStackView = UIStackView(arrangedSubviews: [headerLabel, messageLabel])
         labelStackView.axis = .vertical
-        labelStackView.spacing = 2.0
+        labelStackView.spacing = 10.0
         labelStackView.alignment = .center
         
         containerView.addSubview(labelStackView)
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
         labelStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
         labelStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        labelStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 10).isActive = true
+        labelStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15).isActive = true
         switch buttonCount {
         case .one:
-            labelStackView.bottomAnchor.constraint(equalTo: singleButton.topAnchor, constant: -10).isActive = true
+            labelStackView.bottomAnchor.constraint(equalTo: singleButton.topAnchor, constant: -15).isActive = true
         case .two:
-            labelStackView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -10).isActive = true
+            labelStackView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -15).isActive = true
         }
     }
     
     fileprivate func setupSingleButton() {
         singleButton = UIButton()
-        singleButton.backgroundColor = UIColor.gray
+        singleButton.backgroundColor = UIColor.white
         
         containerView.addSubview(singleButton)
         singleButton.translatesAutoresizingMaskIntoConstraints = false
@@ -294,6 +305,17 @@ final class CustomAlertView: UIView {
         singleButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
         singleButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
         singleButton.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
+    }
+    
+    private func setupDividerView() {
+        dividerView = UIView()
+        dividerView.backgroundColor = Palette.faintGrey.color
+        
+        containerView.addSubview(dividerView)
+        dividerView.snp.makeConstraints { (make) in
+            make.centerX.equalTo(containerView)
+            make.centerY.equalTo(stackView)
+        }
     }
     
 }

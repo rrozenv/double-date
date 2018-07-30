@@ -8,6 +8,7 @@
 
 import Foundation
 import RxSwift
+import RxDataSources
 
 final class PositionsListViewController: UIViewController, BindableType {
     
@@ -51,6 +52,7 @@ final class PositionsListViewController: UIViewController, BindableType {
         viewModel.bindFetchUpdatedFund(fetchUpdatedFund$)
         
         tableView.rx.modelSelected(Position.self).asObservable()
+            .filter { $0.status == .closed }
             .subscribe(onNext: { [unowned self] (pos) in
                 let alertVc = AlertViewController(alertInfo: AlertViewController.AlertInfo.closePositionAlert(position: pos), okAction: {
                     self._shouldClosePosition.onNext(pos)
@@ -63,11 +65,16 @@ final class PositionsListViewController: UIViewController, BindableType {
             .disposed(by: disposeBag)
         
         //MARK: - Output
-        viewModel.positions
-            .drive(tableView.rx.items(cellIdentifier: PositionSummaryTableCell.defaultReusableId, cellType: PositionSummaryTableCell.self)) { row, element, cell in
-                cell.configureWith(value: element)
-            }
+        let dataSource = PositionsListViewController.dataSource()
+        viewModel.sections
+            .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
+        
+//        viewModel.positions
+//            .drive(tableView.rx.items(cellIdentifier: PositionSummaryTableCell.defaultReusableId, cellType: PositionSummaryTableCell.self)) { row, element, cell in
+//                cell.configureWith(value: element)
+//            }
+//            .disposed(by: disposeBag)
         
         viewModel.displayDidClosePositionAlert
             .drive(onNext: { [unowned self] pos in
@@ -77,7 +84,7 @@ final class PositionsListViewController: UIViewController, BindableType {
             })
             .disposed(by: disposeBag)
         
-        viewModel.positions
+        viewModel.sections.asDriverOnErrorJustComplete()
             .map { _ in false }
             .drive(refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
@@ -93,10 +100,26 @@ final class PositionsListViewController: UIViewController, BindableType {
     
 }
 
+extension PositionsListViewController {
+    
+    static func dataSource() -> RxTableViewSectionedReloadDataSource<PositionListMultipleSectionModel> {
+        return RxTableViewSectionedReloadDataSource<PositionListMultipleSectionModel>(
+            configureCell: { (dataSource, table, idxPath, _) in
+                let cell: PositionSummaryTableCell = table.dequeueReusableCell(withIdentifier: FundTableCell.defaultReusableId, for: idxPath) as! PositionSummaryTableCell
+                cell.configureWith(value: dataSource[idxPath])
+                return cell
+        }, titleForHeaderInSection: { dataSource, index in
+            let section = dataSource[index]
+            return section.title
+        })
+    }
+    
+}
+
 extension PositionsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat.leastNonzeroMagnitude
+        return 50.0 //CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
