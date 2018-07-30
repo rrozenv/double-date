@@ -24,7 +24,9 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
     var _fund: Variable<Fund>!
     
     private var tabView: (UIView & TabBarViewable)!
-    private var headerView: FundInfoHeaderView!
+    private var headerView: FundDetailsHeaderView!
+    private var gameNameLabel: UILabel!
+    private var daysLeftLabel: UILabel!
     
     weak var delegate: FundInfoTabViewControllerDelegate?
     var navView: BackButtonNavView = BackButtonNavView.blackArrow
@@ -50,20 +52,23 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavBar()
+        navView.backgroundColor = Palette.aqua.color
+        navBackgroundView.backgroundColor = Palette.aqua.color
         view.backgroundColor = UIColor.white
         self.actingVc = dataSource.controllerFor(index: 0)!
         self.transiton(to: actingVc!)
         setupHeaderView()
         setupTabOptionsView()
+        setupNavLabels()
         setupTabButtonBindings()
     }
     
     func setupTabButtonBindings() {
         _fund.asObservable()
             .subscribe(onNext: { [unowned self] in
-                self.headerView
-                    .populateInfoWith(titleText: "\($0.currentUserPortfolio.netEquity.asCurreny)",
-                                      subTitleText: "\($0.currentUserPortfolio.portfolioROI.asPercentage)")
+                self.headerView.populateInfoWith(netEquity: "\($0.currentUserPortfolio.netEquity.rounded().asCurreny)", returnPercentage: "\($0.currentUserPortfolio.portfolioROI.asPercentage)")
+                self.gameNameLabel.text = $0.name
+                self.daysLeftLabel.text = "\($0.daysLeft) days left"
             })
             .disposed(by: disposeBag)
         
@@ -92,14 +97,27 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
 
 extension FundInfoTabViewController {
     
+    private func setupNavLabels() {
+        gameNameLabel = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 13), color: Palette.darkNavy.color, alignment: .center)
+        daysLeftLabel = UILabel().rxStyle(font: FontBook.AvenirMedium.of(size: 11), color: Palette.darkNavy.color, alignment: .center)
+        
+        let sv = UIStackView(arrangedSubviews: [gameNameLabel, daysLeftLabel])
+        sv.axis = .vertical
+        sv.spacing = 1.0
+        
+        view.addSubview(sv)
+        sv.snp.makeConstraints { (make) in
+            make.center.equalTo(navView)
+        }
+    }
+    
     private func setupHeaderView() {
-        headerView = FundInfoHeaderView()
+        headerView = FundDetailsHeaderView()
         
         view.addSubview(headerView)
         headerView.snp.makeConstraints { (make) in
             make.left.right.equalTo(view)
             make.top.equalTo(navView.snp.bottom)
-            make.height.equalTo(160)
         }
     }
     

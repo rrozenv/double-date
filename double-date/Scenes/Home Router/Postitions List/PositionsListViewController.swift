@@ -55,7 +55,6 @@ final class PositionsListViewController: UIViewController, BindableType {
                 let alertVc = AlertViewController(alertInfo: AlertViewController.AlertInfo.closePositionAlert(position: pos), okAction: {
                     self._shouldClosePosition.onNext(pos)
                 }, cancelAction: nil)
-                //self.viewModel.bindClosePosition(alertVc.okTapped$.asObservable().map { pos })
                 self.displayAlert(vc: alertVc)
             })
             .disposed(by: disposeBag)
@@ -72,9 +71,9 @@ final class PositionsListViewController: UIViewController, BindableType {
         
         viewModel.displayDidClosePositionAlert
             .drive(onNext: { [unowned self] pos in
-//                let alertVc = AlertViewController(alertInfo: AlertViewController.AlertInfo.closePositionConfirmation(position: pos), okAction: nil)
+                let alertVc = AlertViewController(alertInfo: AlertViewController.AlertInfo.closePositionConfirmation(position: pos), okAction: nil)
                 self._shouldFetchUpdatedFund.onNext(())
-                //self.displayAlert(vc: alertVc)
+                self.displayAlert(vc: alertVc)
             })
             .disposed(by: disposeBag)
         
