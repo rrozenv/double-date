@@ -46,8 +46,8 @@ final class LeaderBoardTableCell: UITableViewCell {
     
     // MARK: - Configuration
     func configureWith(value: Portfolio, index: Int) {
-        nameLabel.text = value.user.firstName
-        countLabel.text = "\(index)"
+        nameLabel.text = value.user.name
+        countLabel.text = "\(index + 1)"
         returnLabel.text = "\(value.portfolioROI.asPercentage)"
     }
     
@@ -79,7 +79,7 @@ extension LeaderBoardTableCell {
         countBackgroundView.backgroundColor = Palette.faintBlue.color
         countBackgroundView.layer.cornerRadius = backgroundWidth/2
         
-        countLabel = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 12), color: .white, alignment: .center)
+        countLabel = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 12), color: Palette.lightBlue.color, alignment: .center)
         countBackgroundView.addSubview(countLabel)
         countLabel.snp.makeConstraints { (make) in
             make.center.equalTo(countBackgroundView)
@@ -89,6 +89,7 @@ extension LeaderBoardTableCell {
         countBackgroundView.snp.makeConstraints { (make) in
             make.centerY.equalTo(containerView)
             make.left.equalTo(containerView).offset(20)
+            make.width.height.equalTo(backgroundWidth)
         }
     }
     
@@ -97,7 +98,7 @@ extension LeaderBoardTableCell {
         containerView.addSubview(nameLabel)
         nameLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(containerView)
-            make.left.equalTo(countBackgroundView).offset(20)
+            make.left.equalTo(countBackgroundView.snp.right).offset(20)
         }
     }
     
@@ -107,7 +108,7 @@ extension LeaderBoardTableCell {
         containerView.addSubview(returnLabel)
         returnLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(containerView)
-            make.left.equalTo(containerView).offset(-20)
+            make.right.equalTo(containerView).offset(-20)
         }
     }
     

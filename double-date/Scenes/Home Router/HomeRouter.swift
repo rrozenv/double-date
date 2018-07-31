@@ -15,6 +15,7 @@ final class HomeRouter: Routable {
     enum Screen {
         case tabHome
         case createFund
+        case stockSearch
     }
     
     //MARK: - Private Props
@@ -73,6 +74,7 @@ final class HomeRouter: Routable {
     func navigateTo(screen: Screen) {
         switch screen {
         case .tabHome: toFundDetails()
+        case .stockSearch: toStockSearch()
         case .createFund: break
         }
     }
@@ -82,12 +84,18 @@ final class HomeRouter: Routable {
 extension HomeRouter {
     
     private func toFundDetails() {
+        marketVc.cancelButton.isHidden = true
         let tabVc = TabPageViewController(viewControllers: [fundVc,
                                                             marketVc,
                                                             invitationsVc,
                                                             profileVc],
                                           tabView: TabBarView(bttnCount: 4))
         navVc.pushViewController(tabVc, animated: true)
+    }
+    
+    private func toStockSearch() {
+        marketVc.cancelButton.isHidden = false
+        navVc.pushViewController(marketVc, animated: true)
     }
     
 }
@@ -119,13 +127,13 @@ extension HomeRouter: FundListViewModelDelegate {
         let positionsListVm = PositionsListViewModel(fund: fund)
         positionsListVc.setViewModelBinding(model: positionsListVm)
         
-        let tabAppearence = TabAppearence(type: .underline(.blue),
-                                          itemTitles: ["Positions", "Leaderboard"],
+        let tabAppearence = TabAppearence(type: .underline(Palette.lightBlue.color),
+                                          itemTitles: ["POSITIONS", "LEADERBOARD"],
                                           height: 56.0,
                                           selectedBkgColor: .white,
-                                          selectedTitleColor: .blue,
+                                          selectedTitleColor: Palette.lightBlue.color,
                                           notSelectedBkgColor: .white,
-                                          notSelectedTitleColor: .gray)
+                                          notSelectedTitleColor: Palette.lightBlue.color)
         
         let tabVc = FundInfoTabViewController(viewControllers: [positionsListVc,
                                                                 portfolioListVc],
@@ -136,7 +144,6 @@ extension HomeRouter: FundListViewModelDelegate {
         newFund$
             .bind(to: tabVc._fund)
             .disposed(by: tabVc.disposeBag)
-    
         fundVc.viewModel.bindNewFund(newFund$, disposeBag: tabVc.disposeBag)
         
         positionsListVc._scrollViewDidScroll
@@ -159,6 +166,12 @@ extension HomeRouter: MarketViewModelDelegate {
         
         stockSelectionRouter!.newPosition.asObservable()
             .bind(to: fundVc.viewModel.bindNewPosition)
+        
+        stockSelectionRouter!.newPosition.asObservable()
+            .subscribe(onNext: { _ in
+                NotificationCenter.default.post(name: .newPositionAdded, object: nil)
+            })
+            .disposed(by: stockSelectionRouter!.disposeBag)
        
         stockSelectionRouter!.didDismiss.asObservable()
             .subscribe(onNext: { [weak self] in
@@ -172,6 +185,10 @@ extension HomeRouter: MarketViewModelDelegate {
 }
 
 extension HomeRouter: FundInfoTabViewControllerDelegate {
+    
+    func didTapSearchStockButton() {
+        navigateTo(screen: .stockSearch)
+    }
     
     func didTapBackButton() {
         navVc.popViewController(animated: true)

@@ -12,6 +12,7 @@ import RxCocoa
 
 protocol TabBarViewable: class {
     var buttons: [UIButton] { get }
+    func adjustButtonStyle(selected tag: Int)
 }
 
 final class TabPageViewController: UIViewController {
@@ -69,10 +70,10 @@ final class TabPageViewController: UIViewController {
         
         tabView.buttons.forEach { button in
             button.rx.tap.asObservable().map { button.tag }
-                //.distinctUntilChanged()
                 .subscribe(onNext: { [unowned self] in
                     guard let vc = self.dataSource.controllerFor(index: $0) else { fatalError() }
                     self.transiton(to: vc)
+                    self.tabView.adjustButtonStyle(selected: $0)
                 })
                 .disposed(by: disposeBag)
         }

@@ -27,24 +27,11 @@ struct PositionsListViewModel {
     
     //MARK: - Outputs
     var sections: Observable<[PositionListMultipleSectionModel]> {
-        return _positions.asObservable()
+        return _fund.asObservable()
+            .map { $0.currentUserPortfolio.positions }
             .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
-            .map { allPos in
-                [PositionListMultipleSectionModel
-                    .openPositons(title: "OPEN",
-                                  items: allPos.filter { $0.status == .open }),
-                 PositionListMultipleSectionModel
-                    .closedPositons(title: "CLOSED",
-                                    items: allPos.filter { $0.status == .closed })
-                ]
-            }
+            .map { self.createSectionsFor(positions: $0) }
     }
-    
-//    var positions: Driver<[Position]> {
-//        return _positions.asObservable()
-//            .map { $0.filter { $0.status == .open } }
-//            .asDriverOnErrorJustComplete()
-//    }
     
     var displayDidClosePositionAlert: Driver<Position> {
         return _didClosePosition.asDriverOnErrorJustComplete()
@@ -68,7 +55,8 @@ struct PositionsListViewModel {
     func bindClosePosition(_ observable: Observable<Position>) {
         observable
             .flatMapLatest {
-                self.positionService.closePosition(posId: $0._id, portfolioId: self._fund.value.currentUserPortfolio._id)
+                self.positionService.closePosition(posId: $0._id,
+                                                   portfolioId: self._fund.value.currentUserPortfolio._id)
                     .trackNetworkError(self.errorTracker)
                     .asDriverOnErrorJustComplete()
             }
@@ -99,4 +87,30 @@ struct PositionsListViewModel {
             .disposed(by: disposeBag)
     }
 
+}
+
+extension PositionsListViewModel {
+    
+    private func createSectionsFor(positions: [Position]) -> [PositionListMultipleSectionModel] {
+        var sections = [PositionListMultipleSectionModel]()
+        let openPositions = positions.filter { $0.status == .open }
+        let closedPositions = positions.filter { $0.status == .closed }
+        
+        if openPositions.isNotEmpty {
+            sections.append(
+                PositionListMultipleSectionModel.openPositons(title: "OPEN",
+                                                              items: openPositions)
+            )
+        }
+        
+        if closedPositions.isNotEmpty {
+            sections.append(
+                PositionListMultipleSectionModel.closedPositons(title: "CLOSED",
+                                                              items: closedPositions)
+            )
+        }
+        
+        return sections
+    }
+    
 }

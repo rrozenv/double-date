@@ -9,13 +9,15 @@
 import Foundation
 import RxSwift
 
-final class InvitationsListViewController: UIViewController, BindableType {
+final class InvitationsListViewController: UIViewController, CustomNavBarViewable, BindableType {
     
     //MARK: - Properties
     let disposeBag = DisposeBag()
     var viewModel: InvitationsListViewModel!
     
     //MARK: - Views
+    var navView = UIView()
+    var navBackgroundView: UIView = UIView()
     private var logoutButton: UIButton!
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
@@ -25,7 +27,11 @@ final class InvitationsListViewController: UIViewController, BindableType {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = Palette.appBackground.color
+        setupNavBar()
+        navView.backgroundColor = Palette.appBackground.color
+        navBackgroundView.backgroundColor = Palette.appBackground.color
+        setTitleLabel(UILabel(title: "INVITATIONS").rxStyle(font: FontBook.AvenirHeavy.of(size: 11), color: Palette.lightBlue.color))
         setupTableView()
     }
     
@@ -57,9 +63,12 @@ final class InvitationsListViewController: UIViewController, BindableType {
             })
             .disposed(by: disposeBag)
         
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         //MARK: - Output
         viewModel.invitations
-            .drive(tableView.rx.items(cellIdentifier: FundTableCell.defaultReusableId, cellType: FundTableCell.self)) { row, element, cell in
+            .drive(tableView.rx.items(cellIdentifier: InvitationTableCell.defaultReusableId, cellType: InvitationTableCell.self)) { row, element, cell in
                 cell.configureWith(value: element)
             }
             .disposed(by: disposeBag)
@@ -96,17 +105,18 @@ extension InvitationsListViewController {
     
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
-        tableView.register(FundTableCell.self, forCellReuseIdentifier: FundTableCell.defaultReusableId)
+        tableView.register(InvitationTableCell.self, forCellReuseIdentifier: InvitationTableCell.defaultReusableId)
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 0
         tableView.estimatedSectionFooterHeight = 0
-        tableView.separatorStyle = .singleLine
-        tableView.backgroundColor = UIColor.white
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = Palette.appBackground.color
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.edges.equalTo(view)
+            make.left.right.bottom.equalTo(view)
+            make.top.equalTo(navView.snp.bottom)
         }
         
         refreshControl = UIRefreshControl()

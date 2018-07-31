@@ -17,6 +17,7 @@ final class FundDetailsHeaderView: UIView {
     var bottomRightLabel: UILabel!
     var containerView: UIView!
     var containerStackView: CustomStackView<UIView>!
+    var height: CGFloat = 85
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -44,7 +45,7 @@ final class FundDetailsHeaderView: UIView {
         self.addSubview(containerView)
         containerView.snp.makeConstraints { (make) in
             make.edges.equalTo(self)
-            make.height.equalTo(85)
+            make.height.equalTo(height)
         }
     }
     

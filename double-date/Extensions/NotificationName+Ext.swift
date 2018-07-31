@@ -18,6 +18,7 @@ extension Notification.Name {
     static let userDidUpdate = Notification.Name("userDidUpdate")
     static let changedSubmissionStatusInDetail = Notification.Name("changedSubmissionStatusInDetail")
     static let newNotif = Notification.Name("changedSubmissionStatusInDetail")
+    static let newPositionAdded = Notification.Name("newPositionAdded")
 }
 
 extension Notification {

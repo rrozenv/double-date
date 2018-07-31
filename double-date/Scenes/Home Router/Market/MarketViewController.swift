@@ -75,6 +75,7 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
     var viewModel: MarketViewModel!
     private var continueButton: UIButton!
     private var searchBarView: SearchBarView!
+    var cancelButton: UIButton!
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
     private var emptyLabelsSv: UIStackView!
@@ -85,6 +86,7 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = Palette.appBackground.color
         setupSearchBarView()
         setupTableView()
         setupLoadingIndicator()
@@ -120,6 +122,13 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
         let searchText$ = searchBarView.searchTextField.rx.text.orEmpty.asObservable()
             .throttle(0.5, scheduler: MainScheduler.instance)
         viewModel.bindSearchText(searchText$)
+        
+        cancelButton.rx.tap.asObservable()
+            .subscribe(onNext: { [unowned self] in
+                self.cancelButton.isHidden = true
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
         
 //        let clearSearchTapped$ = searchBarView.clearButton.rx.tap.asObservable()
 //             .do(onNext: { [unowned self] in self.searchBarView.searchTextField.text = nil })
@@ -173,11 +182,16 @@ extension MarketViewController: UITableViewDelegate {
 extension MarketViewController {
     
     private func setupSearchBarView() {
+        cancelButton = UIButton().rxStyle(title: "Cancel", font: FontBook.AvenirMedium.of(size: 11), backColor: .clear, titleColor: Palette.darkNavy.color)
+        
         searchBarView = SearchBarView()
         searchBarView.style(placeHolder: "Search by ticker or company...", backColor: Palette.faintBlue.color, searchIcon: #imageLiteral(resourceName: "IC_Search_LightBlue"), clearIcon: #imageLiteral(resourceName: "IC_ClearSearch"))
         
-        view.addSubview(searchBarView)
-        searchBarView.snp.makeConstraints { (make) in
+        let sv = UIStackView(arrangedSubviews: [searchBarView, cancelButton])
+        sv.spacing = 5.0
+        
+        view.addSubview(sv)
+        sv.snp.makeConstraints { (make) in
             make.top.equalTo(view.snp.topMargin).offset(20)
             make.right.equalTo(view).offset(-20)
             make.left.equalTo(20)

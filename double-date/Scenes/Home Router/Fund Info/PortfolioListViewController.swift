@@ -37,6 +37,9 @@ class PortfolioListViewController: UIViewController, BindableType {
         let fetchPortfolios$ = Observable.of(initialLoad$, refreshControl$).merge().share()
         viewModel.bindFetchPortfolios(fetchPortfolios$)
         
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         //MARK: - Output
         viewModel.portfolios
             .drive(tableView.rx.items(cellIdentifier: LeaderBoardTableCell.defaultReusableId, cellType: LeaderBoardTableCell.self)) { row, element, cell in
@@ -81,8 +84,8 @@ extension PortfolioListViewController {
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 0
         tableView.estimatedSectionFooterHeight = 0
-        tableView.separatorStyle = .singleLine
-        tableView.backgroundColor = UIColor.white
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = Palette.appBackground.color
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in

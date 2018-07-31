@@ -80,16 +80,34 @@ extension Position {
     }
     
     var profitLossDouble: Double {
-        return (currentPrice * shares) - (buyPrice * shares)
+        if let sellPrice = sellPrice, status == .closed {
+            return (sellPrice * shares) - (buyPrice * shares)
+        } else {
+            return (currentPrice * shares) - (buyPrice * shares)
+        }
     }
     
     var positionROI: Double {
-        return (currentPrice - buyPrice) / currentPrice
+        if let sellPrice = sellPrice, status == .closed {
+            return (sellPrice - buyPrice) / sellPrice
+        } else {
+            return (currentPrice - buyPrice) / currentPrice
+        }
     }
     
     var isPendingBuy: Bool {
         return orderType == .openLimit
     }
+}
+
+extension Array where Element == Position {
+    
+    func totalReturn() -> Double {
+        let totalPAndL = self.reduce(0) { (result, pos) in pos.isPendingBuy ? result : result + pos.profitLossDouble }
+        let totalInvested = self.reduce(0) { (result, pos) in pos.isPendingBuy ? result : result + pos.totalPurchaseValue }
+        return totalPAndL / totalInvested
+    }
+    
 }
 
 enum OrderType: String, Codable {

@@ -32,7 +32,8 @@ struct StockService {
         return iexStockNetwork.getItem("stock",
                                   parameters:  ["types": "quote,news,chart", "range": "1d"],
                                   encoding: URLEncoding.default,
-                                  itemId: "\(stockSummary.symbol)/batch")
+                                  itemId: "\(stockSummary.symbol)/batch",
+                                  headers: nil)
     }
     
     func getChartFor(symbol: String, range: String) -> Observable<[ChartPoint]> {

@@ -12,6 +12,7 @@ import RxSwift
 
 protocol FundInfoTabViewControllerDelegate: class {
     func didTapBackButton()
+    func didTapSearchStockButton()
 }
 
 final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
@@ -27,6 +28,7 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
     private var headerView: FundDetailsHeaderView!
     private var gameNameLabel: UILabel!
     private var daysLeftLabel: UILabel!
+    private var searchButton: UIButton!
     
     weak var delegate: FundInfoTabViewControllerDelegate?
     var navView: BackButtonNavView = BackButtonNavView.blackArrow
@@ -55,11 +57,12 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
         navView.backgroundColor = Palette.aqua.color
         navBackgroundView.backgroundColor = Palette.aqua.color
         view.backgroundColor = UIColor.white
-        self.actingVc = dataSource.controllerFor(index: 0)!
-        self.transiton(to: actingVc!)
         setupHeaderView()
         setupTabOptionsView()
         setupNavLabels()
+        setupStockSearchButton()
+        self.actingVc = dataSource.controllerFor(index: 0)!
+        self.transiton(to: actingVc!)
         setupTabButtonBindings()
     }
     
@@ -76,6 +79,7 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
             button.rx.tap.asObservable().map { button.tag }
                 .subscribe(onNext: { [unowned self] in
                     guard let vc = self.dataSource.controllerFor(index: $0) else { fatalError() }
+                    self.tabView.adjustButtonStyle(selected: $0)
                     self.transiton(to: vc)
                 })
                 .disposed(by: disposeBag)
@@ -84,6 +88,12 @@ final class FundInfoTabViewController: UIViewController, CustomNavBarViewable {
         navView.backButton.rx.tap.asObservable()
             .subscribe(onNext: { [unowned self] in
                 self.delegate?.didTapBackButton()
+            })
+            .disposed(by: disposeBag)
+        
+        searchButton.rx.tap.asObservable()
+            .subscribe(onNext: { [unowned self] in
+                self.delegate?.didTapSearchStockButton()
             })
             .disposed(by: disposeBag)
         
@@ -122,10 +132,21 @@ extension FundInfoTabViewController {
     }
     
     private func setupTabOptionsView() {
+        tabView.dropShadow()
         view.addSubview(tabView)
         tabView.snp.makeConstraints { (make) in
             make.left.right.equalTo(view)
             make.top.equalTo(headerView.snp.bottom)
+        }
+    }
+    
+    private func setupStockSearchButton() {
+        searchButton = UIButton().rxStyle(title: "Search", font: FontBook.AvenirHeavy.of(size: 12), backColor: .clear, titleColor: .white)
+        
+        navView.addSubview(searchButton)
+        searchButton.snp.makeConstraints { (make) in
+            make.right.equalTo(navView).offset(-20)
+            make.centerY.equalTo(navView)
         }
     }
     
@@ -136,7 +157,7 @@ extension FundInfoTabViewController {
         
         actingVc!.view.snp.makeConstraints { (make) in
             make.bottom.left.right.equalTo(view)
-            make.top.equalTo(view).offset(120 + 160)
+            make.top.equalTo(tabView.snp.bottom)
         }
     }
     

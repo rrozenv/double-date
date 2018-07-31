@@ -23,6 +23,13 @@ final class TabBarView: UIView, TabBarViewable {
         setupButtonsWith(count: bttnCount)
     }
     
+    func adjustButtonStyle(selected tag: Int) {
+        buttons.forEach {
+            $0.backgroundColor =
+                ($0.tag == tag) ? .red : .yellow
+        }
+    }
+    
     private func setupButtonsWith(count: Int) {
         let props = StackViewProps(axis: .horizontal, distribution: .fillEqually, spacing: 0)
         let stackView = CustomStackView<UIButton>(number: count, stackViewProps: props)
@@ -34,6 +41,8 @@ final class TabBarView: UIView, TabBarViewable {
         for i in 0..<count {
             self.buttons[i].backgroundColor = .random
         }
+        
+        adjustButtonStyle(selected: 0)
       
         self.addSubview(stackView)
         stackView.snp.makeConstraints { (make) in
@@ -143,7 +152,7 @@ extension TabOptionsView {
     private func applyAppearenceTo(button: UIButton) -> UIButton {
         button.backgroundColor = appearence.notSelectedBkgColor
         button.setTitleColor(appearence.notSelectedTitleColor, for: .normal)
-        button.titleLabel?.font = FontBook.AvenirHeavy.of(size: 14)
+        button.titleLabel?.font = FontBook.AvenirHeavy.of(size: 11)
         return button
     }
     

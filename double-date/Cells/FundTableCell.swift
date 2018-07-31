@@ -59,13 +59,13 @@ final class FundTableCell: UITableViewCell {
     }
     
     func configureWith(value: Portfolio) {
-        mainLabel.text = value.user.firstName
+        mainLabel.text = value.user.name
         dateLabel.text = "Entry: \(value.positions.map { $0.ticker }.joined(separator: ", "))"
         countLabel.text = "Return: \(value.portfolioROI * 100.0) %"
     }
     
     func configureWith(value: Invitation) {
-        mainLabel.text = "You were invited to \(value.fundName) by \(value.sentBy.firstName)"
+        mainLabel.text = "You were invited to \(value.fundName) by \(value.sentBy.name)"
         dateLabel.text = "\(value.status.rawValue)"
     }
     

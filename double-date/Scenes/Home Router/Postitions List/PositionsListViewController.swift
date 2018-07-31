@@ -28,7 +28,7 @@ final class PositionsListViewController: UIViewController, BindableType {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = Palette.appBackground.color
         setupTableView()
     }
     
@@ -48,11 +48,12 @@ final class PositionsListViewController: UIViewController, BindableType {
         let closePosition$ = _shouldClosePosition.asObservable()
         viewModel.bindClosePosition(closePosition$)
         
+        let newPositionAdded$ = NotificationCenter.default.rx.notification(Notification.Name.newPositionAdded).asObservable().mapToVoid()
         let fetchUpdatedFund$ = _shouldFetchUpdatedFund.asObservable()
-        viewModel.bindFetchUpdatedFund(fetchUpdatedFund$)
+        viewModel.bindFetchUpdatedFund(Observable.merge(newPositionAdded$, fetchUpdatedFund$))
         
         tableView.rx.modelSelected(Position.self).asObservable()
-            .filter { $0.status == .closed }
+            .filter { $0.status == .open }
             .subscribe(onNext: { [unowned self] (pos) in
                 let alertVc = AlertViewController(alertInfo: AlertViewController.AlertInfo.closePositionAlert(position: pos), okAction: {
                     self._shouldClosePosition.onNext(pos)
@@ -69,12 +70,6 @@ final class PositionsListViewController: UIViewController, BindableType {
         viewModel.sections
             .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
-        
-//        viewModel.positions
-//            .drive(tableView.rx.items(cellIdentifier: PositionSummaryTableCell.defaultReusableId, cellType: PositionSummaryTableCell.self)) { row, element, cell in
-//                cell.configureWith(value: element)
-//            }
-//            .disposed(by: disposeBag)
         
         viewModel.displayDidClosePositionAlert
             .drive(onNext: { [unowned self] pos in
@@ -105,7 +100,7 @@ extension PositionsListViewController {
     static func dataSource() -> RxTableViewSectionedReloadDataSource<PositionListMultipleSectionModel> {
         return RxTableViewSectionedReloadDataSource<PositionListMultipleSectionModel>(
             configureCell: { (dataSource, table, idxPath, _) in
-                let cell: PositionSummaryTableCell = table.dequeueReusableCell(withIdentifier: FundTableCell.defaultReusableId, for: idxPath) as! PositionSummaryTableCell
+                let cell: PositionSummaryTableCell = table.dequeueReusableCell(withIdentifier: PositionSummaryTableCell.defaultReusableId, for: idxPath) as! PositionSummaryTableCell
                 cell.configureWith(value: dataSource[idxPath])
                 return cell
         }, titleForHeaderInSection: { dataSource, index in
@@ -146,7 +141,8 @@ extension PositionsListViewController {
         tableView.estimatedSectionHeaderHeight = 0
         tableView.estimatedSectionFooterHeight = 0
         tableView.separatorStyle = .singleLine
-        tableView.backgroundColor = UIColor.white
+        tableView.separatorStyle = .none
+        tableView.backgroundColor = Palette.appBackground.color
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in

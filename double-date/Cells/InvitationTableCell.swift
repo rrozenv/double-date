@@ -42,13 +42,14 @@ final class InvitationTableCell: UITableViewCell {
         self.layoutMargins = .zero
         self.selectionStyle = .none
         setupContainerView()
+        setupHeaderView()
         setupLabels()
     }
     
     // MARK: - Configuration
     func configureWith(value: Invitation) {
         headerLabel.text = "You were invited..."
-        inviterNameLabel.text = "\(value.sentBy.fullName)"
+        inviterNameLabel.text = "\(value.sentBy.name)"
         gameNameLabel.text = "\(value.fundName)"
     }
 
@@ -92,6 +93,17 @@ extension InvitationTableCell {
         headerView.addSubview(headerLabel)
         headerLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(headerView)
+            make.left.equalTo(headerView).offset(20)
+        }
+        
+        let bottomContainerView = UIView()
+        bottomContainerView.backgroundColor = .white
+        
+        containerView.addSubview(bottomContainerView)
+        bottomContainerView.snp.makeConstraints { (make) in
+            make.left.right.bottom.equalTo(containerView)
+            make.top.equalTo(headerView.snp.bottom)
+            make.height.equalTo(60)
         }
         
         inviterNameLabel = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 13), color: Palette.darkNavy.color, alignment: .left)
@@ -102,13 +114,12 @@ extension InvitationTableCell {
         
         let sv = UIStackView(arrangedSubviews: [inviterNameLabel, gameNameLabel])
         sv.axis = .vertical
-        sv.spacing = 5.0
+        sv.spacing = 2.5
         
-        containerView.addSubview(sv)
+        bottomContainerView.addSubview(sv)
         sv.snp.makeConstraints { (make) in
-            make.left.equalTo(containerView).offset(20)
-            make.bottom.equalTo(containerView).offset(-10)
-            make.top.equalTo(headerView).offset(10)
+            make.left.equalTo(bottomContainerView).offset(20)
+            make.centerY.equalTo(bottomContainerView)
         }
     }
     

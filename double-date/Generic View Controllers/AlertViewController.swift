@@ -22,6 +22,7 @@ final class AlertViewController: UIViewController {
     var okTapped$ = PublishSubject<Void>()
     var okAction: (() -> ())?
     var cancelAction: (() -> ())?
+    var opaqueButton: UIButton!
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -49,9 +50,17 @@ final class AlertViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.modalPresentationStyle = .overCurrentContext
-        self.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        self.view.backgroundColor = .clear
+        setupOpaqueButton()
         setupCustomAlertView()
         configureAlertView(with: alertInfo)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIView.animate(withDuration: 1.0) {
+            self.opaqueButton.alpha = 1.0
+        }
     }
     
     deinit {
@@ -67,28 +76,54 @@ extension AlertViewController {
         customAlertView.messageLabel.text = alertInfo.message
         switch buttonCount {
         case .one:
-            customAlertView.singleButton.setTitle(alertInfo.okButtonTitle, for: .normal)
+            customAlertView.singleButton.setTitle(alertInfo.okButtonTitle.uppercased(), for: .normal)
         case .two:
-            customAlertView.cancelButton.setTitle(alertInfo.cancelButtonTitle, for: .normal)
-            customAlertView.okButton.setTitle(alertInfo.okButtonTitle, for: .normal)
+            customAlertView.cancelButton.setTitle(alertInfo.cancelButtonTitle.uppercased(), for: .normal)
+            customAlertView.okButton.setTitle(alertInfo.okButtonTitle.uppercased(), for: .normal)
         }
     }
     
     @objc fileprivate func didSelectOkButton(_ sender: UIButton) {
         self.okTapped$.onNext(())
-        self.dismiss(animated: true, completion: { self.okAction?() })
+        self.animateBackground { self.dismiss(animated: true, completion: { self.okAction?() }) }
     }
     
     @objc fileprivate func didSelectCancelButton(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: { self.cancelAction?() })
+        self.animateBackground { self.dismiss(animated: true, completion: { self.cancelAction?() }) }
+    }
+    
+    @objc fileprivate func didTapOpaqueButton(_ sender: UIButton) {
+        self.animateBackground { self.dismiss(animated: true, completion: nil) }
+    }
+    
+    private func animateBackground(completion: @escaping () -> Void) {
+        UIView.animate(withDuration: 0.25, animations: {
+            self.opaqueButton.alpha = 0.0
+        }) { _ in
+            completion()
+        }
     }
     
 }
 
 extension AlertViewController {
     
+    private func setupOpaqueButton() {
+        opaqueButton = UIButton()
+        opaqueButton.alpha = 0.0
+        opaqueButton.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        opaqueButton.addTarget(self, action: #selector(didTapOpaqueButton), for: .touchUpInside)
+        
+        view.addSubview(opaqueButton)
+        opaqueButton.snp.makeConstraints { (make) in
+            make.edges.equalTo(view)
+        }
+    }
+    
     fileprivate func setupCustomAlertView() {
         customAlertView = CustomAlertView(buttonCount: buttonCount)
+        customAlertView.layer.cornerRadius = 2.0
+        customAlertView.layer.masksToBounds = true
         switch buttonCount {
         case .one:
             customAlertView.singleButton.addTarget(self, action: #selector(didSelectOkButton(_:)), for: .touchUpInside)
@@ -230,6 +265,9 @@ final class CustomAlertView: UIView {
     fileprivate func setupContainerView() {
         containerView = UIView()
         containerView.backgroundColor = UIColor.white
+        containerView.layer.cornerRadius = 2.0
+        containerView.layer.masksToBounds = true
+        containerView.dropShadow()
         
         self.addSubview(containerView)
         containerView.snp.makeConstraints { (make) in
@@ -240,12 +278,14 @@ final class CustomAlertView: UIView {
     fileprivate func setupOkButton() {
         okButton = UIButton()
         okButton.setTitleColor(Palette.aqua.color, for: .normal)
+        okButton.titleLabel?.font = FontBook.AvenirHeavy.of(size: 15)
         okButton.backgroundColor = UIColor.white
     }
     
     fileprivate func setupCancelButton() {
         cancelButton = UIButton()
         cancelButton.setTitleColor(Palette.lightBlue.color, for: .normal)
+        cancelButton.titleLabel?.font = FontBook.AvenirHeavy.of(size: 15)
         cancelButton.backgroundColor = UIColor.white
     }
     
@@ -279,19 +319,19 @@ final class CustomAlertView: UIView {
     fileprivate func setupLabelStackView(given buttonCount: AlertViewController.ButtonCount) {
         labelStackView = UIStackView(arrangedSubviews: [headerLabel, messageLabel])
         labelStackView.axis = .vertical
-        labelStackView.spacing = 10.0
+        labelStackView.spacing = 15.0
         labelStackView.alignment = .center
         
         containerView.addSubview(labelStackView)
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
-        labelStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 10).isActive = true
-        labelStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -10).isActive = true
-        labelStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 15).isActive = true
+        labelStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 30).isActive = true
+        labelStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -30).isActive = true
+        labelStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
         switch buttonCount {
         case .one:
-            labelStackView.bottomAnchor.constraint(equalTo: singleButton.topAnchor, constant: -15).isActive = true
+            labelStackView.bottomAnchor.constraint(equalTo: singleButton.topAnchor, constant: -5).isActive = true
         case .two:
-            labelStackView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -15).isActive = true
+            labelStackView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -5).isActive = true
         }
     }
     
@@ -315,6 +355,8 @@ final class CustomAlertView: UIView {
         dividerView.snp.makeConstraints { (make) in
             make.centerX.equalTo(containerView)
             make.centerY.equalTo(stackView)
+            make.width.equalTo(2)
+            make.height.equalTo(stackView).multipliedBy(0.5)
         }
     }
     

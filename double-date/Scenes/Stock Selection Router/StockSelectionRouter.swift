@@ -53,7 +53,7 @@ final class StockSelectionRouter: Routable {
     }
     
     //MARK: - Private Props
-    private let disposeBag = DisposeBag()
+    let disposeBag = DisposeBag()
     private let positionService = PositionService()
     private let positionInfo: Variable<PositionInfo>
     private let _funds = Variable<[Fund]>([])

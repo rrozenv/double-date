@@ -17,8 +17,7 @@ enum Gender: String, Codable {
 struct User {
     let _id: String
     let email: String
-    let firstName: String
-    let lastName: String
+    let name: String
     let gender: Gender
     let occupation: String
     let companyName: String
@@ -26,6 +25,7 @@ struct User {
     enum CodingKeys: String, CodingKey {
         case _id
         case email
+        case name
         case firstName
         case lastName
         case gender
@@ -40,8 +40,7 @@ extension User: Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(_id, forKey: ._id)
         try container.encode(email, forKey: .email)
-        try container.encode(firstName, forKey: .firstName)
-        try container.encode(lastName, forKey: .lastName)
+        try container.encode(name, forKey: .name)
         try container.encode(gender, forKey: .gender)
         try container.encode(occupation, forKey: .occupation)
         try container.encode(companyName, forKey: .companyName)
@@ -55,8 +54,7 @@ extension User: Decodable {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         _id = try values.decode(String.self, forKey: ._id)
         email = try values.decode(String.self, forKey: .email)
-        firstName = try values.decodeIfPresent(String.self, forKey: .firstName) ?? "Default First Name"
-        lastName = try values.decodeIfPresent(String.self, forKey: .lastName) ?? "Default Last Name"
+        name = try values.decode(String.self, forKey: .name)
         gender = try values.decodeIfPresent(Gender.self, forKey: .gender) ?? .male
         occupation = try values.decodeIfPresent(String.self, forKey: .occupation) ?? "Default Occupation"
         companyName = try values.decodeIfPresent(String.self, forKey: .companyName) ?? "Default Company Name"
@@ -64,11 +62,6 @@ extension User: Decodable {
     
 }
 
-extension User {
-    var fullName: String {
-        return firstName + " " + lastName
-    }
-}
 
 
 
