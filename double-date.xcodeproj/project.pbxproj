@@ -105,6 +105,7 @@
 		98C06E6E20DB3BD400426EEC /* FundDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C06E6D20DB3BD400426EEC /* FundDetailsViewModel.swift */; };
 		98C06E7020DB401A00426EEC /* FundDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C06E6F20DB401A00426EEC /* FundDetailsViewController.swift */; };
 		98C06E7320DB46A300426EEC /* TextFieldTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C06E7220DB46A300426EEC /* TextFieldTableCell.swift */; };
+		98CE67A621114AE600AFEBF1 /* EmptyLabelsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CE67A521114AE600AFEBF1 /* EmptyLabelsView.swift */; };
 		98CF487E20E6AB5800C426DB /* SelectFundViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CF487D20E6AB5800C426DB /* SelectFundViewController.swift */; };
 		98CF488020E6AB6900C426DB /* SelectFundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */; };
 		98D14ECE20EDA1FB0097AC69 /* PositionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */; };
@@ -252,6 +253,7 @@
 		98C06E6D20DB3BD400426EEC /* FundDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundDetailsViewModel.swift; sourceTree = "<group>"; };
 		98C06E6F20DB401A00426EEC /* FundDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundDetailsViewController.swift; sourceTree = "<group>"; };
 		98C06E7220DB46A300426EEC /* TextFieldTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTableCell.swift; sourceTree = "<group>"; };
+		98CE67A521114AE600AFEBF1 /* EmptyLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyLabelsView.swift; sourceTree = "<group>"; };
 		98CF487D20E6AB5800C426DB /* SelectFundViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundViewController.swift; sourceTree = "<group>"; };
 		98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundViewModel.swift; sourceTree = "<group>"; };
 		98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewController.swift; sourceTree = "<group>"; };
@@ -746,6 +748,7 @@
 				98A846802100F095008535A6 /* StockChartView.swift */,
 				9805770921067B760006821E /* CurrencyTextField.swift */,
 				9899D6062108DEFD00939353 /* PageIndicatorView.swift */,
+				98CE67A521114AE600AFEBF1 /* EmptyLabelsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1032,6 +1035,7 @@
 				987D54C121050A34007B3C53 /* FundDetailsMultipleSectionModel.swift in Sources */,
 				987D54C6210542DA007B3C53 /* DateSelectionViewController.swift in Sources */,
 				9806645420DD5BD700951DBD /* PhoneEntryViewController.swift in Sources */,
+				98CE67A621114AE600AFEBF1 /* EmptyLabelsView.swift in Sources */,
 				989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */,
 				98300A4B20D1F64B00D7C4BA /* UIView+Ext.swift in Sources */,
 				98300A3A20D1F57B00D7C4BA /* BindableType.swift in Sources */,

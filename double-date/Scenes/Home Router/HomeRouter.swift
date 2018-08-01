@@ -28,9 +28,6 @@ final class HomeRouter: Routable {
     private var createFundRouter: CreateFundRouter?
     private var stockSelectionRouter: StockSelectionRouter?
     
-    //MARK: - Public Props
-    var newFund = Variable<Fund?>(nil)
-    
     lazy var fundVc: FundListViewController = { [unowned self] in
         var fundVc = FundListViewController()
         var fundVm = FundListViewModel()
@@ -67,9 +64,7 @@ final class HomeRouter: Routable {
         navVc.isNavigationBarHidden = true
     }
     
-    deinit {
-        print("HomeRouter deinit")
-    }
+    deinit { print("HomeRouter deinit") }
     
     func navigateTo(screen: Screen) {
         switch screen {
@@ -84,7 +79,6 @@ final class HomeRouter: Routable {
 extension HomeRouter {
     
     private func toFundDetails() {
-        marketVc.cancelButton.isHidden = true
         let tabVc = TabPageViewController(viewControllers: [fundVc,
                                                             marketVc,
                                                             invitationsVc,
@@ -105,8 +99,7 @@ extension HomeRouter: FundListViewModelDelegate {
     func didTapCreateFund(_ vm: FundListViewModel) {
         createFundRouter = CreateFundRouter()
         
-        let newFund$ = createFundRouter!.newFund.asObservable()
-            .filterNil()
+        let newFund$ = createFundRouter!.newFund.asObservable().filterNil()
         vm.bindNewFund(newFund$, disposeBag: nil)
         
         createFundRouter!.dismiss.asObservable()

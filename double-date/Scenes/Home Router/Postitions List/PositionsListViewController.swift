@@ -19,9 +19,13 @@ final class PositionsListViewController: UIViewController, BindableType {
     //MARK: - Views
     private var logoutButton: UIButton!
     private var tableView: UITableView!
+    private var emptyView: EmptyLabelsView!
     private var refreshControl: UIRefreshControl!
+    
     private var initalLoadTrigger = PublishSubject<Void>()
     private var didAppearOnce = false
+    private var dataSource: RxTableViewSectionedReloadDataSource<PositionListMultipleSectionModel>!
+    
     var _scrollViewDidScroll = PublishSubject<UIScrollView>()
     var _shouldClosePosition = PublishSubject<Position>()
     var _shouldFetchUpdatedFund = PublishSubject<Void>()
@@ -30,6 +34,7 @@ final class PositionsListViewController: UIViewController, BindableType {
         super.viewDidLoad()
         view.backgroundColor = Palette.appBackground.color
         setupTableView()
+        setupEmptyView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,15 +47,13 @@ final class PositionsListViewController: UIViewController, BindableType {
     deinit { print("PositionsListViewController deinit") }
     
     func bindViewModel() {
-        let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }
-        viewModel.bindFetchPositions(refreshControl$)
-        
         let closePosition$ = _shouldClosePosition.asObservable()
         viewModel.bindClosePosition(closePosition$)
         
         let newPositionAdded$ = NotificationCenter.default.rx.notification(Notification.Name.newPositionAdded).asObservable().mapToVoid()
         let fetchUpdatedFund$ = _shouldFetchUpdatedFund.asObservable()
-        viewModel.bindFetchUpdatedFund(Observable.merge(newPositionAdded$, fetchUpdatedFund$))
+        let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }
+        viewModel.bindFetchUpdatedFund(Observable.merge(newPositionAdded$, fetchUpdatedFund$, refreshControl$))
         
         tableView.rx.modelSelected(Position.self).asObservable()
             .filter { $0.status == .open }
@@ -66,9 +69,21 @@ final class PositionsListViewController: UIViewController, BindableType {
             .disposed(by: disposeBag)
         
         //MARK: - Output
-        let dataSource = PositionsListViewController.dataSource()
-        viewModel.sections
+        dataSource = PositionsListViewController.dataSource()
+        let sections$ = viewModel.sections.share()
+        
+        sections$
             .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        sections$
+            .map { $0.isNotEmpty }
+            .bind(to: emptyView.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        sections$.asDriverOnErrorJustComplete()
+            .map { _ in false }
+            .drive(refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
         viewModel.displayDidClosePositionAlert
@@ -77,11 +92,6 @@ final class PositionsListViewController: UIViewController, BindableType {
                 self._shouldFetchUpdatedFund.onNext(())
                 self.displayAlert(vc: alertVc)
             })
-            .disposed(by: disposeBag)
-        
-        viewModel.sections.asDriverOnErrorJustComplete()
-            .map { _ in false }
-            .drive(refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
         
         viewModel.error
@@ -103,22 +113,31 @@ extension PositionsListViewController {
                 let cell: PositionSummaryTableCell = table.dequeueReusableCell(withIdentifier: PositionSummaryTableCell.defaultReusableId, for: idxPath) as! PositionSummaryTableCell
                 cell.configureWith(value: dataSource[idxPath])
                 return cell
-        }, titleForHeaderInSection: { dataSource, index in
-            let section = dataSource[index]
-            return section.title
         })
     }
-    
+
 }
 
 extension PositionsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50.0 //CGFloat.leastNonzeroMagnitude
+        return 42.0 //CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNonzeroMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 11), color: Palette.lightBlue.color)
+        view.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.left.equalTo(view).offset(23)
+            make.centerY.equalTo(view)
+        }
+        label.text = dataSource[section].title
+        return view
     }
     
 }
@@ -143,6 +162,7 @@ extension PositionsListViewController {
         tableView.separatorStyle = .singleLine
         tableView.separatorStyle = .none
         tableView.backgroundColor = Palette.appBackground.color
+        tableView.contentInset = UIEdgeInsetsMake(10, 0, 0, 0)
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
@@ -151,6 +171,17 @@ extension PositionsListViewController {
         
         refreshControl = UIRefreshControl()
         tableView.addSubview(refreshControl)
+    }
+    
+    private func setupEmptyView() {
+        emptyView = EmptyLabelsView()
+        emptyView.populateInfoWith(title: "No Positions", body: "Add a new position by tapping the search button in the top right.")
+        
+        view.addSubview(emptyView)
+        emptyView.snp.makeConstraints { (make) in
+            make.center.equalTo(view)
+            make.width.equalTo(view).multipliedBy(0.6)
+        }
     }
     
 }

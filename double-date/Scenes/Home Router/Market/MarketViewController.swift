@@ -123,6 +123,7 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
             .throttle(0.5, scheduler: MainScheduler.instance)
         viewModel.bindSearchText(searchText$)
         
+        //Only called when accessed from fund detail
         cancelButton.rx.tap.asObservable()
             .subscribe(onNext: { [unowned self] in
                 self.cancelButton.isHidden = true
@@ -183,12 +184,13 @@ extension MarketViewController {
     
     private func setupSearchBarView() {
         cancelButton = UIButton().rxStyle(title: "Cancel", font: FontBook.AvenirMedium.of(size: 11), backColor: .clear, titleColor: Palette.darkNavy.color)
+        cancelButton.isHidden = true
         
         searchBarView = SearchBarView()
         searchBarView.style(placeHolder: "Search by ticker or company...", backColor: Palette.faintBlue.color, searchIcon: #imageLiteral(resourceName: "IC_Search_LightBlue"), clearIcon: #imageLiteral(resourceName: "IC_ClearSearch"))
         
         let sv = UIStackView(arrangedSubviews: [searchBarView, cancelButton])
-        sv.spacing = 5.0
+        sv.spacing = 20.0
         
         view.addSubview(sv)
         sv.snp.makeConstraints { (make) in
@@ -212,7 +214,7 @@ extension MarketViewController {
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(searchBarView.snp.bottom).offset(20)
+            make.top.equalTo(searchBarView.snp.bottom).offset(10)
             make.left.right.bottom.equalTo(view)
         }
         
