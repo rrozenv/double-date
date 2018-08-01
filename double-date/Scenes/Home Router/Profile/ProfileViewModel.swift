@@ -27,6 +27,10 @@ struct ProfileViewModel {
         return _positions.asDriver()
     }
     
+    var user: Driver<User> {
+        return AppController.shared.user$.filterNil().asDriverOnErrorJustComplete()
+    }
+    
     var error: Driver<NetworkError> {
         return errorTracker.asDriver()
     }

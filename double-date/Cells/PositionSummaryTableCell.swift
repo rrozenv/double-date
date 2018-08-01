@@ -57,6 +57,19 @@ final class PositionSummaryTableCell: UITableViewCell {
         cashReturnLabel.isHidden = value.isPendingBuy
     }
     
+    func configureWith(value: Position, displayClosed: Bool) {
+        symbolLabel.text = value.ticker
+        sharesLabel.text = displayClosed && value.status == .closed ? "Closed" : "\(value.shares) shares @"
+        totalValueLabel.text = displayClosed && value.status == .closed ? "": "\(value.buyPrice.asCurreny)"
+        percentReturnLabel.text = "\(value.positionROI.asPercentage)"
+        cashReturnLabel.text = "\(value.profitLossDouble.asCurreny)"
+        
+        limitPendingLabel.text = "\(value.isPendingBuy ? "Limit Order Pending" : "")"
+        limitPendingLabel.isHidden = value.isPendingBuy ? false : true
+        percentReturnLabel.isHidden = value.isPendingBuy
+        cashReturnLabel.isHidden = value.isPendingBuy
+    }
+    
 }
 
 extension PositionSummaryTableCell {

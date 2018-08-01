@@ -171,11 +171,22 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
 extension MarketViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat.leastNonzeroMagnitude
+        return 42
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNonzeroMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel(title: "POPULAR").rxStyle(font: FontBook.AvenirHeavy.of(size: 11), color: Palette.lightBlue.color)
+        view.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.left.equalTo(view).offset(23)
+            make.centerY.equalTo(view)
+        }
+        return view
     }
     
 }

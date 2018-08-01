@@ -110,6 +110,7 @@
 		98CF488020E6AB6900C426DB /* SelectFundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */; };
 		98D14ECE20EDA1FB0097AC69 /* PositionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */; };
 		98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */; };
+		98D4FD4D211252B60083769C /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D4FD4C211252B60083769C /* ProfileHeaderView.swift */; };
 		98DCE82E210F621F00106F2D /* PositionListMultipleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE82D210F621F00106F2D /* PositionListMultipleSectionModel.swift */; };
 		98DCE830210F676600106F2D /* InvitationTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE82F210F676600106F2D /* InvitationTableCell.swift */; };
 		98DCE832210FB81D00106F2D /* LeaderBoardTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */; };
@@ -258,6 +259,7 @@
 		98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundViewModel.swift; sourceTree = "<group>"; };
 		98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewController.swift; sourceTree = "<group>"; };
 		98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewModel.swift; sourceTree = "<group>"; };
+		98D4FD4C211252B60083769C /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		98DCE82D210F621F00106F2D /* PositionListMultipleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionListMultipleSectionModel.swift; sourceTree = "<group>"; };
 		98DCE82F210F676600106F2D /* InvitationTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationTableCell.swift; sourceTree = "<group>"; };
 		98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderBoardTableCell.swift; sourceTree = "<group>"; };
@@ -749,6 +751,7 @@
 				9805770921067B760006821E /* CurrencyTextField.swift */,
 				9899D6062108DEFD00939353 /* PageIndicatorView.swift */,
 				98CE67A521114AE600AFEBF1 /* EmptyLabelsView.swift */,
+				98D4FD4C211252B60083769C /* ProfileHeaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1004,6 +1007,7 @@
 				98CF487E20E6AB5800C426DB /* SelectFundViewController.swift in Sources */,
 				981FAA0220F43CDC005F2C22 /* StockPurchaseInfoViewController.swift in Sources */,
 				9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */,
+				98D4FD4D211252B60083769C /* ProfileHeaderView.swift in Sources */,
 				9852F97620FC0DD3009E4A9A /* InvitationsListViewController.swift in Sources */,
 				9899D6092108E4E700939353 /* PageIndicatable.swift in Sources */,
 				986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */,

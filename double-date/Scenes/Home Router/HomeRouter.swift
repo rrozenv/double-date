@@ -134,9 +134,7 @@ extension HomeRouter: FundListViewModelDelegate {
                                               fund: fund)
         
         let newFund$ = positionsListVm._fund.asObservable().share()
-        newFund$
-            .bind(to: tabVc._fund)
-            .disposed(by: tabVc.disposeBag)
+        newFund$.bind(to: tabVc._fund).disposed(by: tabVc.disposeBag)
         fundVc.viewModel.bindNewFund(newFund$, disposeBag: tabVc.disposeBag)
         
         positionsListVc._scrollViewDidScroll
