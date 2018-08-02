@@ -110,10 +110,14 @@
 		98CF488020E6AB6900C426DB /* SelectFundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */; };
 		98D14ECE20EDA1FB0097AC69 /* PositionsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */; };
 		98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */; };
+		98D17AC021134891000646E5 /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D17ABF21134891000646E5 /* OnboardViewController.swift */; };
+		98D17AC22113A20B000646E5 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D17AC12113A20B000646E5 /* SettingsViewController.swift */; };
+		98D17AC42113A25C000646E5 /* SettingsOptionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D17AC32113A25C000646E5 /* SettingsOptionTableCell.swift */; };
 		98D4FD4D211252B60083769C /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D4FD4C211252B60083769C /* ProfileHeaderView.swift */; };
 		98DCE82E210F621F00106F2D /* PositionListMultipleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE82D210F621F00106F2D /* PositionListMultipleSectionModel.swift */; };
 		98DCE830210F676600106F2D /* InvitationTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE82F210F676600106F2D /* InvitationTableCell.swift */; };
 		98DCE832210FB81D00106F2D /* LeaderBoardTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */; };
+		98E3A81B211286D600C8E3FC /* InfiniteScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E3A81A211286D600C8E3FC /* InfiniteScrollView.swift */; };
 		98E9B30220FA4CDB00CF44DE /* TwilioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30120FA4CDB00CF44DE /* TwilioService.swift */; };
 		98E9B30420FA4F1700CF44DE /* TwilioPhoneResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30320FA4F1700CF44DE /* TwilioPhoneResponse.swift */; };
 		98E9B30720FA55C000CF44DE /* PhoneVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E9B30620FA55C000CF44DE /* PhoneVerificationViewModel.swift */; };
@@ -259,10 +263,14 @@
 		98CF487F20E6AB6900C426DB /* SelectFundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundViewModel.swift; sourceTree = "<group>"; };
 		98D14ECD20EDA1FB0097AC69 /* PositionsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewController.swift; sourceTree = "<group>"; };
 		98D14ECF20EDA2070097AC69 /* PositionsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionsListViewModel.swift; sourceTree = "<group>"; };
+		98D17ABF21134891000646E5 /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
+		98D17AC12113A20B000646E5 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		98D17AC32113A25C000646E5 /* SettingsOptionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsOptionTableCell.swift; sourceTree = "<group>"; };
 		98D4FD4C211252B60083769C /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		98DCE82D210F621F00106F2D /* PositionListMultipleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionListMultipleSectionModel.swift; sourceTree = "<group>"; };
 		98DCE82F210F676600106F2D /* InvitationTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvitationTableCell.swift; sourceTree = "<group>"; };
 		98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderBoardTableCell.swift; sourceTree = "<group>"; };
+		98E3A81A211286D600C8E3FC /* InfiniteScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfiniteScrollView.swift; sourceTree = "<group>"; };
 		98E9B30120FA4CDB00CF44DE /* TwilioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioService.swift; sourceTree = "<group>"; };
 		98E9B30320FA4F1700CF44DE /* TwilioPhoneResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwilioPhoneResponse.swift; sourceTree = "<group>"; };
 		98E9B30620FA55C000CF44DE /* PhoneVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewModel.swift; sourceTree = "<group>"; };
@@ -573,6 +581,8 @@
 			children = (
 				98300A6520D1FEEE00D7C4BA /* InitialViewController.swift */,
 				98300A6920D1FF4C00D7C4BA /* InitialViewModel.swift */,
+				98E3A81A211286D600C8E3FC /* InfiniteScrollView.swift */,
+				98D17ABF21134891000646E5 /* OnboardViewController.swift */,
 			);
 			path = Inital;
 			sourceTree = "<group>";
@@ -692,6 +702,7 @@
 				9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */,
 				98DCE82F210F676600106F2D /* InvitationTableCell.swift */,
 				98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */,
+				98D17AC32113A25C000646E5 /* SettingsOptionTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -761,6 +772,7 @@
 			children = (
 				98FA5C9920E0436500FA4818 /* ProfileViewController.swift */,
 				98FA5C9B20E0437000FA4818 /* ProfileViewModel.swift */,
+				98D17AC12113A20B000646E5 /* SettingsViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -970,8 +982,11 @@
 				98F77F2E20D59475005F4B66 /* ButtonLabel.swift in Sources */,
 				9899D6072108DEFD00939353 /* PageIndicatorView.swift in Sources */,
 				98C06E7020DB401A00426EEC /* FundDetailsViewController.swift in Sources */,
+				98E3A81B211286D600C8E3FC /* InfiniteScrollView.swift in Sources */,
 				98300A5220D1F69300D7C4BA /* KeyboardAvoidable.swift in Sources */,
+				98D17AC22113A20B000646E5 /* SettingsViewController.swift in Sources */,
 				9852F97820FC0DE1009E4A9A /* InvitationsListViewModel.swift in Sources */,
+				98D17AC42113A25C000646E5 /* SettingsOptionTableCell.swift in Sources */,
 				986AE2E220DDD68300A78E42 /* ValueCellDataSource.swift in Sources */,
 				987D54C8210542E7007B3C53 /* DateSelectionViewModel.swift in Sources */,
 				98F77F3020D59497005F4B66 /* EnterNameViewController.swift in Sources */,
@@ -1019,6 +1034,7 @@
 				98300A4120D1F63F00D7C4BA /* ConstraintMaker+Ext.swift in Sources */,
 				9805770621062BAA0006821E /* CreateFundFormViewModel.swift in Sources */,
 				9806646A20DD778500951DBD /* FundListViewModel.swift in Sources */,
+				98D17AC021134891000646E5 /* OnboardViewController.swift in Sources */,
 				98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */,
 				9809890220E3173A00C32BE0 /* StockService.swift in Sources */,
 				98300A3320D1F01500D7C4BA /* Secrets.swift in Sources */,

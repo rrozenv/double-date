@@ -19,19 +19,36 @@ final class ProfileViewController: UIViewController, CustomNavBarViewable, Binda
     var navView = UIView()
     var navBackgroundView: UIView = UIView()
     private var logoutButton: UIButton!
+    private var settingsButton: UIButton!
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
     private var headerView: ProfileHeaderView!
 
     private var initalLoadTrigger = PublishSubject<Void>()
     private var didAppearOnce = false
+    private var userProfileDisplayed = Variable(false)
+    
+    private lazy var userProfileViewController: UserProfileViewController = { [unowned self] in
+        var vc = UserProfileViewController()
+        let vm = UserProfileViewModel()
+        vc.setViewModelBinding(model: vm)
+        vm.didDismiss.asObservable()
+            .map { false }
+            .bind(to: self.userProfileDisplayed)
+            .disposed(by: vm.disposeBag)
+        return vc
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        navView.backgroundColor = .white
+        navBackgroundView.backgroundColor = .white
         setupNavBar()
-        //createLogoutButton()
         setupTableView()
+        createSettingsButton()
+        setupSettingsVc()
+        //createLogoutButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -52,6 +69,19 @@ final class ProfileViewController: UIViewController, CustomNavBarViewable, Binda
         viewModel.bindFetchPositions(fetchPositions$)
         
         tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        userProfileDisplayed.asObservable()
+            .skip(1)
+            .subscribe(onNext: { [unowned self] in
+                self.toggleUserProfileVc(isDisplayed: $0)
+            })
+            .disposed(by: disposeBag)
+        
+        settingsButton.rx.tap.asObservable()
+            .subscribe(onNext: { [unowned self] in
+                self.userProfileDisplayed.value = !self.userProfileDisplayed.value
+            })
             .disposed(by: disposeBag)
         
         //MARK: - Output
@@ -81,11 +111,50 @@ final class ProfileViewController: UIViewController, CustomNavBarViewable, Binda
             .disposed(by: disposeBag)
     }
     
+    private func setupSettingsVc() {
+        var vc = UserProfileViewController()
+        let vm = UserProfileViewModel()
+        vc.setViewModelBinding(model: vm)
+        vm.didDismiss.asObservable()
+            .map { false }
+            .bind(to: self.userProfileDisplayed)
+            .disposed(by: vm.disposeBag)
+        let frame = CGRect(x: self.view.frame.origin.x - self.view.frame.size.width,
+                           y: self.view.frame.origin.y,
+                           width: view.frame.size.width,
+                           height: view.frame.size.height)
+        self.addChild(self.userProfileViewController, frame: frame, animated: false)
+    }
+    
+    private func toggleUserProfileVc(isDisplayed: Bool) {
+        if isDisplayed {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.userProfileViewController.view.frame.origin.x += self.view.frame.size.width
+                self.view.layoutIfNeeded()
+            })
+        } else {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.userProfileViewController.view.frame.origin.x -= self.view.frame.size.width
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
+    
 }
 
 extension ProfileViewController {
     
-    private func createLogoutButton() {
+    private func createSettingsButton() {
+        settingsButton = UIButton().rxStyle(title: "", font: FontBook.AvenirMedium.of(size: 14), backColor: Palette.aqua.color, titleColor: .white)
+        
+        view.addSubview(settingsButton)
+        settingsButton.snp.makeConstraints { (make) in
+            make.right.top.equalTo(view).inset(20)
+            make.height.width.equalTo(50)
+        }
+    }
+    
+    private func settingsLogoutButton() {
         logoutButton = UIButton().rxStyle(title: "Logout", font: FontBook.AvenirMedium.of(size: 14), backColor: Palette.aqua.color, titleColor: .white)
         
         view.addSubview(logoutButton)
@@ -110,6 +179,7 @@ extension ProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
+        //view.backgroundColor = Palette.appBackground.color
         let label = UILabel(title: "TRADE HISTORY").rxStyle(font: FontBook.AvenirHeavy.of(size: 11), color: Palette.lightBlue.color)
         view.addSubview(label)
         label.snp.makeConstraints { (make) in
@@ -124,7 +194,7 @@ extension ProfileViewController: UITableViewDelegate {
 extension ProfileViewController {
     
     private func setupTableView() {
-        tableView = UITableView(frame: CGRect.zero, style: .grouped)
+        tableView = UITableView(frame: CGRect.zero, style: .plain)
         tableView.register(PositionSummaryTableCell.self, forCellReuseIdentifier: PositionSummaryTableCell.defaultReusableId)
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -132,13 +202,13 @@ extension ProfileViewController {
         tableView.estimatedSectionFooterHeight = 0
         tableView.separatorStyle = .none
         tableView.backgroundColor = Palette.appBackground.color
+        tableView.contentInsetAdjustmentBehavior = .never
         
         headerView = ProfileHeaderView()
         headerView.dropShadow()
         tableView.tableHeaderView = headerView
         headerView.snp.makeConstraints { (make) in
-            make.height.equalTo(120)
-            make.centerX.width.top.equalTo(tableView)
+            make.centerX.width.top.bottom.equalTo(tableView)
         }
         
         view.addSubview(tableView)

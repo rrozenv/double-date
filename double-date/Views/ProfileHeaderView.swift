@@ -43,6 +43,7 @@ final class ProfileHeaderView: UIView {
         self.addSubview(containerView)
         containerView.snp.makeConstraints { (make) in
             make.edges.equalTo(self)
+            make.height.equalTo(120)
         }
     }
     
