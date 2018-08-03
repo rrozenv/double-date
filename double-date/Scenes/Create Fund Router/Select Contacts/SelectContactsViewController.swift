@@ -30,9 +30,7 @@ class SelectContactsViewController: UIViewController, BindableType, CustomNavBar
     override func loadView() {
         super.loadView()
         self.view.backgroundColor = .white
-        setupNavBar()
-//        navView.containerView.backgroundColor = Palette.lightGrey.color
-//        navBackgroundView.backgroundColor = Palette.lightGrey.color
+        setupNavBar(color: .white)
         setupSearchBarView()
         setupTableView()
         setupEmptyView()

@@ -17,9 +17,11 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
     let disposeBag = DisposeBag()
     var viewModel: StockDetailViewModel!
     private var tableView: UITableView!
+    private var dataSource: RxTableViewSectionedReloadDataSource<StockDetailMultipleSectionModel>!
+    
     var navView: BackButtonNavView = BackButtonNavView.blackArrow
     var navBackgroundView: UIView = UIView()
-    var stackView: CustomStackView<UILabel>!
+    var navViewLabels: CustomStackView<UILabel>!
     var stockChartView: StockChartView = StockChartView()
     
     //MARK: - Views
@@ -29,6 +31,7 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         setupNavBar()
+        createNavViewLabels()
         setupTableView()
         setupBuyButton()
     }
@@ -46,25 +49,38 @@ final class StockDetailViewController: UIViewController, CustomNavBarViewable, B
 //        let initialLoad$ = Observable.of(())
 //        viewModel.bindFetchStockDetails(initialLoad$)
         
-        stockChartView.chartRangeButtons.views.forEach { button in
+        stockChartView.chartButtons.buttons.forEach { button in
             let rangeTappedTag$ = button.rx.tap.asObservable().map { button.tag }
             viewModel.bindSelectedRange(rangeTappedTag$.startWith(0))
         }
         
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
         //MARK: - Outputs
-        let dataSource = StockDetailViewController.dataSource()
+        dataSource = StockDetailViewController.dataSource()
         viewModel.sections
             .bind(to: tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        viewModel.stock
+            .drive(onNext: { [unowned self] in
+                self.navViewLabels.item(at: 0).text = $0.quote.symbol.uppercased()
+                self.navViewLabels.item(at: 1).text = $0.quote.companyName
+                self.stockChartView.priceLabel.text = "\($0.quote.latestPrice.asCurreny)"
+                self.stockChartView.returnLabel.text = "\($0.quote.changePercent.asPercentage)"
+            })
             .disposed(by: disposeBag)
         
         viewModel.chartSeries
             .drive(onNext: { [weak self] chartData in
                 print("Chart time series: \(chartData.pointsAsDouble)")
                 self?.stockChartView.chart.removeAllSeries()
-                self?.stockChartView.chart.add(ChartSeries(chartData.pointsAsDouble))
-                self?.stockChartView.chartRangeButtons.setBackgroundColor(at: chartData.range.rawValue,
-                                                           color: .red,
-                                                           isUnique: true)
+                let series = ChartSeries(chartData.pointsAsDouble)
+                //series.area = true
+                series.color = Palette.aqua.color
+                self?.stockChartView.chart.add(series)
+                self?.stockChartView.chartButtons.adjustButtonStyle(selected: chartData.range.rawValue)
             })
             .disposed(by: disposeBag)
         
@@ -90,47 +106,70 @@ extension StockDetailViewController {
             configureCell: { (dataSource, table, idxPath, _) in
                 switch dataSource[idxPath] {
                 case let .quoteSectionItem(quote):
-                    let cell: FundTableCell = table.dequeueReusableCell(withIdentifier: FundTableCell.defaultReusableId, for: idxPath) as! FundTableCell
+                    let cell: FundSummaryTableCell = table.dequeueReusableCell(withIdentifier: FundSummaryTableCell.defaultReusableId, for: idxPath) as! FundSummaryTableCell
                     cell.configureWith(value: quote)
                     return cell
                 case let .newsSectionItem(article):
-                    let cell: FundTableCell = table.dequeueReusableCell(withIdentifier: FundTableCell.defaultReusableId, for: idxPath) as! FundTableCell
+                    let cell: FundSummaryTableCell = table.dequeueReusableCell(withIdentifier: FundSummaryTableCell.defaultReusableId, for: idxPath) as! FundSummaryTableCell
                     cell.configureWith(value: article)
                     return cell
                 }
-        }, titleForHeaderInSection: { dataSource, index in
-                let section = dataSource[index]
-                return section.title
         })
     }
     
 }
 
+extension StockDetailViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 42.0 //CGFloat.leastNonzeroMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return CGFloat.leastNonzeroMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 11), color: Palette.lightBlue.color)
+        view.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.left.equalTo(view).offset(23)
+            make.centerY.equalTo(view)
+        }
+        label.text = dataSource[section].title
+        return view
+    }
+
+}
+
 extension StockDetailViewController {
     
-    private func createLabels() {
-        stackView = CustomStackView<UILabel>(number: 3, stackViewProps: StackViewProps(axis: .vertical, distribution: .equalSpacing, spacing: 20))
+    private func createNavViewLabels() {
+        navViewLabels = CustomStackView<UILabel>(number: 2, stackViewProps: StackViewProps(axis: .vertical, distribution: .equalSpacing, spacing: 1.0))
+        navViewLabels.item(at: 0).styleWith(LabelStyle(font: FontBook.AvenirHeavy.of(size: 14.0), color: Palette.darkNavy.color, alignment: .center, numberOfLines: 1))
+        navViewLabels.item(at: 1).styleWith(LabelStyle(font: FontBook.AvenirMedium.of(size: 11.0), color: Palette.lightBlue.color, alignment: .center, numberOfLines: 1))
         
-        view.addSubview(stackView)
-        stackView.snp.makeConstraints { (make) in
-            make.center.equalTo(view)
+        view.addSubview(navViewLabels)
+        navViewLabels.snp.makeConstraints { (make) in
+            make.center.equalTo(navView)
         }
     }
     
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
-        tableView.register(FundTableCell.self, forCellReuseIdentifier: FundTableCell.defaultReusableId)
+        tableView.register(FundSummaryTableCell.self, forCellReuseIdentifier: FundSummaryTableCell.defaultReusableId)
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 0
         tableView.estimatedSectionFooterHeight = 0
-        tableView.separatorStyle = .singleLine
+        tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.white
         
+        //stockChartView.dropShadow()
         tableView.tableHeaderView = stockChartView
         stockChartView.snp.makeConstraints { (make) in
             make.centerX.width.top.equalTo(tableView)
-            //make.height.equalTo(180)
         }
         
         view.addSubview(tableView)
@@ -141,7 +180,8 @@ extension StockDetailViewController {
     }
     
     private func setupBuyButton() {
-        buyButton = UIButton().rxStyle(title: "Buy", font: FontBook.AvenirMedium.of(size: 14), backColor: Palette.aqua.color, titleColor: .white)
+        buyButton = UIButton().rxStyle(title: "BUY", font: FontBook.AvenirHeavy.of(size: 12), backColor: Palette.aqua.color, titleColor: .white)
+        buyButton.dropShadow()
         
         view.addSubview(buyButton)
         buyButton.snp.makeConstraints { (make) in

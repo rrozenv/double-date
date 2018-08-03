@@ -86,9 +86,9 @@ struct StockDetailViewModel {
             .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
             .map {
                 [
-                    StockDetailMultipleSectionModel.quoteSection(title: "Quote",
-                                                      items: [.quoteSectionItem($0.quote)]),
-                    StockDetailMultipleSectionModel.newsSection(title: "News",
+//                    StockDetailMultipleSectionModel.quoteSection(title: "QUOTE",
+//                                                      items: [.quoteSectionItem($0.quote)]),
+                    StockDetailMultipleSectionModel.newsSection(title: "NEWS",
                                                      items: $0.news.map { StockDetailSectionItem.newsSectionItem($0) })
                 ]
             }

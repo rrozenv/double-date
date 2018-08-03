@@ -40,6 +40,7 @@ final class TabBarView: UIView, TabBarViewable {
         
         for i in 0..<count {
             self.buttons[i].backgroundColor = .random
+            self.buttons[i].setTitle("\(i + 1)", for: .normal)
         }
         
         adjustButtonStyle(selected: 0)
@@ -99,9 +100,9 @@ final class TabOptionsView: UIView, TabBarViewable {
             switch appearence.type {
             case .underline(_):
                 centerYSlidingViewConstraint.update(offset: button(at: tag).frame.origin.x)
-                UIView.animate(withDuration: 0.5, animations: {
+                UIView.animate(withDuration: 0.2, delay: 0, options: [.curveEaseIn], animations: {
                     self.layoutIfNeeded()
-                })
+                }, completion: nil)
             default: break
             }
         }

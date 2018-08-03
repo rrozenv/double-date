@@ -14,18 +14,18 @@ protocol CustomNavBarViewable: class {
     associatedtype View: UIView
     var navView: View { get set }
     var navBackgroundView: UIView { get set }
-    func setupNavBar()
+    func setupNavBar(color: UIColor?)
     func setTitleLabel(_ label: UILabel)
 }
 
 extension CustomNavBarViewable where Self: UIViewController {
     
-    func setupNavBar() {
+    func setupNavBar(color: UIColor? = nil) {
         self.navigationController?.isNavigationBarHidden = true
         setupNavView()
         setupNavBarBackgroundView()
-        navView.backgroundColor = Palette.faintGrey.color
-        navBackgroundView.backgroundColor = Palette.faintGrey.color
+        navView.backgroundColor = color
+        navBackgroundView.backgroundColor = color
     }
     
     func setTitleLabel(_ label: UILabel) {

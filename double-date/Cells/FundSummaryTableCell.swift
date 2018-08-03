@@ -49,6 +49,16 @@ final class FundSummaryTableCell: UITableViewCell {
         rightLabel.text = "\(value.currentUserPortfolio.portfolioROI.asPercentage)"
     }
     
+    func configureWith(value: NewsArticle) {
+        mainLabel.text = value.headline
+        dateLabel.text = value.source
+    }
+    
+    func configureWith(value: Quote) {
+        mainLabel.text = value.companyName
+        dateLabel.text = value.symbol
+    }
+    
 }
 
 extension FundSummaryTableCell {
@@ -75,6 +85,7 @@ extension FundSummaryTableCell {
         mainLabel = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 13), color: Palette.darkNavy.color, alignment: .left)
         mainLabel.lineBreakMode = .byTruncatingTail
         mainLabel.numberOfLines = 1
+        mainLabel.lineBreakMode = .byTruncatingTail
         
         dateLabel = UILabel().rxStyle(font: FontBook.AvenirMedium.of(size: 12), color: Palette.lightGrey.color, alignment: .left)
         dateLabel.numberOfLines = 1
@@ -88,6 +99,7 @@ extension FundSummaryTableCell {
         labelsStackView.snp.makeConstraints { (make) in
             make.centerY.equalTo(containerView)
             make.left.equalTo(containerView).offset(20)
+            make.right.equalTo(containerView).offset(-20)
         }
     }
     
