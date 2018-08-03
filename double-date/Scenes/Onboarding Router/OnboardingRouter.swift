@@ -43,6 +43,7 @@ final class OnboardingInfo {
 final class OnboardingRouter: Routable {
     
     enum Screen {
+        case testing
         case inital
         case name
         case phoneNumber(displayType: PhoneEntryViewModel.DisplayType)
@@ -60,7 +61,7 @@ final class OnboardingRouter: Routable {
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
-    var screenOrder: [Screen] = [.inital, .name, .phoneNumber(displayType: .signup), .verificationCode(countryCode: "", phoneNumber: "")]
+    var screenOrder: [Screen] = [.testing, .inital, .name, .phoneNumber(displayType: .signup), .verificationCode(countryCode: "", phoneNumber: "")]
     var screenIndex = 0
     
     init() {
@@ -118,6 +119,7 @@ final class OnboardingRouter: Routable {
     func navigateTo(screen: Screen) {
         DispatchQueue.main.async {
             switch screen {
+            case .testing: self.toTestingScene()
             case .inital: self.toInitalScene()
             case .phoneNumber(let displayType): self.toPhoneNumber(displayType: displayType)
             case .verificationCode(countryCode: let code, phoneNumber: let phone):
@@ -137,6 +139,11 @@ final class OnboardingRouter: Routable {
 }
 
 extension OnboardingRouter {
+    
+    private func toTestingScene() {
+        var vc = TestingViewController()
+        navVc.pushViewController(vc, animated: false)
+    }
     
     private func toInitalScene() {
         var vc = InitialViewController()

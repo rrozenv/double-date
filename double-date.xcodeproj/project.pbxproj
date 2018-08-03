@@ -92,6 +92,12 @@
 		987D54C8210542E7007B3C53 /* DateSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987D54C7210542E7007B3C53 /* DateSelectionViewModel.swift */; };
 		987F4A4E210232BC000F25C2 /* EnableNotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987F4A4D210232BC000F25C2 /* EnableNotificationsViewController.swift */; };
 		987F4A50210232CB000F25C2 /* EnableNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */; };
+		988B89B321149F2800E27ACF /* UIViewAnchorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988B89B221149F2800E27ACF /* UIViewAnchorExt.swift */; };
+		988B89B521149F5E00E27ACF /* TestingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988B89B421149F5E00E27ACF /* TestingViewController.swift */; };
+		988B89B72114BD6D00E27ACF /* ArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988B89B62114BD6D00E27ACF /* ArrayDataProvider.swift */; };
+		988B89BA2114BE2E00E27ACF /* CollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988B89B92114BE2E00E27ACF /* CollectionDataSource.swift */; };
+		988B89BC2114BE6E00E27ACF /* ConfigurableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988B89BB2114BE6E00E27ACF /* ConfigurableCell.swift */; };
+		988B89BE2114BE9900E27ACF /* CollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988B89BD2114BE9900E27ACF /* CollectionViewFlowLayout.swift */; };
 		988F318A20E17B6000084676 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988F318920E17B6000084676 /* AlertViewController.swift */; };
 		989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D420D3EB2800AD9F9F /* UserListViewModel.swift */; };
 		989963D720D3EB3500AD9F9F /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D620D3EB3500AD9F9F /* UserListViewController.swift */; };
@@ -245,6 +251,12 @@
 		987F4A4D210232BC000F25C2 /* EnableNotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewController.swift; sourceTree = "<group>"; };
 		987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnableNotificationsViewModel.swift; sourceTree = "<group>"; };
 		987F4A5121023CB1000F25C2 /* double-date.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "double-date.entitlements"; sourceTree = "<group>"; };
+		988B89B221149F2800E27ACF /* UIViewAnchorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewAnchorExt.swift; sourceTree = "<group>"; };
+		988B89B421149F5E00E27ACF /* TestingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestingViewController.swift; sourceTree = "<group>"; };
+		988B89B62114BD6D00E27ACF /* ArrayDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDataProvider.swift; sourceTree = "<group>"; };
+		988B89B92114BE2E00E27ACF /* CollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDataSource.swift; sourceTree = "<group>"; };
+		988B89BB2114BE6E00E27ACF /* ConfigurableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurableCell.swift; sourceTree = "<group>"; };
+		988B89BD2114BE9900E27ACF /* CollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		988F318920E17B6000084676 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		989963D420D3EB2800AD9F9F /* UserListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewModel.swift; sourceTree = "<group>"; };
 		989963D620D3EB3500AD9F9F /* UserListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListViewController.swift; sourceTree = "<group>"; };
@@ -507,6 +519,7 @@
 				98300A5320D1F6B800D7C4BA /* Observable+Ext.swift */,
 				98300A6D20D2042900D7C4BA /* UIButton+Ext.swift */,
 				98057707210666300006821E /* Date+Ext.swift */,
+				988B89B221149F2800E27ACF /* UIViewAnchorExt.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -568,6 +581,7 @@
 		98300A6320D1FE8700D7C4BA /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				988B89B82114BD7D00E27ACF /* Collection Test */,
 				9806647320DD9AA300951DBD /* Onboarding Router */,
 				9806647420DD9AD600951DBD /* Home Router */,
 				986B6DF420E4894A002BF93C /* Stock Selection Router */,
@@ -661,6 +675,18 @@
 				987F4A4F210232CB000F25C2 /* EnableNotificationsViewModel.swift */,
 			);
 			path = "Enable Notifications";
+			sourceTree = "<group>";
+		};
+		988B89B82114BD7D00E27ACF /* Collection Test */ = {
+			isa = PBXGroup;
+			children = (
+				988B89B62114BD6D00E27ACF /* ArrayDataProvider.swift */,
+				988B89B421149F5E00E27ACF /* TestingViewController.swift */,
+				988B89B92114BE2E00E27ACF /* CollectionDataSource.swift */,
+				988B89BB2114BE6E00E27ACF /* ConfigurableCell.swift */,
+				988B89BD2114BE9900E27ACF /* CollectionViewFlowLayout.swift */,
+			);
+			path = "Collection Test";
 			sourceTree = "<group>";
 		};
 		989963D320D3EB1300AD9F9F /* User List */ = {
@@ -967,6 +993,7 @@
 				98300A5D20D1F73E00D7C4BA /* Palette.swift in Sources */,
 				98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */,
 				9805770421062B9D0006821E /* CreateFundFormViewController.swift in Sources */,
+				988B89B521149F5E00E27ACF /* TestingViewController.swift in Sources */,
 				98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */,
 				98057708210666300006821E /* Date+Ext.swift in Sources */,
 				986AE2EC20DDD90500A78E42 /* TitleView.swift in Sources */,
@@ -984,11 +1011,13 @@
 				98C06E7020DB401A00426EEC /* FundDetailsViewController.swift in Sources */,
 				98E3A81B211286D600C8E3FC /* InfiniteScrollView.swift in Sources */,
 				98300A5220D1F69300D7C4BA /* KeyboardAvoidable.swift in Sources */,
+				988B89B321149F2800E27ACF /* UIViewAnchorExt.swift in Sources */,
 				98D17AC22113A20B000646E5 /* SettingsViewController.swift in Sources */,
 				9852F97820FC0DE1009E4A9A /* InvitationsListViewModel.swift in Sources */,
 				98D17AC42113A25C000646E5 /* SettingsOptionTableCell.swift in Sources */,
 				986AE2E220DDD68300A78E42 /* ValueCellDataSource.swift in Sources */,
 				987D54C8210542E7007B3C53 /* DateSelectionViewModel.swift in Sources */,
+				988B89B72114BD6D00E27ACF /* ArrayDataProvider.swift in Sources */,
 				98F77F3020D59497005F4B66 /* EnterNameViewController.swift in Sources */,
 				9809890020E316FD00C32BE0 /* MarketViewModel.swift in Sources */,
 				98300A5F20D1F77800D7C4BA /* AppController.swift in Sources */,
@@ -1024,6 +1053,7 @@
 				9831E77020E950BA00FFBB3D /* PositionService.swift in Sources */,
 				98D4FD4D211252B60083769C /* ProfileHeaderView.swift in Sources */,
 				9852F97620FC0DD3009E4A9A /* InvitationsListViewController.swift in Sources */,
+				988B89BC2114BE6E00E27ACF /* ConfigurableCell.swift in Sources */,
 				9899D6092108E4E700939353 /* PageIndicatable.swift in Sources */,
 				986AE2DE20DDD5A600A78E42 /* SelectContactsViewModel.swift in Sources */,
 				986B6DF320E47EA0002BF93C /* StockSelectionRouter.swift in Sources */,
@@ -1035,6 +1065,7 @@
 				9805770621062BAA0006821E /* CreateFundFormViewModel.swift in Sources */,
 				9806646A20DD778500951DBD /* FundListViewModel.swift in Sources */,
 				98D17AC021134891000646E5 /* OnboardViewController.swift in Sources */,
+				988B89BE2114BE9900E27ACF /* CollectionViewFlowLayout.swift in Sources */,
 				98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */,
 				9809890220E3173A00C32BE0 /* StockService.swift in Sources */,
 				98300A3320D1F01500D7C4BA /* Secrets.swift in Sources */,
@@ -1082,6 +1113,7 @@
 				98300A5920D1F70E00D7C4BA /* ErrorTracker.swift in Sources */,
 				986AE2F020DDDC9400A78E42 /* ImageLabelSublabelView.swift in Sources */,
 				9834950720EC6647003AEC8B /* PortfolioListViewController.swift in Sources */,
+				988B89BA2114BE2E00E27ACF /* CollectionDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

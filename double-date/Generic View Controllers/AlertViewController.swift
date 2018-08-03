@@ -217,7 +217,7 @@ extension AlertViewController {
         }
         
         static func acceptInvitation(invite: Invitation) -> AlertInfo  {
-            return AlertInfo(header: "Accept Invite>",
+            return AlertInfo(header: "Accept Invite",
                              message: "Would you like to accept or reject your invite to: \(invite.fundName)?",
                 okButtonTitle: "Accept",
                 cancelButtonTitle: "Reject")
@@ -338,6 +338,7 @@ final class CustomAlertView: UIView {
     fileprivate func setupSingleButton() {
         singleButton = UIButton()
         singleButton.backgroundColor = UIColor.white
+        singleButton.setTitleColor(Palette.aqua.color, for: .normal)
         
         containerView.addSubview(singleButton)
         singleButton.translatesAutoresizingMaskIntoConstraints = false

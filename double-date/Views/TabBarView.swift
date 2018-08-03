@@ -40,6 +40,8 @@ final class TabBarView: UIView, TabBarViewable {
         
         for i in 0..<count {
             self.buttons[i].backgroundColor = .random
+            self.buttons[i].setTitle("\(i + 1)", for: .normal)
+            self.buttons[i].setTitleColor(.black, for: .normal)
         }
         
         adjustButtonStyle(selected: 0)

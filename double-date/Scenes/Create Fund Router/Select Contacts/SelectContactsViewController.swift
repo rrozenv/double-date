@@ -184,9 +184,9 @@ extension SelectContactsViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = TitleView()
-        headerView.configureWith(value: "Select your SQUAD.")
-        let varyingFontInfo = VaryingFontInfo(originalText: "Select your SQUAD.", fontDict: ["SQUAD.": FontBook.AvenirBlack.of(size: 14), "Select your": FontBook.AvenirMedium.of(size: 13)], fontColor: .black)
-        headerView.mainLabel.varyingFonts(info: varyingFontInfo)
+        headerView.configureWith(value: "Who would you like to invite?")
+//        let varyingFontInfo = VaryingFontInfo(originalText: "Select your SQUAD.", fontDict: ["SQUAD.": FontBook.AvenirBlack.of(size: 14), "Select your": FontBook.AvenirMedium.of(size: 13)], fontColor: .black)
+//        headerView.mainLabel.varyingFonts(info: varyingFontInfo)
         return headerView
     }
     
