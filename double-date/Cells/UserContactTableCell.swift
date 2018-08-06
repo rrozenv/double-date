@@ -49,7 +49,7 @@ final class UserContactTableCell: UITableViewCell, ValueCell {
     // MARK: - Configuration
     func configureWith(value: ContactViewModel) {
         imageNameSublabelView.topLabel.text = value.contact.fullName
-        imageNameSublabelView.subLabel.text = value.contact.primaryNumber ?? value.contact.numbers.first!
+        imageNameSublabelView.subLabel.text = value.contact.primaryNumber ?? value.contact.numbers.first ?? "No Number"
         isSelect = value.isSelected
     }
     
