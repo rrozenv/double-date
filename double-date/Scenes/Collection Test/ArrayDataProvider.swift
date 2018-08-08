@@ -60,3 +60,55 @@ public class ArrayDataProvider<T>: CollectionDataProvider {
     }
     
 }
+
+public class MultipleArrayDataProvider {
+    // MARK: - Internal Properties
+    var items: [TestSection] = []
+    
+    // MARK: - Lifecycle
+    init(array: [TestSection] = []) {
+        items = array
+    }
+    
+    // MARK: - CollectionDataProvider
+    public func numberOfSections() -> Int {
+        return items.count
+    }
+    
+    public func numberOfItems(in section: Int) -> Int {
+        guard section >= 0 && section < items.count else {
+            return 0
+        }
+        return items[section].itemCount
+    }
+    
+    public func item(at indexPath: IndexPath) -> AnyObject? {
+        guard indexPath.section >= 0 &&
+            indexPath.section < items.count &&
+            indexPath.row >= 0 &&
+            indexPath.row < items[indexPath.section].itemCount else
+        {
+            return nil
+        }
+        switch items[indexPath.section] {
+        case .sectionOne(let models):
+            return models[indexPath.row] as AnyObject
+        case .sectionTwo(let models):
+            return models[indexPath.row] as AnyObject
+        }
+    }
+    
+//    public func updateItem(at indexPath: IndexPath, value: AnyObject) {
+//        guard indexPath.section >= 0 &&
+//            indexPath.section < items.count &&
+//            indexPath.row >= 0 &&
+//            indexPath.row < items[indexPath.section].itemCount else
+//        {
+//            return
+//        }
+//
+//
+//        items[indexPath.section][indexPath.row] = value
+//    }
+
+}

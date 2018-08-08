@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class GridCellTest: UICollectionViewCell, ConfigurableCell {
+class GridCellTest: UICollectionViewCell {
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -25,7 +25,25 @@ class GridCellTest: UICollectionViewCell, ConfigurableCell {
     
 }
 
+struct ModelOne {
+    let name: String
+}
 
+struct ModelTwo {
+    let name: String
+}
+
+enum TestSection {
+    case sectionOne([ModelOne])
+    case sectionTwo([ModelTwo])
+    
+    var itemCount: Int {
+        switch self {
+        case .sectionOne(let items): return items.count
+        case .sectionTwo(let items): return items.count
+        }
+    }
+}
 
 final class TestingViewController: UIViewController {
 
@@ -35,9 +53,13 @@ final class TestingViewController: UIViewController {
     
     //MARK: - Collection View
     private var collectionView: UICollectionView!
-    private var dataSoruce: CollectionDataSource<ArrayDataProvider<UIColor>, GridCellTest>!
+    //private var dataSoruce: CollectionDataSource<ArrayDataProvider<UIColor>, GridCellTest>!
     private var objects = ArrayDataProvider<UIColor>()
     private var timer: Timer!
+    
+    //MARK: - Table View
+    private var tableView: UITableView!
+    private var tableDataSource: TableViewDriver!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +68,7 @@ final class TestingViewController: UIViewController {
         createContinueButton()
         setupCollectionViewLayout()
         setupCollectionViewDataSource()
+        setupTableView()
     }
     
     @objc func didTapContinueButton(_ sender: UIButton) {
@@ -53,17 +76,65 @@ final class TestingViewController: UIViewController {
     }
     
     @objc func setDataSource(_ sender: Any) {
-        objects.items = [[1, 2, 3, 4, 5].map { _ in UIColor.random }]
-        collectionView.reloadData()
+        tableDataSource.updateHeader(in: 0, item: TableHeaderWrapper<TableHeaderView, String>(item: "Updating Section"))
+        //objects.items = [[1, 2, 3, 4, 5].map { _ in UIColor.random }]
+//        tableDataSource.sections = [[UIColor.orange, UIColor.red, UIColor.green].map { UserCellConfigurator(item: $0) }]
+//        tableView.reloadData()
+        //collectionView.reloadData()
     }
     
     private func setupCollectionViewDataSource() {
-        dataSoruce = CollectionDataSource<ArrayDataProvider<UIColor>, GridCellTest>(collectionView: collectionView, provider: objects)
-        dataSoruce.collectionItemSelectionHandler = { [weak self] indexPath in
-            guard let itemColor = self?.objects.item(at: indexPath) else { return }
-            self?.objects.updateItem(at: indexPath, value: itemColor == .purple ? .random : .purple)
-            self?.collectionView.reloadItems(at: [indexPath])
+//        dataSoruce = CollectionDataSource<ArrayDataProvider<UIColor>, GridCellTest>(collectionView: collectionView, provider: objects)
+//        dataSoruce.collectionItemSelectionHandler = { [weak self] indexPath in
+//            guard let itemColor = self?.objects.item(at: indexPath) else { return }
+//            self?.objects.updateItem(at: indexPath, value: itemColor == .purple ? .random : .purple)
+//            self?.collectionView.reloadItems(at: [indexPath])
+//        }
+    }
+    
+}
+
+extension TestingViewController {
+    
+    private func setupTableView() {
+        //let header = TableHeaderView()
+        tableView = UITableView(frame: .zero, style: .plain)
+        tableDataSource = TableViewDriver(tableView: tableView,
+                                          cellClasses: [UserCell.self, RandomCell.self],
+                                          headerViews: [TableHeaderView(), TableHeaderView()],
+                                          headerModels: [
+                                            TableHeaderWrapper<TableHeaderView, String>(item: "First Section"),
+                                            TableHeaderWrapper<TableHeaderView, String>(item: "Second Section")
+                                          ])
+        
+        tableDataSource.sections = [
+            [
+                UserCellWrapper(item: .yellow),
+                UserCellWrapper(item: .red),
+                RandomCellWrapper(item: "Hello")
+            ],
+            [
+                UserCellWrapper(item: .green),
+                UserCellWrapper(item: .orange),
+                RandomCellWrapper(item: "Again")
+            ]
+        ]
+        
+        _ = tableDataSource.actionsProxy.on(.didSelect) { (c: UserCellWrapper, cell) in
+            print("did select color cell", c.item.description)
         }
+        .on(.didSelect) { (c: RandomCellWrapper, cell) in
+            print("did select image cell", c.item)
+        }
+        .on(.custom(RandomCell.userFollowAction)) { (c: RandomCellWrapper, _) in
+                print("button tapped", c.item)
+        }
+        
+        view.addSubview(tableView)
+        tableView.anchor(continueButton.bottomAnchor,
+                         left: view.leftAnchor,
+                         bottom: view.bottomAnchor,
+                         right: view.rightAnchor)
     }
     
 }
