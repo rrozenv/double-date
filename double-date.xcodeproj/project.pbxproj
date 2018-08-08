@@ -23,6 +23,7 @@
 		9806646A20DD778500951DBD /* FundListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806646920DD778500951DBD /* FundListViewModel.swift */; };
 		9806646D20DD7CA400951DBD /* MarketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806646C20DD7CA400951DBD /* MarketViewController.swift */; };
 		9806646F20DD7E2D00951DBD /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9806646E20DD7E2D00951DBD /* HomeRouter.swift */; };
+		98082C76211B752500DB049F /* TabDriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98082C75211B752500DB049F /* TabDriverViewController.swift */; };
 		9809890020E316FD00C32BE0 /* MarketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 980988FF20E316FD00C32BE0 /* MarketViewModel.swift */; };
 		9809890220E3173A00C32BE0 /* StockService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9809890120E3173A00C32BE0 /* StockService.swift */; };
 		981FA9FF20F43046005F2C22 /* FundInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981FA9FE20F43046005F2C22 /* FundInfoHeaderView.swift */; };
@@ -180,6 +181,7 @@
 		9806646920DD778500951DBD /* FundListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundListViewModel.swift; sourceTree = "<group>"; };
 		9806646C20DD7CA400951DBD /* MarketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketViewController.swift; sourceTree = "<group>"; };
 		9806646E20DD7E2D00951DBD /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		98082C75211B752500DB049F /* TabDriverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabDriverViewController.swift; sourceTree = "<group>"; };
 		980988FF20E316FD00C32BE0 /* MarketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketViewModel.swift; sourceTree = "<group>"; };
 		9809890120E3173A00C32BE0 /* StockService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockService.swift; sourceTree = "<group>"; };
 		981FA9FE20F43046005F2C22 /* FundInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundInfoHeaderView.swift; sourceTree = "<group>"; };
@@ -692,7 +694,6 @@
 			isa = PBXGroup;
 			children = (
 				988B89B62114BD6D00E27ACF /* ArrayDataProvider.swift */,
-				988B89B421149F5E00E27ACF /* TestingViewController.swift */,
 				988B89B92114BE2E00E27ACF /* CollectionDataSource.swift */,
 				988B89BD2114BE9900E27ACF /* CollectionViewFlowLayout.swift */,
 			);
@@ -780,6 +781,8 @@
 				98DFEDD3211A791E000EFD5C /* CellActionProxy.swift */,
 				988B89BB2114BE6E00E27ACF /* ConfigurableCell.swift */,
 				98DFEDD5211A7A7D000EFD5C /* CustomCells.swift */,
+				988B89B421149F5E00E27ACF /* TestingViewController.swift */,
+				98082C75211B752500DB049F /* TabDriverViewController.swift */,
 			);
 			path = "Table Test";
 			sourceTree = "<group>";
@@ -1017,6 +1020,7 @@
 				98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */,
 				9805770421062B9D0006821E /* CreateFundFormViewController.swift in Sources */,
 				988B89B521149F5E00E27ACF /* TestingViewController.swift in Sources */,
+				98082C76211B752500DB049F /* TabDriverViewController.swift in Sources */,
 				98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */,
 				98057708210666300006821E /* Date+Ext.swift in Sources */,
 				986AE2EC20DDD90500A78E42 /* TitleView.swift in Sources */,

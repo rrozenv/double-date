@@ -11,16 +11,38 @@ import UIKit
 
 class UserCell: UITableViewCell, ConfigurableCell {
     
+    var containerView = UIView()
     var userNameLabel = UILabel()
     
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        commonInit()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        setupContainerView()
+    }
+    
     func configure(data color: UIColor) {
-        contentView.backgroundColor = color
+        containerView.backgroundColor = color
+    }
+    
+    private func setupContainerView() {
+        contentView.addSubview(containerView)
+        containerView.fillSuperview()
+        containerView.anchor(heightConstant: 60)
     }
     
 }
 
 class RandomCell: UITableViewCell, ConfigurableCell {
     
+    var containerView = UIView()
     var userNameLabel = UILabel()
     var button = UIButton()
     static let userFollowAction = "UserFollowAction"
@@ -36,12 +58,20 @@ class RandomCell: UITableViewCell, ConfigurableCell {
     }
     
     private func commonInit() {
+        setupContainerView()
         setupLabel()
         setupButton()
     }
     
+    private func setupContainerView() {
+        containerView.backgroundColor = .white
+        contentView.addSubview(containerView)
+        containerView.fillSuperview()
+        containerView.anchor(heightConstant: 60)
+    }
+    
     private func setupLabel() {
-        contentView.addSubview(userNameLabel)
+        containerView.addSubview(userNameLabel)
         userNameLabel.anchorCenterSuperview()
     }
     
@@ -51,13 +81,13 @@ class RandomCell: UITableViewCell, ConfigurableCell {
                               titleColor: .white,
                               target: self,
                               selector: #selector(onButtonTap))
-        contentView.addSubview(button)
-        button.anchor(right: contentView.rightAnchor,rightConstant: 20, widthConstant: 100, heightConstant: 40)
+        containerView.addSubview(button)
+        button.anchor(right: contentView.rightAnchor, rightConstant: 20, widthConstant: 100, heightConstant: 40)
         button.anchorCenterYToSuperview()
     }
     
     func configure(data text: String) {
-        contentView.backgroundColor = .green
+        containerView.backgroundColor = .green
         userNameLabel.text = text
         userNameLabel.textColor = .black
     }
@@ -68,24 +98,27 @@ class RandomCell: UITableViewCell, ConfigurableCell {
     
 }
 
-final class TableHeaderView: UIView, ConfigurableCell {
+final class TableHeaderView: UITableViewHeaderFooterView, ConfigurableCell {
     
     var containerView = UIView()
     var userNameLabel = UILabel()
+    var button = UIButton()
+    static let headerAction = "headerAction"
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init() {
-        super.init(frame: .zero)
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
         setupContainerView()
         setupLabel()
+        setupButton()
     }
     
     private func setupContainerView() {
         containerView.backgroundColor = .white
-        self.addSubview(containerView)
+        contentView.addSubview(containerView)
         containerView.fillSuperview()
         containerView.anchor(heightConstant: 60)
     }
@@ -98,6 +131,21 @@ final class TableHeaderView: UIView, ConfigurableCell {
     func configure(data text: String) {
         userNameLabel.text = text
         userNameLabel.textColor = .black
+    }
+    
+    private func setupButton() {
+        button = button.setup(title: "Header But",
+                              backgroundColor: .red,
+                              titleColor: .white,
+                              target: self,
+                              selector: #selector(onButtonTap))
+        containerView.addSubview(button)
+        button.anchor(right: containerView.rightAnchor,rightConstant: 20, widthConstant: 100, heightConstant: 40)
+        button.anchorCenterYToSuperview()
+    }
+    
+    @objc func onButtonTap(_ sender: Any) {
+        CellAction.custom(type(of: self).headerAction).invoke(cell: self)
     }
     
 }

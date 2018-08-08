@@ -11,6 +11,7 @@ import UIKit
 
 typealias UserCellWrapper = CellModelWrapper<UserCell, UIColor>
 typealias RandomCellWrapper = CellModelWrapper<RandomCell, String>
+typealias TableHeaderWrapper = CellModelWrapper<TableHeaderView, String>
 
 protocol CellConfigurator {
     static var reuseId: String { get }
@@ -19,7 +20,7 @@ protocol CellConfigurator {
 
 class CellModelWrapper<CellType: ConfigurableCell, DataType>: CellConfigurator
       where CellType.DataType == DataType,
-            CellType: UITableViewCell {
+            CellType: UIView {
     
     static var reuseId: String { return CellType.reuseIdentifier }
     let item: DataType
@@ -34,26 +35,27 @@ class CellModelWrapper<CellType: ConfigurableCell, DataType>: CellConfigurator
     }
 }
 
-protocol TableHeaderConfigurator {
-    func configure(view: UIView)
-}
+//protocol TableHeaderConfigurator {
+//    func configure(view: UIView)
+//}
 
-class TableHeaderWrapper<CellType: ConfigurableCell, DataType>: TableHeaderConfigurator
-    where CellType.DataType == DataType,
-    CellType: UIView {
-    
-    let item: DataType
-    
-    init(item: DataType) {
-        self.item = item
-    }
-    
-    func configure(view: UIView) {
-        guard let view = view as? CellType else { return }
-        view.configure(data: item)
-    }
-    
-}
+//class TableHeaderWrapper<CellType: ConfigurableCell, DataType>: CellConfigurator
+//    where CellType.DataType == DataType,
+//    CellType: UIView {
+//    
+//    static var reuseId: String { return CellType.reuseIdentifier }
+//    let item: DataType
+//    
+//    init(item: DataType) {
+//        self.item = item
+//    }
+//    
+//    func configure(cell: UIView) {
+//        guard let view = cell as? CellType else { return }
+//        view.configure(data: item)
+//    }
+//    
+//}
 
 
 

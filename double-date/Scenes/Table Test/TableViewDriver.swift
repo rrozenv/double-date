@@ -18,26 +18,44 @@ open class TableViewDriver: NSObject {
     // MARK: - Private Properties
     private let tableView: UITableView
     private let cellClasses: [AnyClass]
-    private var headerModels: [TableHeaderConfigurator] = []
-    private var headerViews: [UIView] = []
+    //private let headerFooterClasses: [AnyClass]
+    private var headerModels: [CellConfigurator]
+    private var footerModels: [CellConfigurator]
+    
+    private var headerClasses: [AnyClass] = []
+    private var footerClasses: [AnyClass] = []
     
     // MARK: - Init
     init(tableView: UITableView,
          cellClasses: [AnyClass],
-         headerViews: [UIView] = [],
-         headerModels: [TableHeaderConfigurator] = []) {
+         headerClasses: [AnyClass] = [],
+         footerClasses: [AnyClass] = [],
+         headerModels: [CellConfigurator] = [],
+         footerModels: [CellConfigurator] = []) {
         self.tableView = tableView
         self.cellClasses = cellClasses
-        self.headerViews = headerViews
+        self.headerClasses = headerClasses
+        self.footerClasses = footerClasses
+        //self.headerFooterClasses = headerFooterClasses
         self.headerModels = headerModels
+        self.footerModels = footerModels
         super.init()
         setup()
     }
     
     private func setup() {
+        cellClasses.forEach { tableView.register($0.self, forCellReuseIdentifier: String(describing: $0)) }
+        headerClasses.forEach {
+            tableView.register($0.self, forHeaderFooterViewReuseIdentifier: String(describing: $0))
+        }
+        footerClasses.forEach {
+            tableView.register($0.self, forHeaderFooterViewReuseIdentifier: String(describing: $0))
+        }
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.sectionFooterHeight = UITableViewAutomaticDimension
         tableView.dataSource = self
         tableView.delegate = self
-        cellClasses.forEach { tableView.register($0.self, forCellReuseIdentifier: String(describing: $0)) }
         NotificationCenter.default.addObserver(self, selector: #selector(onActionEvent(notif:)), name: CellAction.notificationName, object: nil)
     }
     
@@ -47,6 +65,36 @@ open class TableViewDriver: NSObject {
     
     // MARK: - Custom Cell Action Observer
     @objc fileprivate func onActionEvent(notif: Notification) {
+        if let eventData = notif.userInfo?["data"] as? CellActionEventData {
+            
+            if let cell = eventData.cell as? UITableViewCell,
+               let indexPath = self.tableView.indexPath(for: cell) {
+                actionsProxy.invoke(action: eventData.action,
+                                    cell: cell,
+                                    configurator: self.sections[indexPath.section][indexPath.row])
+                return
+            }
+        
+            if let headerFooter = eventData.cell as? UITableViewHeaderFooterView {
+                
+                if let headerClassIndex = headerClasses
+                    .index(where: { String(describing: $0) == headerFooter.reuseIdentifier }) {
+                    actionsProxy.invoke(action: eventData.action,
+                                        cell: headerFooter,
+                                        configurator: self.headerModels[headerClassIndex])
+                    return
+                }
+                
+                if let footerClassIndex = footerClasses
+                    .index(where: { String(describing: $0) == headerFooter.reuseIdentifier }) {
+                    actionsProxy.invoke(action: eventData.action,
+                                        cell: headerFooter,
+                                        configurator: self.footerModels[footerClassIndex])
+                    return
+                }
+            }
+        }
+        
         if let eventData = notif.userInfo?["data"] as? CellActionEventData,
             let cell = eventData.cell as? UITableViewCell,
             let indexPath = self.tableView.indexPath(for: cell) {
@@ -54,6 +102,7 @@ open class TableViewDriver: NSObject {
                                 cell: cell,
                                 configurator: self.sections[indexPath.section][indexPath.row])
         }
+        
     }
 
 }
@@ -71,10 +120,10 @@ extension TableViewDriver {
         tableView.deleteRows(at: [indexPath], with: .none)
     }
     
-    func updateHeader(in section: Int, item: TableHeaderConfigurator) {
-        headerModels[section] = item
-        tableView.reloadSections([section], animationStyle: .none)
-    }
+//    func updateHeader(in section: Int, item: TableHeaderConfigurator) {
+////        headerModels[section] = item
+////        tableView.reloadSections([section], animationStyle: .none)
+//    }
     
 }
 
@@ -111,8 +160,18 @@ extension TableViewDriver: UITableViewDelegate {
     
     public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         guard section < headerModels.count else { return nil }
-        headerModels[section].configure(view: headerViews[section])
-        return headerViews[section]
+        let model = headerModels[section]
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: type(of: model).reuseId) else { return nil }
+        model.configure(cell: header)
+        return header
+    }
+    
+    public func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        guard section < footerModels.count else { return nil }
+        let model = footerModels[section]
+        guard let footer = tableView.dequeueReusableHeaderFooterView(withIdentifier: type(of: model).reuseId) else { return nil }
+        model.configure(cell: footer)
+        return footer
     }
     
 }

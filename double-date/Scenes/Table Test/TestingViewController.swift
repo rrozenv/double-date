@@ -71,12 +71,18 @@ final class TestingViewController: UIViewController {
         setupTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+//        tableView.beginUpdates()
+//        tableView.endUpdates()
+    }
+    
     @objc func didTapContinueButton(_ sender: UIButton) {
         print("Continue Tapped")
     }
     
     @objc func setDataSource(_ sender: Any) {
-        tableDataSource.updateHeader(in: 0, item: TableHeaderWrapper<TableHeaderView, String>(item: "Updating Section"))
+//        tableDataSource.updateHeader(in: 0, item: TableHeaderWrapper<TableHeaderView, String>(item: "Updating Section"))
         //objects.items = [[1, 2, 3, 4, 5].map { _ in UIColor.random }]
 //        tableDataSource.sections = [[UIColor.orange, UIColor.red, UIColor.green].map { UserCellConfigurator(item: $0) }]
 //        tableView.reloadData()
@@ -97,14 +103,16 @@ final class TestingViewController: UIViewController {
 extension TestingViewController {
     
     private func setupTableView() {
-        //let header = TableHeaderView()
-        tableView = UITableView(frame: .zero, style: .plain)
+        tableView = UITableView(frame: .zero, style: .grouped)
         tableDataSource = TableViewDriver(tableView: tableView,
                                           cellClasses: [UserCell.self, RandomCell.self],
-                                          headerViews: [TableHeaderView(), TableHeaderView()],
+                                          headerClasses: [TableHeaderView.self],
+                                          footerClasses: [TableHeaderView.self],
                                           headerModels: [
-                                            TableHeaderWrapper<TableHeaderView, String>(item: "First Section"),
-                                            TableHeaderWrapper<TableHeaderView, String>(item: "Second Section")
+                                            TableHeaderWrapper(item: "First Section")
+                                          ],
+                                          footerModels: [
+                                            TableHeaderWrapper(item: "First Footer")
                                           ])
         
         tableDataSource.sections = [
@@ -112,23 +120,21 @@ extension TestingViewController {
                 UserCellWrapper(item: .yellow),
                 UserCellWrapper(item: .red),
                 RandomCellWrapper(item: "Hello")
-            ],
-            [
-                UserCellWrapper(item: .green),
-                UserCellWrapper(item: .orange),
-                RandomCellWrapper(item: "Again")
             ]
         ]
         
         _ = tableDataSource.actionsProxy.on(.didSelect) { (c: UserCellWrapper, cell) in
-            print("did select color cell", c.item.description)
-        }
-        .on(.didSelect) { (c: RandomCellWrapper, cell) in
-            print("did select image cell", c.item)
-        }
-        .on(.custom(RandomCell.userFollowAction)) { (c: RandomCellWrapper, _) in
+                print("did select color cell", c.item.description)
+            }
+            .on(.didSelect) { (c: RandomCellWrapper, cell) in
+                print("did select image cell", c.item)
+            }
+            .on(.custom(RandomCell.userFollowAction)) { (c: RandomCellWrapper, _) in
                 print("button tapped", c.item)
-        }
+            }
+            .on(.custom(TableHeaderView.headerAction)) { (c: TableHeaderWrapper, _) in
+                print("Header Button tapped", c.item)
+            }
         
         view.addSubview(tableView)
         tableView.anchor(continueButton.bottomAnchor,
