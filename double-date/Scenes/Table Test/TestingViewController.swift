@@ -77,6 +77,16 @@ final class TestingViewController: UIViewController {
 //        tableView.endUpdates()
     }
     
+    override var preferredContentSize: CGSize {
+        get {
+           self.tableView.layoutIfNeeded()
+           return self.tableView.contentSize
+        }
+        set {
+            
+        }
+    }
+    
     @objc func didTapContinueButton(_ sender: UIButton) {
         print("Continue Tapped")
     }
@@ -107,12 +117,8 @@ extension TestingViewController {
         tableDataSource = TableViewDriver(tableView: tableView,
                                           cellClasses: [UserCell.self, RandomCell.self],
                                           headerClasses: [TableHeaderView.self],
-                                          footerClasses: [TableHeaderView.self],
                                           headerModels: [
                                             TableHeaderWrapper(item: "First Section")
-                                          ],
-                                          footerModels: [
-                                            TableHeaderWrapper(item: "First Footer")
                                           ])
         
         tableDataSource.sections = [

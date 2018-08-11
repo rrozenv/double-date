@@ -120,7 +120,7 @@ final class TableHeaderView: UITableViewHeaderFooterView, ConfigurableCell {
         containerView.backgroundColor = .white
         contentView.addSubview(containerView)
         containerView.fillSuperview()
-        containerView.anchor(heightConstant: 60)
+        containerView.anchor(heightConstant: 100)
     }
     
     private func setupLabel() {

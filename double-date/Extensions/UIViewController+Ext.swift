@@ -11,7 +11,7 @@ import UIKit
 
 extension UIViewController {
     
-    func addChild(_ viewController: UIViewController, frame: CGRect?, animated: Bool, belowView: UIView? = nil) {
+    func addChild(_ viewController: UIViewController, frame: CGRect? = nil, animated: Bool = false, belowView: UIView? = nil) {
         self.addChildViewController(viewController)
         if let belowView = belowView {
             self.view.insertSubview(viewController.view, belowSubview: belowView)
