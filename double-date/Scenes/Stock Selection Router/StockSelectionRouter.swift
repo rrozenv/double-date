@@ -12,7 +12,7 @@ import RxSwift
 final class PositionInfo {
     var stock: Stock
     var positionType: PositionType
-    var fundIds = [String]()
+    var funds = [Fund]()
     var sharesCount: Double = 0.0
     var limitPrice: Double?
     
@@ -22,7 +22,7 @@ final class PositionInfo {
     }
     
     var isValid: Bool {
-        return fundIds.isNotEmpty
+        return funds.isNotEmpty
             && sharesCount > 0.0
     }
     
@@ -33,7 +33,7 @@ final class PositionInfo {
             "buyPrice": isLimitPriceValid ? limitPrice! : stock.quote.latestPrice,
             "currentPrice": stock.quote.latestPrice,
             "shares": sharesCount,
-            "fundIds": fundIds,
+            "fundIds": funds.map { $0._id },
             "orderType": isLimitPriceValid ? "openLimit" : "market"
         ]
     }
@@ -49,6 +49,7 @@ final class StockSelectionRouter: Routable {
     //MARK: - Navigatable Screens
     enum Screen: Int {
         case stockDetail
+        case selectFunds
         case selectSharesCount
     }
     
@@ -65,7 +66,7 @@ final class StockSelectionRouter: Routable {
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
-    let screenOrder: [Screen]
+    var screenOrder: [Screen]
     var screenIndex = 0
     
     //MARK: - Outputs
@@ -80,12 +81,12 @@ final class StockSelectionRouter: Routable {
         self.stock = stock
         self.activityIndicator = ActivityIndicator()
         self.errorTracker = ErrorTracker()
-        self.screenOrder = [.stockDetail, .selectSharesCount]
+        self.screenOrder = [.stockDetail, .selectFunds, .selectSharesCount]
         self.positionInfo = Variable(PositionInfo(stock: stock, posType: .buy))
         self.cache.fetchObjects().asObservable()
             .bind(to: _funds)
             .disposed(by: disposeBag)
-        self.navigateTo(screen: .stockDetail)
+        self.toStockDetail(stock)
         self.navVc.isNavigationBarHidden = true
         self.setupCreatePositionAction()
     }
@@ -114,9 +115,14 @@ extension StockSelectionRouter {
     
     func navigateTo(screen: Screen) {
         switch screen {
-        case .stockDetail: toStockDetail(stock)
-        case .selectSharesCount: toSelectSharesCount(stock)
+        case .stockDetail:
+            toStockDetail(stock)
+        case .selectFunds:
+            toSelectFunds()
+        case .selectSharesCount:
+            toSelectSharesCount(stock)
         }
+        screenIndex += 1
     }
     
     private func toStockDetail(_ stock: Stock) {
@@ -128,8 +134,9 @@ extension StockSelectionRouter {
     }
     
     private func toSelectSharesCount(_ stock: Stock) {
+        let maxPurchaseValue = self.positionInfo.value.funds.map { $0.currentUserPortfolio.cashBalance }.min() ?? 0.0
         var vc = StockPurchaseInfoViewController()
-        var vm = StockPurchaseInfoViewModel(stock: stock)
+        var vm = StockPurchaseInfoViewModel(stock: stock, maxPurchaseValue: maxPurchaseValue)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         activityIndicator.asObservable()
@@ -141,14 +148,12 @@ extension StockSelectionRouter {
         navVc.pushViewController(vc, animated: true)
     }
     
-    private func toSelectFund(totalPositionValue: Double) {
+    private func toSelectFunds() {
         var vc = SelectFundViewController()
-        let funds = _funds.value.filter { $0.currentUserPortfolio.cashBalance > totalPositionValue }
-        var vm = SelectFundViewModel(funds: funds)
+        var vm = SelectFundViewModel(funds: _funds.value)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
-        vc.modalPresentationStyle = .overCurrentContext
-        navVc.present(vc, animated: true, completion: nil)
+        navVc.pushViewController(vc, animated: true)
     }
     
 }
@@ -165,28 +170,26 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
             return
         }
         positionInfo.value.positionType = type
-        self.toNextScreen()
+        if _funds.value.count == 1 {
+            self.positionInfo.value.funds = _funds.value
+            self.screenOrder = [.stockDetail, .selectSharesCount]
+            self.navigateTo(screen: .selectSharesCount)
+        } else {
+            self.navigateTo(screen: .selectFunds)
+        }
     }
     
     //MARK: - Shares Selected
      func didSelect(sharesCount: Double, limit: Double?) {
         positionInfo.value.sharesCount = sharesCount
         positionInfo.value.limitPrice = limit
-        if _funds.value.count == 1 {
-            let fundIds = _funds.value.map { $0._id }
-            positionInfo.value.fundIds.append(contentsOf: fundIds)
-            createPosition.onNext(())
-        } else {
-            toSelectFund(totalPositionValue: sharesCount * stock.quote.latestPrice)
-        }
+        createPosition.onNext(())
     }
     
     //MARK: - Funds Selected
-    func didSelectFundIds(_ ids: [String]) {
-        self.positionInfo.value.fundIds = ids
-        self.navVc.dismiss(animated: true, completion: { [weak self] in
-            self?.createPosition.onNext(())
-        })
+    func didSelectFunds(_ funds: [Fund]) {
+        self.positionInfo.value.funds = funds
+        self.navigateTo(screen: .selectSharesCount)
     }
     
     //MARK: - Back Button Selected
@@ -197,7 +200,7 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
             self.toPreviousScreen(completion: { [weak self] in
                 self?.didDismiss.onNext(())
             })
-        case .selectSharesCount:
+        case .selectFunds, .selectSharesCount:
             self.toPreviousScreen()
         }
     }
@@ -209,7 +212,7 @@ extension StockSelectionRouter {
     private func displayPositionConfirmationAlert(postion: Position) {
         let alertInfo = AlertViewController.AlertInfo.newPositionAlert(position: postion)
         let alertVc = AlertViewController(alertInfo: alertInfo, okAction: { [weak self] in
-            self?.toPreviousScreen()
+            self?.navVc.dismiss(animated: true, completion: { self?.didDismiss.onNext(()) })
         })
         self.displayAlert(vc: alertVc)
     }

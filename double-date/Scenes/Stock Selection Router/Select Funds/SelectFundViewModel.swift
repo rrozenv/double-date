@@ -15,8 +15,8 @@ struct FundViewModel {
     var isSelected: Bool
 }
 
-protocol SelectFundViewModelDelegate: class {
-    func didSelectFundIds(_ ids: [String])
+protocol SelectFundViewModelDelegate: BackButtonNavigatable {
+    func didSelectFunds(_ funds: [Fund])
 }
 
 struct SelectFundViewModel {
@@ -48,7 +48,7 @@ struct SelectFundViewModel {
     
     var isDoneButtonEnabled: Driver<Bool> {
         return _funds.asDriver()
-            .map ({ $0.filter { $0.isSelected } })
+            .map { $0.filter { $0.isSelected } }
             .map { $0.isNotEmpty }
     }
     
@@ -64,11 +64,19 @@ struct SelectFundViewModel {
             .disposed(by: disposeBag)
     }
     
-    func bindCreateFund(_ observable: Observable<Void>) {
+    func bindContinueButton(_ observable: Observable<Void>) {
         observable
             .subscribe(onNext: {
-                let selectedFundIds = self._funds.value.filter { $0.isSelected }.map { $0.fund._id }
-                self.delegate?.didSelectFundIds(selectedFundIds)
+                let selectedFunds = self._funds.value.filter { $0.isSelected }.map { $0.fund }
+                self.delegate?.didSelectFunds(selectedFunds)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func bindBackButton(_ observable: Observable<Void>) {
+        observable
+            .subscribe(onNext: {
+                self.delegate?.didTapBackButton()
             })
             .disposed(by: disposeBag)
     }

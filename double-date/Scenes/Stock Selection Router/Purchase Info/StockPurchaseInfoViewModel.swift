@@ -30,12 +30,12 @@ struct StockPurchaseInfoViewModel {
     let errorTracker = PublishSubject<NetworkError>()
     weak var delegate: StockPurchaseInfoViewModelDelegate?
     
-    init(stock: Stock) {
+    init(stock: Stock, maxPurchaseValue: Double) {
         self._stock = Variable(stock)
         cache.fetchObjects().asObservable()
             .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-            .filter { $0.count == 1 }
-            .map { $0.first!.currentUserPortfolio.cashBalance }
+            .map { $0.map { $0.currentUserPortfolio.cashBalance } }
+            .map { $0.min() }
             .bind(to: _portflioCashBalance)
             .disposed(by: disposeBag)
     }
