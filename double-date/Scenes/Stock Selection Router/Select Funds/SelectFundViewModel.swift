@@ -26,24 +26,30 @@ struct SelectFundViewModel {
     //MARK: - Properties
     private let cache: Cache = Cache<Fund>(path: "funds")
     private let _funds = Variable<[FundViewModel]>([])
+    private let _stock: Variable<Stock>
     weak var delegate: SelectFundViewModelDelegate?
     
     //MARK: - Init
-    init() {
-        cache.fetchObjects().asObservable()
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-            .map { $0.map { FundViewModel(fund: $0, isSelected: false) } }
-            .bind(to: _funds)
-            .disposed(by: disposeBag)
-    }
+//    init() {
+//        cache.fetchObjects().asObservable()
+//            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
+//            .map { $0.map { FundViewModel(fund: $0, isSelected: false) } }
+//            .bind(to: _funds)
+//            .disposed(by: disposeBag)
+//    }
     
-    init(funds: [Fund]) {
+    init(funds: [Fund], stock: Stock) {
         self._funds.value = funds.map { FundViewModel(fund: $0, isSelected: false) }
+        self._stock = Variable(stock)
     }
     
     //MARK: - Outputs
     var funds: Driver<[FundViewModel]> {
         return _funds.asDriver()
+    }
+    
+    var stock: Driver<Stock> {
+        return _stock.asDriver()
     }
     
     var isDoneButtonEnabled: Driver<Bool> {

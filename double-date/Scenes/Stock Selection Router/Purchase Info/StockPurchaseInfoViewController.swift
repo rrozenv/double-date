@@ -23,6 +23,7 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
     private var stockPriceView: CustomStackView<UILabel>!
     private var totalPriceView: CustomStackView<UILabel>!
     private var limitTextInputView: TitleTextFieldView!
+    private var containerView: UIView!
     
     //MARK: - Views
     private var doneButton: UIButton!
@@ -31,8 +32,7 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         setupNavBar()
-//        navView.containerView.backgroundColor = Palette.lightGrey.color
-//        navBackgroundView.backgroundColor = Palette.lightGrey.color
+        setupContainerView()
         createViews()
         setupDoneButton()
         setupCashBalanceLabel()
@@ -95,6 +95,20 @@ final class StockPurchaseInfoViewController: UIViewController, CustomNavBarViewa
 
 extension StockPurchaseInfoViewController {
     
+    private func setupContainerView() {
+        containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 2.0
+        containerView.layer.masksToBounds = true
+        containerView.dropShadow()
+        
+        view.addSubview(containerView)
+        containerView.snp.makeConstraints { (make) in
+            make.left.right.equalTo(view).inset(26)
+            make.top.equalTo(navView.snp.bottom).offset(15)
+        }
+    }
+    
     private func setupCashBalanceLabel() {
         cashBalanceLabel = UILabel().rxStyle(font: FontBook.AvenirMedium.of(size: 14), color: .black, alignment: .center)
         
@@ -107,24 +121,25 @@ extension StockPurchaseInfoViewController {
     
     private func createViews() {
         sharesTextInputView = TitleTextFieldView()
-        sharesTextInputView.configureWith(mainLabelText: "# of Shares", placeHolderText: "0.0")
-        sharesTextInputView.snp.makeConstraints { $0.height.equalTo(60) }
+        sharesTextInputView.mainLabel.style(font: FontBook.AvenirHeavy.of(size: 12), color: Palette.lightBlue.color)
+        sharesTextInputView.configureWith(mainLabelText: "Shares of", placeHolderText: "0.0")
+        sharesTextInputView.snp.makeConstraints { $0.height.equalTo(64) }
         
         stockPriceView = CustomStackView<UILabel>(number: 2, stackViewProps: StackViewProps(axis: .horizontal, distribution: .fillEqually, spacing: 0))
+        stockPriceView.item(at: 0).style(font: FontBook.AvenirHeavy.of(size: 12), color: Palette.lightBlue.color, alignment: .left)
+        stockPriceView.item(at: 1).style(font: FontBook.AvenirMedium.of(size: 15), color: Palette.darkNavy.color, alignment: .right)
         stockPriceView.item(at: 0).text = "Stock Price"
-        stockPriceView.item(at: 0).textAlignment = .left
-        stockPriceView.item(at: 1).textAlignment = .right
-        stockPriceView.snp.makeConstraints { $0.height.equalTo(60) }
+        stockPriceView.snp.makeConstraints { $0.height.equalTo(64) }
         
         totalPriceView = CustomStackView<UILabel>(number: 2, stackViewProps: StackViewProps(axis: .horizontal, distribution: .fillEqually, spacing: 0))
+        totalPriceView.item(at: 0).style(font: FontBook.AvenirHeavy.of(size: 12), color: Palette.lightBlue.color, alignment: .left)
+        totalPriceView.item(at: 1).style(font: FontBook.AvenirMedium.of(size: 15), color: Palette.darkNavy.color, alignment: .right)
         totalPriceView.item(at: 0).text = "Total Price"
-        totalPriceView.item(at: 0).textAlignment = .left
-        totalPriceView.item(at: 1).textAlignment = .right
-        totalPriceView.snp.makeConstraints { $0.height.equalTo(60) }
+        totalPriceView.snp.makeConstraints { $0.height.equalTo(64) }
         
         limitTextInputView = TitleTextFieldView()
         limitTextInputView.configureWith(mainLabelText: "Limit Buy (Optional)", placeHolderText: "$0.00")
-        limitTextInputView.snp.makeConstraints { $0.height.equalTo(60) }
+        limitTextInputView.snp.makeConstraints { $0.height.equalTo(64) }
         
         let stackView = UIStackView(arrangedSubviews: [sharesTextInputView,
                                                        stockPriceView,
@@ -134,9 +149,10 @@ extension StockPurchaseInfoViewController {
         stackView.distribution = .equalSpacing
         stackView.spacing = 2.0
        
-        view.addSubview(stackView)
+        containerView.addSubview(stackView)
         stackView.snp.makeConstraints { (make) in
-            make.center.equalTo(view)
+            make.top.bottom.equalTo(containerView)
+            make.left.right.equalTo(containerView).inset(22)
         }
     }
     

@@ -150,7 +150,7 @@ extension StockSelectionRouter {
     
     private func toSelectFunds() {
         var vc = SelectFundViewController()
-        var vm = SelectFundViewModel(funds: _funds.value)
+        var vm = SelectFundViewModel(funds: _funds.value, stock: stock)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: true)

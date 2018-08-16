@@ -47,6 +47,7 @@ extension TitleTextFieldView {
     
     private func setupTextField() {
         textField = UITextField()
+        textField.textAlignment = .right
     }
     
     private func setupContainerStackView() {

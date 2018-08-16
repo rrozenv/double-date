@@ -17,6 +17,7 @@ class SelectFundViewController: UIViewController, BindableType, CustomNavBarView
     var viewModel: SelectFundViewModel!
     var navView: BackButtonNavView = BackButtonNavView.blackArrow
     var navBackgroundView: UIView = UIView()
+    private var navViewLabels: CustomStackView<UILabel>!
     private var mainLabel: UILabel!
     private var continueButton: UIButton!
     private var tableView: UITableView!
@@ -26,8 +27,8 @@ class SelectFundViewController: UIViewController, BindableType, CustomNavBarView
         super.viewDidLoad()
         view.backgroundColor = .white
         setupNavBar()
+        setupNavLabels()
         setupMainLabel()
-        //setupBackgroundButton()
         setupTableView()
         setupContinueButton()
     }
@@ -48,21 +49,18 @@ class SelectFundViewController: UIViewController, BindableType, CustomNavBarView
         let backTapped$ = navView.backButton.rx.tap.asObservable()
         viewModel.bindBackButton(backTapped$)
         
-//        opaqueBackgroundButton.rx.tap.asObservable()
-//            .subscribe(onNext: { [unowned self] in
-//                self.dismiss(animated: true, completion: nil)
-//            })
-//            .disposed(by: disposeBag)
-        
         //MARK: - Output
         viewModel.funds
-//            .do(onNext: { [unowned self] in
-//                let tableHeight = (CGFloat($0.count) * 70.0) + 70.0
-//                self.tableView.snp.updateConstraints { make in make.height.equalTo(tableHeight) }
-//            })
-            .drive(tableView.rx.items(cellIdentifier: UserContactTableCell.defaultReusableId, cellType: UserContactTableCell.self)) { row, element, cell in
+            .drive(tableView.rx.items(cellIdentifier: SelectFundTableCell.defaultReusableId, cellType: SelectFundTableCell.self)) { row, element, cell in
                 cell.configureWith(value: element)
             }
+            .disposed(by: disposeBag)
+        
+        viewModel.stock
+            .drive(onNext: { [unowned self] in
+                self.navViewLabels.item(at: 0).text = $0.quote.symbol
+                self.navViewLabels.item(at: 1).text = $0.quote.latestPrice.asCurreny
+            })
             .disposed(by: disposeBag)
         
         viewModel.isDoneButtonEnabled
@@ -85,23 +83,30 @@ extension SelectFundViewController: UITableViewDelegate {
         return 60.0
     }
     
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        return continueButton
-//    }
-    
 }
 
 extension SelectFundViewController {
     
+    private func setupNavLabels() {
+        navViewLabels = CustomStackView<UILabel>(number: 2, stackViewProps: StackViewProps(axis: .vertical, distribution: .equalSpacing, spacing: 1.0))
+        navViewLabels.item(at: 0).style(font: FontBook.AvenirHeavy.of(size: 13), color: Palette.darkNavy.color, alignment: .center)
+        navViewLabels.item(at: 1).style(font: FontBook.AvenirMedium.of(size: 11), color: Palette.darkNavy.color, alignment: .center)
+
+        view.addSubview(navViewLabels)
+        navViewLabels.snp.makeConstraints { (make) in
+            make.center.equalTo(navView)
+        }
+    }
+    
     private func setupMainLabel() {
-        mainLabel = UILabel(title: "Which funds would you \n like to open a position in?")
+        mainLabel = UILabel(title: "Which funds would you \nlike to open a position in?")
             .rxStyle(font: FontBook.AvenirMedium.of(size: 18), color: Palette.darkNavy.color, alignment: .left)
         mainLabel.numberOfLines = 0
         
         view.addSubview(mainLabel)
         mainLabel.snp.makeConstraints { (make) in
             make.left.equalTo(view).offset(26)
-            make.top.equalTo(navView.snp.bottom).offset(15)
+            make.top.equalTo(navView.snp.bottom).offset(10)
         }
     }
     
@@ -117,21 +122,18 @@ extension SelectFundViewController {
     
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
-        tableView.register(UserContactTableCell.self, forCellReuseIdentifier: UserContactTableCell.defaultReusableId)
+        tableView.register(SelectFundTableCell.self, forCellReuseIdentifier: SelectFundTableCell.defaultReusableId)
         tableView.estimatedRowHeight = 200
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 0
         tableView.estimatedSectionFooterHeight = 0
-        tableView.separatorStyle = .singleLine
+        tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor.white
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.left.bottom.right.equalTo(view)
             make.top.equalTo(mainLabel.snp.bottom).offset(15)
-//            make.width.equalTo(view).multipliedBy(0.8)
-//            make.center.equalTo(view)
-//            make.height.equalTo(200)
         }
     }
     

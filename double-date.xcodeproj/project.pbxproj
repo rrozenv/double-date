@@ -32,6 +32,7 @@
 		9826B46E210A131E00E29902 /* FundSummaryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */; };
 		9826B470210A257800E29902 /* StockSearchTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9826B46F210A257800E29902 /* StockSearchTableCell.swift */; };
 		9826B472210A58A700E29902 /* PositionSummaryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */; };
+		982AC28521250E9000E1C66F /* SelectFundTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982AC28421250E9000E1C66F /* SelectFundTableCell.swift */; };
 		98300A0120D1ED3C00D7C4BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */; };
 		98300A0820D1ED3C00D7C4BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0720D1ED3C00D7C4BA /* Assets.xcassets */; };
 		98300A0B20D1ED3C00D7C4BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0920D1ED3C00D7C4BA /* LaunchScreen.storyboard */; };
@@ -178,6 +179,7 @@
 		9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundSummaryTableCell.swift; sourceTree = "<group>"; };
 		9826B46F210A257800E29902 /* StockSearchTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchTableCell.swift; sourceTree = "<group>"; };
 		9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionSummaryTableCell.swift; sourceTree = "<group>"; };
+		982AC28421250E9000E1C66F /* SelectFundTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundTableCell.swift; sourceTree = "<group>"; };
 		983009FD20D1ED3C00D7C4BA /* double-date.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "double-date.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98300A0720D1ED3C00D7C4BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -639,8 +641,8 @@
 			children = (
 				986B6DF220E47EA0002BF93C /* StockSelectionRouter.swift */,
 				986B6DEB20E46F31002BF93C /* Stock Detail */,
-				981FAA0020F43CC2005F2C22 /* Purchase Info */,
 				98CF487C20E6AB3300C426DB /* Select Funds */,
+				981FAA0020F43CC2005F2C22 /* Purchase Info */,
 			);
 			path = "Stock Selection Router";
 			sourceTree = "<group>";
@@ -703,6 +705,7 @@
 				98DCE82F210F676600106F2D /* InvitationTableCell.swift */,
 				98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */,
 				98D17AC32113A25C000646E5 /* SettingsOptionTableCell.swift */,
+				982AC28421250E9000E1C66F /* SelectFundTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1052,6 +1055,7 @@
 				98300A6E20D2042900D7C4BA /* UIButton+Ext.swift in Sources */,
 				98300A4F20D1F64B00D7C4BA /* UIStackView+Ext.swift in Sources */,
 				9806645620DD5BE500951DBD /* PhoneEntryViewModel.swift in Sources */,
+				982AC28521250E9000E1C66F /* SelectFundTableCell.swift in Sources */,
 				987D54C121050A34007B3C53 /* FundDetailsMultipleSectionModel.swift in Sources */,
 				987D54C6210542DA007B3C53 /* DateSelectionViewController.swift in Sources */,
 				9806645420DD5BD700951DBD /* PhoneEntryViewController.swift in Sources */,
