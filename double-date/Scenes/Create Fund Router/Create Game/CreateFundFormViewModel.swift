@@ -18,7 +18,8 @@ struct FundDetails {
     
     var isValid: Bool {
         guard let cashDigitsOnly = Int(maxCashBalance.digits) else { return false }
-        return name.count > 3 && (cashDigitsOnly/10) > 0 && startDate < endDate
+        return name.count > 3 && (cashDigitsOnly/10) > 0
+            //&& startDate < endDate
     }
 }
 

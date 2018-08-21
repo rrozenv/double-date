@@ -24,8 +24,8 @@ final class FundInfo {
               let endDate = endDate else { return false }
         return name.count > 3 &&
                invitedPhoneNumbers.count > 0 &&
-               maxCashBalance > 0 &&
-               startDate < endDate
+               maxCashBalance > 0
+                //&& startDate < endDate
     }
     
     var params: [String: Any] {

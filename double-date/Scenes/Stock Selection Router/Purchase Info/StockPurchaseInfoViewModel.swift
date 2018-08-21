@@ -52,10 +52,10 @@ struct StockPurchaseInfoViewModel {
             .asDriver(onErrorJustReturn: 0.0)
     }
     
-    // Displayed only if user has 1 portfolio
-    var portfolioCashBalance: Driver<Double> {
+    var portfolioCashBalance: Driver<String> {
         return _portflioCashBalance.asDriver()
             .filterNil()
+            .map { $0.asCurreny }
     }
     
     var isValidPurchase: Driver<Bool> {
