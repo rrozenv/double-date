@@ -20,6 +20,12 @@ extension Date {
         return DateFormatter.iso8601.string(from: self)
     }
     
+    var dayMonthYearOnly: Date? {
+        return Calendar.current
+            .date(from: Calendar.current.dateComponents([.year, .month, .day],
+                                                        from: self))
+    }
+    
 }
 
 extension DateFormatter {

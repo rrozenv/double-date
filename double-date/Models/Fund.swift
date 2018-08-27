@@ -8,10 +8,15 @@
 
 import Foundation
 
+enum FundStatus: String, Codable {
+    case open, completed
+}
+
 struct Fund: Codable, Identifiable {
     let _id: String
     let admin: User
     let name: String
+    let status: FundStatus
     let startDate: Date
     let endDate: Date
     var currentUserPortfolio: Portfolio

@@ -31,8 +31,10 @@ struct FundListViewModel {
     }
     
     //MARK: - Outputs
-    var funds: Driver<[Fund]> {
-        return _funds.asDriver()
+    var sections: Observable<[FundsListMultipleSectionViewModel]> {
+        return _funds.asObservable()
+            .subscribeOn(ConcurrentDispatchQueueScheduler.init(qos: .userInitiated))
+            .map { self.createSectionsFor(funds: $0) }
     }
 
     var error: Driver<NetworkError> {
@@ -92,6 +94,32 @@ struct FundListViewModel {
                 })
             })
             .disposed(by: disposeBag)
+    }
+    
+}
+
+extension FundListViewModel {
+    
+    private func createSectionsFor(funds: [Fund]) -> [FundsListMultipleSectionViewModel] {
+        var sections = [FundsListMultipleSectionViewModel]()
+        let openfunds = funds.filter { $0.status == .open }
+        let closedFunds = funds.filter { $0.status == .completed }
+        
+        if openfunds.isNotEmpty {
+            sections.append(
+                FundsListMultipleSectionViewModel.openFunds(title: "OPEN",
+                                                            items: openfunds)
+            )
+        }
+        
+        if closedFunds.isNotEmpty {
+            sections.append(
+                FundsListMultipleSectionViewModel.closedFunds(title: "CLOSED",
+                                                              items: closedFunds)
+            )
+        }
+        
+        return sections
     }
     
 }

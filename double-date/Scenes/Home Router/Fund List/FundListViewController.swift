@@ -10,11 +10,13 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxOptional
+import RxDataSources
 
 class FundListViewController: UIViewController, CustomNavBarViewable, BindableType {
     
     let disposeBag = DisposeBag()
     var viewModel: FundListViewModel!
+    private var dataSource: RxTableViewSectionedReloadDataSource<FundsListMultipleSectionViewModel>!
     
     var navView = UIView()
     var navBackgroundView: UIView = UIView()
@@ -52,13 +54,14 @@ class FundListViewController: UIViewController, CustomNavBarViewable, BindableTy
         viewModel.bindFetchFunds(fetchFunds$)
         
         //MARK: - Output
-        viewModel.funds
-            .drive(tableView.rx.items(cellIdentifier: FundSummaryTableCell.defaultReusableId, cellType: FundSummaryTableCell.self)) { row, element, cell in
-                cell.configureWith(value: element)
-            }
+        dataSource = FundListViewController.dataSource()
+        let sections$ = viewModel.sections.share()
+        
+        sections$
+            .bind(to: tableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
         
-        viewModel.funds
+        sections$.asDriverOnErrorJustComplete()
             .map { _ in false }
             .drive(refreshControl.rx.isRefreshing)
             .disposed(by: disposeBag)
@@ -98,14 +101,39 @@ class FundListViewController: UIViewController, CustomNavBarViewable, BindableTy
     
 }
 
+extension FundListViewController {
+    
+    static func dataSource() -> RxTableViewSectionedReloadDataSource<FundsListMultipleSectionViewModel> {
+        return RxTableViewSectionedReloadDataSource<FundsListMultipleSectionViewModel>(
+            configureCell: { (dataSource, table, idxPath, _) in
+                let cell: FundSummaryTableCell = table.dequeueReusableCell(withIdentifier: FundSummaryTableCell.defaultReusableId, for: idxPath) as! FundSummaryTableCell
+                cell.configureWith(value: dataSource[idxPath])
+                return cell
+        })
+    }
+    
+}
+
 extension FundListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return CGFloat.leastNonzeroMagnitude
+        return 42.0 //CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNonzeroMagnitude
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 11), color: Palette.lightBlue.color)
+        view.addSubview(label)
+        label.snp.makeConstraints { (make) in
+            make.left.equalTo(view).offset(23)
+            make.centerY.equalTo(view)
+        }
+        label.text = dataSource[section].title
+        return view
     }
     
 }

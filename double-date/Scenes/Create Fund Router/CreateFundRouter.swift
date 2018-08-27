@@ -33,8 +33,8 @@ final class FundInfo {
             "name": name ?? "",
             "maxCashBalance": maxCashBalance ?? 0,
             "invitedPhoneNumbers": invitedPhoneNumbers,
-            "startDate": startDate?.iso8601String ?? "",
-            "endDate": endDate?.iso8601String ?? ""
+            "startDate": startDate?.dayMonthYearOnly?.iso8601String ?? "",
+            "endDate": endDate?.dayMonthYearOnly?.iso8601String ?? ""
         ]
     }
 }

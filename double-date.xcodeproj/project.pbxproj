@@ -99,6 +99,7 @@
 		989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */; };
 		9899D6072108DEFD00939353 /* PageIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899D6062108DEFD00939353 /* PageIndicatorView.swift */; };
 		9899D6092108E4E700939353 /* PageIndicatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9899D6082108E4E700939353 /* PageIndicatable.swift */; };
+		98A51DEB2131BAA000BAFA41 /* FundsListMultipleSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A51DEA2131BAA000BAFA41 /* FundsListMultipleSectionViewModel.swift */; };
 		98A8467F2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A8467E2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift */; };
 		98A846812100F095008535A6 /* StockChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A846802100F095008535A6 /* StockChartView.swift */; };
 		98B8B78420D303D4004BD6A1 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B8B78320D303D4004BD6A1 /* SignupViewController.swift */; };
@@ -253,6 +254,7 @@
 		989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkActivityLogger.swift; sourceTree = "<group>"; };
 		9899D6062108DEFD00939353 /* PageIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatorView.swift; sourceTree = "<group>"; };
 		9899D6082108E4E700939353 /* PageIndicatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageIndicatable.swift; sourceTree = "<group>"; };
+		98A51DEA2131BAA000BAFA41 /* FundsListMultipleSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FundsListMultipleSectionViewModel.swift; sourceTree = "<group>"; };
 		98A8467E2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockDetailMultipleSectionModel.swift; sourceTree = "<group>"; };
 		98A846802100F095008535A6 /* StockChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockChartView.swift; sourceTree = "<group>"; };
 		98B8B78320D303D4004BD6A1 /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
@@ -368,6 +370,7 @@
 			children = (
 				9806646720DD76FD00951DBD /* FundListViewController.swift */,
 				9806646920DD778500951DBD /* FundListViewModel.swift */,
+				98A51DEA2131BAA000BAFA41 /* FundsListMultipleSectionViewModel.swift */,
 			);
 			path = "Fund List";
 			sourceTree = "<group>";
@@ -543,15 +546,15 @@
 		98300A6020D1F82300D7C4BA /* API */ = {
 			isa = PBXGroup;
 			children = (
-				98300A3420D1F1A700D7C4BA /* UserService.swift */,
 				98FA5C9F20E059BD00FA4818 /* FundService.swift */,
+				9852F97920FC0E34009E4A9A /* InvitationService.swift */,
 				98B8B78720D30D9E004BD6A1 /* Network.swift */,
 				989963D820D412C300AD9F9F /* NetworkActivityLogger.swift */,
-				9809890120E3173A00C32BE0 /* StockService.swift */,
-				9831E76F20E950BA00FFBB3D /* PositionService.swift */,
 				9834950A20EC66B6003AEC8B /* PortfolioService.swift */,
+				9831E76F20E950BA00FFBB3D /* PositionService.swift */,
+				9809890120E3173A00C32BE0 /* StockService.swift */,
 				98E9B30120FA4CDB00CF44DE /* TwilioService.swift */,
-				9852F97920FC0E34009E4A9A /* InvitationService.swift */,
+				98300A3420D1F1A700D7C4BA /* UserService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -559,10 +562,10 @@
 		98300A6220D1FE6F00D7C4BA /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				98300A2E20D1EDB000D7C4BA /* User.swift */,
-				9806644D20DD3CD100951DBD /* Fund.swift */,
 				986AE2E520DDD70E00A78E42 /* Contact.swift */,
+				9806644D20DD3CD100951DBD /* Fund.swift */,
 				98E9B30320FA4F1700CF44DE /* TwilioPhoneResponse.swift */,
+				98300A2E20D1EDB000D7C4BA /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -695,17 +698,17 @@
 		98C06E7120DB465A00426EEC /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				98C06E7220DB46A300426EEC /* TextFieldTableCell.swift */,
-				986AE2ED20DDD94E00A78E42 /* UserContactTableCell.swift */,
-				986B6DF020E47C67002BF93C /* FundTableCell.swift */,
 				987D54C2210510B7007B3C53 /* DatePickerTableCell.swift */,
 				9826B46D210A131E00E29902 /* FundSummaryTableCell.swift */,
-				9826B46F210A257800E29902 /* StockSearchTableCell.swift */,
-				9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */,
+				986B6DF020E47C67002BF93C /* FundTableCell.swift */,
 				98DCE82F210F676600106F2D /* InvitationTableCell.swift */,
 				98DCE831210FB81D00106F2D /* LeaderBoardTableCell.swift */,
-				98D17AC32113A25C000646E5 /* SettingsOptionTableCell.swift */,
+				9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */,
 				982AC28421250E9000E1C66F /* SelectFundTableCell.swift */,
+				98D17AC32113A25C000646E5 /* SettingsOptionTableCell.swift */,
+				9826B46F210A257800E29902 /* StockSearchTableCell.swift */,
+				98C06E7220DB46A300426EEC /* TextFieldTableCell.swift */,
+				986AE2ED20DDD94E00A78E42 /* UserContactTableCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -750,22 +753,22 @@
 		98F77F2820D592FE005F4B66 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				98F77F2920D59314005F4B66 /* StyledTextField.swift */,
-				98F77F2D20D59475005F4B66 /* ButtonLabel.swift */,
 				98F77F3120D59571005F4B66 /* BackButtonNavView.swift */,
-				9806645E20DD73B400951DBD /* CustomStackView.swift */,
-				9806646220DD740800951DBD /* TabBarView.swift */,
-				986AE2E720DDD7BC00A78E42 /* SearchBarView.swift */,
-				986AE2E920DDD85E00A78E42 /* EmptyView.swift */,
-				986AE2EB20DDD90500A78E42 /* TitleView.swift */,
-				986AE2EF20DDDC9400A78E42 /* ImageLabelSublabelView.swift */,
-				981FA9FE20F43046005F2C22 /* FundInfoHeaderView.swift */,
-				981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */,
-				98A846802100F095008535A6 /* StockChartView.swift */,
+				98F77F2D20D59475005F4B66 /* ButtonLabel.swift */,
 				9805770921067B760006821E /* CurrencyTextField.swift */,
-				9899D6062108DEFD00939353 /* PageIndicatorView.swift */,
+				9806645E20DD73B400951DBD /* CustomStackView.swift */,
 				98CE67A521114AE600AFEBF1 /* EmptyLabelsView.swift */,
+				986AE2E920DDD85E00A78E42 /* EmptyView.swift */,
+				981FA9FE20F43046005F2C22 /* FundInfoHeaderView.swift */,
+				986AE2EF20DDDC9400A78E42 /* ImageLabelSublabelView.swift */,
+				9899D6062108DEFD00939353 /* PageIndicatorView.swift */,
 				98D4FD4C211252B60083769C /* ProfileHeaderView.swift */,
+				986AE2E720DDD7BC00A78E42 /* SearchBarView.swift */,
+				98A846802100F095008535A6 /* StockChartView.swift */,
+				98F77F2920D59314005F4B66 /* StyledTextField.swift */,
+				9806646220DD740800951DBD /* TabBarView.swift */,
+				981FAA0520F43D93005F2C22 /* TitleTextFieldView.swift */,
+				986AE2EB20DDD90500A78E42 /* TitleView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1041,6 +1044,7 @@
 				98300A7020D20F1F00D7C4BA /* Routable.swift in Sources */,
 				9809890220E3173A00C32BE0 /* StockService.swift in Sources */,
 				98300A3320D1F01500D7C4BA /* Secrets.swift in Sources */,
+				98A51DEB2131BAA000BAFA41 /* FundsListMultipleSectionViewModel.swift in Sources */,
 				98300A6620D1FEEE00D7C4BA /* InitialViewController.swift in Sources */,
 				98300A4920D1F64B00D7C4BA /* UIDevice+Ext.swift in Sources */,
 				98300A4D20D1F64B00D7C4BA /* UITextView+Ext.swift in Sources */,
