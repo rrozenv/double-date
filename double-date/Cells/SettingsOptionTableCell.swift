@@ -52,15 +52,16 @@ extension ProfileOptionCell {
         containerView.backgroundColor = UIColor.white
         
         contentView.addSubview(containerView)
-        containerView.snp.makeConstraints { (make) in
-            make.edges.equalTo(contentView)
-            make.height.equalTo(60)
-        }
+        containerView.constrainAsShadowBox()
+        containerView.snp.makeConstraints { $0.height.equalTo(60) }
+//        containerView.snp.makeConstraints { (make) in
+//            make.edges.equalTo(contentView)
+//            make.height.equalTo(60)
+//        }
     }
     
     private func setupTitleLabel() {
-        mainLabel = UILabel()
-        mainLabel.font = FontBook.AvenirMedium.of(size: 14)
+        mainLabel = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 13), color: Palette.darkNavy.color, alignment: .left)
         mainLabel.textColor = UIColor.black
         
         containerView.addSubview(mainLabel)

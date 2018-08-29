@@ -74,7 +74,7 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
     let disposeBag = DisposeBag()
     var viewModel: MarketViewModel!
     private var continueButton: UIButton!
-    private var searchBarView: SearchBarView!
+    var searchBarView: SearchBarView!
     var cancelButton: UIButton!
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
@@ -127,6 +127,7 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
         cancelButton.rx.tap.asObservable()
             .subscribe(onNext: { [unowned self] in
                 self.cancelButton.isHidden = true
+                self.searchBarView.backgroundColor = Palette.faintBlue.color
                 self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)

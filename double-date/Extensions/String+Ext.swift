@@ -71,6 +71,12 @@ extension String {
         return finalDate
     }
     
+    func asDate(format: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.date(from: self)
+    }
+    
     func substring(start: Int, offsetBy: Int) -> String? {
         guard let substringStartIndex = self.index(startIndex, offsetBy: start, limitedBy: endIndex) else {
             return nil

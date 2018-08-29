@@ -19,7 +19,7 @@ struct StockPurchaseInfoViewModel {
     //MARK: - Properties
     let disposeBag = DisposeBag()
     private let _stock: Variable<Stock>
-    private let _portflioCashBalance = Variable<Double?>(nil)
+    private let _portflioCashBalance: Variable<Double>
     private let _funds = Variable<[Fund]>([])
     private let cache: Cache = Cache<Fund>(path: "funds")
     private let _sharesInputText = Variable<String>("")
@@ -32,12 +32,13 @@ struct StockPurchaseInfoViewModel {
     
     init(stock: Stock, maxPurchaseValue: Double) {
         self._stock = Variable(stock)
-        cache.fetchObjects().asObservable()
-            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
-            .map { $0.map { $0.currentUserPortfolio.cashBalance } }
-            .map { $0.min() }
-            .bind(to: _portflioCashBalance)
-            .disposed(by: disposeBag)
+        self._portflioCashBalance = Variable(maxPurchaseValue)
+        //cache.fetchObjects().asObservable()
+//            .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .userInitiated))
+//            .map { $0.map { $0.currentUserPortfolio.cashBalance } }
+//            .map { $0.min() }
+//            .bind(to: _portflioCashBalance)
+//            .disposed(by: disposeBag)
     }
     
     //MARK: - Outputs
@@ -54,18 +55,18 @@ struct StockPurchaseInfoViewModel {
     
     var portfolioCashBalance: Driver<String> {
         return _portflioCashBalance.asDriver()
-            .filterNil()
+            //.filterNil()
             .map { $0.asCurreny }
     }
     
     var isValidPurchase: Driver<Bool> {
         return totalPurchaseValue
             .map { totalValue in
-                if let singlePortCashBalance = self._portflioCashBalance.value {
-                    return totalValue < singlePortCashBalance && totalValue > 0.0
-                } else {
-                    return totalValue > 0.0
-                }
+                //if let singlePortCashBalance = self._portflioCashBalance.value {
+                    return totalValue <= self._portflioCashBalance.value && totalValue > 0.0
+                //} else {
+//                    return totalValue > 0.0
+//                }
             }
     }
     

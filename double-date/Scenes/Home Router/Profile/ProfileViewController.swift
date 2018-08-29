@@ -46,8 +46,8 @@ final class ProfileViewController: UIViewController, CustomNavBarViewable, Binda
         navBackgroundView.backgroundColor = .white
         setupNavBar()
         setupTableView()
-        createSettingsButton()
-        setupSettingsVc()
+        //createSettingsButton()
+        //setupSettingsVc()
         //createLogoutButton()
     }
     
@@ -64,37 +64,46 @@ final class ProfileViewController: UIViewController, CustomNavBarViewable, Binda
 //        let logoutTapped$ = logoutButton.rx.tap.asObservable()
 //        viewModel.bindLogoutButton(logoutTapped$)
         
-        let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }
-        let fetchPositions$ = Observable.of(initalLoadTrigger.asObservable(), refreshControl$).merge().share()
-        viewModel.bindFetchPositions(fetchPositions$)
+//        let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }
+//        let fetchPositions$ = Observable.of(initalLoadTrigger.asObservable(), refreshControl$).merge().share()
+//        viewModel.bindFetchPositions(fetchPositions$)
         
         tableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        userProfileDisplayed.asObservable()
-            .skip(1)
-            .subscribe(onNext: { [unowned self] in
-                self.toggleUserProfileVc(isDisplayed: $0)
-            })
-            .disposed(by: disposeBag)
+        let selectedOption$ = tableView.rx.modelSelected(ProfileOption.self).asObservable()
+        viewModel.bindDidSelectOption(selectedOption$)
         
-        settingsButton.rx.tap.asObservable()
-            .subscribe(onNext: { [unowned self] in
-                self.userProfileDisplayed.value = !self.userProfileDisplayed.value
-            })
-            .disposed(by: disposeBag)
+//        userProfileDisplayed.asObservable()
+//            .skip(1)
+//            .subscribe(onNext: { [unowned self] in
+//                self.toggleUserProfileVc(isDisplayed: $0)
+//            })
+//            .disposed(by: disposeBag)
+//
+//        settingsButton.rx.tap.asObservable()
+//            .subscribe(onNext: { [unowned self] in
+//                self.userProfileDisplayed.value = !self.userProfileDisplayed.value
+//            })
+//            .disposed(by: disposeBag)
         
         //MARK: - Output
-        viewModel.positions
-            .drive(tableView.rx.items(cellIdentifier: PositionSummaryTableCell.defaultReusableId, cellType: PositionSummaryTableCell.self)) { row, element, cell in
-                cell.configureWith(value: element, displayClosed: true)
+//        viewModel.positions
+//            .drive(tableView.rx.items(cellIdentifier: PositionSummaryTableCell.defaultReusableId, cellType: PositionSummaryTableCell.self)) { row, element, cell in
+//                cell.configureWith(value: element, displayClosed: true)
+//            }
+//            .disposed(by: disposeBag)
+        
+        viewModel.displayedSettings
+            .drive(tableView.rx.items(cellIdentifier: ProfileOptionCell.defaultReusableId, cellType: ProfileOptionCell.self)) { row, element, cell in
+                cell.configureWith(value: element)
             }
             .disposed(by: disposeBag)
         
-        viewModel.positions
-            .map { _ in false }
-            .drive(refreshControl.rx.isRefreshing)
-            .disposed(by: disposeBag)
+//        viewModel.positions
+//            .map { _ in false }
+//            .drive(refreshControl.rx.isRefreshing)
+//            .disposed(by: disposeBag)
         
         viewModel.user
             .drive(onNext: { [unowned self] in
@@ -170,24 +179,24 @@ extension ProfileViewController {
 extension ProfileViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 42.0
+        return CGFloat.leastNonzeroMagnitude
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNonzeroMagnitude
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        //view.backgroundColor = Palette.appBackground.color
-        let label = UILabel(title: "TRADE HISTORY").rxStyle(font: FontBook.AvenirHeavy.of(size: 11), color: Palette.lightBlue.color)
-        view.addSubview(label)
-        label.snp.makeConstraints { (make) in
-            make.left.equalTo(view).offset(23)
-            make.centerY.equalTo(view)
-        }
-        return view
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let view = UIView()
+//        //view.backgroundColor = Palette.appBackground.color
+//        let label = UILabel(title: "SETTINGS").rxStyle(font: FontBook.AvenirHeavy.of(size: 11), color: Palette.lightBlue.color)
+//        view.addSubview(label)
+//        label.snp.makeConstraints { (make) in
+//            make.left.equalTo(view).offset(23)
+//            make.centerY.equalTo(view)
+//        }
+//        return view
+//    }
     
 }
 
@@ -196,6 +205,7 @@ extension ProfileViewController {
     private func setupTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .plain)
         tableView.register(PositionSummaryTableCell.self, forCellReuseIdentifier: PositionSummaryTableCell.defaultReusableId)
+          tableView.register(ProfileOptionCell.self, forCellReuseIdentifier: ProfileOptionCell.defaultReusableId)
         tableView.estimatedRowHeight = 100
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedSectionHeaderHeight = 0
@@ -205,7 +215,7 @@ extension ProfileViewController {
         tableView.contentInsetAdjustmentBehavior = .never
         
         headerView = ProfileHeaderView()
-        headerView.dropShadow()
+        //headerView.dropShadow()
         tableView.tableHeaderView = headerView
         headerView.snp.makeConstraints { (make) in
             make.centerX.width.top.bottom.equalTo(tableView)

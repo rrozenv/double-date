@@ -89,6 +89,7 @@ extension HomeRouter {
     
     private func toStockSearch() {
         marketVc.cancelButton.isHidden = false
+        marketVc.searchBarView.searchTextField.backgroundColor = .clear
         navVc.pushViewController(marketVc, animated: true)
     }
     
@@ -152,8 +153,8 @@ extension HomeRouter: MarketViewModelDelegate {
     func didSelectStock(_ stock: Stock) {
         stockSelectionRouter = StockSelectionRouter(stock: stock)
         
-        stockSelectionRouter!.newPosition.asObservable()
-            .bind(to: profileVc.viewModel.bindNewPosition)
+//        stockSelectionRouter!.newPosition.asObservable()
+//            .bind(to: profileVc.viewModel.bindNewPosition)
         
         stockSelectionRouter!.newPosition.asObservable()
             .bind(to: fundVc.viewModel.bindNewPosition)

@@ -150,7 +150,8 @@ extension StockSelectionRouter {
     
     private func toSelectFunds() {
         var vc = SelectFundViewController()
-        var vm = SelectFundViewModel(funds: _funds.value, stock: stock)
+        var vm = SelectFundViewModel(funds: _funds.value.filter { $0.status == .open },
+                                     stock: stock)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: true)
@@ -165,12 +166,13 @@ extension StockSelectionRouter: StockDetailViewModelDelegate,
     
     //MARK: - Position Type Selected
     func didSelectPositionType(_ type: PositionType) {
-        guard _funds.value.isNotEmpty else {
+        let openFunds = _funds.value.filter { $0.status == .open }
+        guard openFunds.count > 0 else {
             self.displayNoFundsError()
             return
         }
         positionInfo.value.positionType = type
-        if _funds.value.count == 1 {
+        if openFunds.count == 1 {
             self.positionInfo.value.funds = _funds.value
             self.screenOrder = [.stockDetail, .selectSharesCount]
             self.navigateTo(screen: .selectSharesCount)

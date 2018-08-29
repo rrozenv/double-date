@@ -15,11 +15,11 @@ protocol PageIndicatable: class {
 
 extension PageIndicatable where Self: UIViewController, Self: CustomNavBarViewable {
     
-    func setupPageIndicator(totalPageCount: Int, currentPage: Int, widthHeight: CGFloat, selectedColor: UIColor, unselectedColor: UIColor) {
+    func setupPageIndicator(totalPageCount: Int, currentPage: Int, widthHeight: CGFloat = 6.0, selectedColor: UIColor = Palette.aqua.color, unselectedColor: UIColor = Palette.faintBlue.color) {
         let widthHeight: CGFloat = 6.0
         pageIndicatorView = PageIndicatorView(pageCount: totalPageCount, widthHeight: widthHeight, svProps: StackViewProps(axis: .horizontal, distribution: .equalSpacing, spacing: 14.0), selectedColor: selectedColor, unselectedColor: unselectedColor)
         pageIndicatorView.currentPage = currentPage
-        
+
         view.addSubview(pageIndicatorView)
         pageIndicatorView.snp.makeConstraints { (make) in
             make.left.equalTo(view).offset(56)

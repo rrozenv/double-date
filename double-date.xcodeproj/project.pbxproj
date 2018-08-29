@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		980320002136218C0090647A /* EnterFundNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98031FFF2136218C0090647A /* EnterFundNameViewModel.swift */; };
+		98032002213627A30090647A /* EnterFundNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98032001213627A30090647A /* EnterFundNameViewController.swift */; };
 		9805770421062B9D0006821E /* CreateFundFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805770321062B9D0006821E /* CreateFundFormViewController.swift */; };
 		9805770621062BAA0006821E /* CreateFundFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9805770521062BAA0006821E /* CreateFundFormViewModel.swift */; };
 		98057708210666300006821E /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98057707210666300006821E /* Date+Ext.swift */; };
@@ -155,6 +157,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		98031FFF2136218C0090647A /* EnterFundNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterFundNameViewModel.swift; sourceTree = "<group>"; };
+		98032001213627A30090647A /* EnterFundNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnterFundNameViewController.swift; sourceTree = "<group>"; };
 		9805770321062B9D0006821E /* CreateFundFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFundFormViewController.swift; sourceTree = "<group>"; };
 		9805770521062BAA0006821E /* CreateFundFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateFundFormViewModel.swift; sourceTree = "<group>"; };
 		98057707210666300006821E /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
@@ -337,6 +341,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		98031FFE213621730090647A /* Game Name */ = {
+			isa = PBXGroup;
+			children = (
+				98031FFF2136218C0090647A /* EnterFundNameViewModel.swift */,
+				98032001213627A30090647A /* EnterFundNameViewController.swift */,
+			);
+			path = "Game Name";
+			sourceTree = "<group>";
+		};
 		9805770221062B790006821E /* Create Game */ = {
 			isa = PBXGroup;
 			children = (
@@ -416,6 +429,7 @@
 		9806647520DD9AE800951DBD /* Create Fund Router */ = {
 			isa = PBXGroup;
 			children = (
+				98031FFE213621730090647A /* Game Name */,
 				9806645020DD5A5400951DBD /* CreateFundRouter.swift */,
 				9805770221062B790006821E /* Create Game */,
 				986AE2DA20DDD55D00A78E42 /* Select Contacts */,
@@ -971,6 +985,7 @@
 				98300A2F20D1EDB000D7C4BA /* User.swift in Sources */,
 				98300A6A20D1FF4C00D7C4BA /* InitialViewModel.swift in Sources */,
 				98300A5D20D1F73E00D7C4BA /* Palette.swift in Sources */,
+				98032002213627A30090647A /* EnterFundNameViewController.swift in Sources */,
 				98F77F2A20D59314005F4B66 /* StyledTextField.swift in Sources */,
 				9805770421062B9D0006821E /* CreateFundFormViewController.swift in Sources */,
 				98D14ED020EDA2070097AC69 /* PositionsListViewModel.swift in Sources */,
@@ -1066,6 +1081,7 @@
 				98CE67A621114AE600AFEBF1 /* EmptyLabelsView.swift in Sources */,
 				989963D520D3EB2800AD9F9F /* UserListViewModel.swift in Sources */,
 				98300A4B20D1F64B00D7C4BA /* UIView+Ext.swift in Sources */,
+				980320002136218C0090647A /* EnterFundNameViewModel.swift in Sources */,
 				98300A3A20D1F57B00D7C4BA /* BindableType.swift in Sources */,
 				986AE2EE20DDD94E00A78E42 /* UserContactTableCell.swift in Sources */,
 				98A8467F2100DA6C008535A6 /* StockDetailMultipleSectionModel.swift in Sources */,

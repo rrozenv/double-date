@@ -18,14 +18,24 @@ struct ProfileViewModel {
     
     let disposeBag = DisposeBag()
     private let positionService = PositionService()
+    private let _settings: Variable<[ProfileOption]>
     private let _positions = Variable<[Position]>([])
     private let errorTracker = ErrorTracker()
     weak var delegate: ProfileViewModelDelegate?
+    
+    //MARK: - Init
+    init() {
+        self._settings = Variable(ProfileOption.createOptions())
+    }
 
     //MARK: - Outputs
-    var positions: Driver<[Position]> {
-        return _positions.asDriver()
+    var displayedSettings: Driver<[ProfileOption]> {
+        return _settings.asDriver()
     }
+    
+//    var positions: Driver<[Position]> {
+//        return _positions.asDriver()
+//    }
     
     var user: Driver<User> {
         return AppController.shared.user$.filterNil().asDriverOnErrorJustComplete()
@@ -44,23 +54,36 @@ struct ProfileViewModel {
             .disposed(by: disposeBag)
     }
     
-    func bindFetchPositions(_ observable: Observable<Void>) {
+    func bindDidSelectOption(_ observable: Observable<ProfileOption>) {
         observable
-            .flatMapLatest {
-                self.positionService.getAllPositions()
-                    .trackNetworkError(self.errorTracker)
-                    .asDriverOnErrorJustComplete()
-            }
-            .bind(to: _positions)
-            .disposed(by: disposeBag)
-    }
-    
-    func bindNewPosition(_ observable: Observable<Position>) {
-        observable
-            .subscribe(onNext: {
-                self._positions.value.insert($0, at: 0)
+            .subscribe(onNext: { option in
+                switch option.sort {
+                case .logout:
+                    let _ = MyKeychain.shared.removeAllValues()
+                    NotificationCenter.default.post(name: .logout, object: nil)
+                default: break
+                }
             })
             .disposed(by: disposeBag)
     }
+    
+//    func bindFetchPositions(_ observable: Observable<Void>) {
+//        observable
+//            .flatMapLatest {
+//                self.positionService.getAllPositions()
+//                    .trackNetworkError(self.errorTracker)
+//                    .asDriverOnErrorJustComplete()
+//            }
+//            .bind(to: _positions)
+//            .disposed(by: disposeBag)
+//    }
+    
+//    func bindNewPosition(_ observable: Observable<Position>) {
+//        observable
+//            .subscribe(onNext: {
+//                self._positions.value.insert($0, at: 0)
+//            })
+//            .disposed(by: disposeBag)
+//    }
     
 }

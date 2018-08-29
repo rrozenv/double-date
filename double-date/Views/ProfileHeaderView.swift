@@ -60,7 +60,7 @@ final class ProfileHeaderView: UIView {
 
         let views: [UIView] = [userImageView, nameLabel]
         let labelsStackView = UIStackView(arrangedSubviews: views)
-        labelsStackView.spacing = 8.0
+        labelsStackView.spacing = 12.0
         labelsStackView.axis = .vertical
         labelsStackView.alignment = .center
         

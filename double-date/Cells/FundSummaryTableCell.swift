@@ -72,13 +72,15 @@ extension FundSummaryTableCell {
         containerView.dropShadow()
         
         contentView.addSubview(containerView)
-        containerView.snp.makeConstraints { (make) in
-            make.left.equalTo(contentView).offset(20)
-            make.right.equalTo(contentView).offset(-20)
-            make.top.equalTo(contentView).offset(10)
-            make.bottom.equalTo(contentView).offset(-10)
-            make.height.equalTo(80)
-        }
+        containerView.constrainAsShadowBox()
+        containerView.snp.makeConstraints { $0.height.equalTo(80) }
+//        containerView.snp.makeConstraints { (make) in
+//            make.left.equalTo(contentView).offset(20)
+//            make.right.equalTo(contentView).offset(-20)
+//            make.top.equalTo(contentView).offset(10)
+//            make.bottom.equalTo(contentView).offset(-10)
+//            make.height.equalTo(80)
+//        }
     }
     
     private func setupNameLabelsStackView() {
@@ -110,6 +112,23 @@ extension FundSummaryTableCell {
         rightLabel.snp.makeConstraints { (make) in
             make.right.equalTo(containerView.snp.right).offset(-20)
             make.centerY.equalTo(containerView)
+        }
+    }
+    
+}
+
+extension UIView {
+    
+    func constrainAsShadowBox() {
+        self.layer.cornerRadius = 2.0
+        self.layer.masksToBounds = true
+        self.dropShadow()
+        
+        self.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalToSuperview().offset(10)
+            make.bottom.equalToSuperview().offset(-10)
         }
     }
     

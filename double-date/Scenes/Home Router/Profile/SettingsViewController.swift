@@ -18,21 +18,19 @@ struct ProfileOption {
     let iconImage: UIImage?
     
     enum Sort: String {
-        case team = "My Team"
-        case practiceMode = "Practice Mode"
+        case share = "Share"
         case logout = "Logout"
         
         static var list: [Sort] {
-            return [.team, .practiceMode, .logout]
+            return [.share , .logout]
         }
     }
     
     static func createOptions() -> [ProfileOption] {
-        let sorts: [Sort] = [.team, .practiceMode, .logout]
+        let sorts: [Sort] = [.share , .logout]
         return sorts.map { (sort) -> ProfileOption in
             switch sort {
-            case .team: return ProfileOption(sort: sort, title: sort.rawValue, iconImage: nil)
-            case .practiceMode: return ProfileOption(sort: sort, title: sort.rawValue, iconImage: nil)
+            case .share: return ProfileOption(sort: sort, title: sort.rawValue, iconImage: nil)
             case .logout: return ProfileOption(sort: sort, title: sort.rawValue, iconImage: nil)
             }
         }

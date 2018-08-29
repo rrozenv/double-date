@@ -42,6 +42,7 @@ final class FundInfo {
 final class CreateFundRouter: Routable {
     
     enum Screen: Int {
+        case startDate
         case details
         case invites
     }
@@ -55,7 +56,7 @@ final class CreateFundRouter: Routable {
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
-    let screenOrder: [Screen] = [.details, .invites]
+    let screenOrder: [Screen] = [.startDate, .details, .invites]
     var screenIndex = 0
     
     //MARK: - Public Props
@@ -64,7 +65,7 @@ final class CreateFundRouter: Routable {
     
     init() {
         self.fundInfo = Variable(FundInfo())
-        self.navigateTo(screen: .details)
+        self.navigateTo(screen: .startDate)
         self.navVc.isNavigationBarHidden = true
         self.createFund.asObservable()
             .withLatestFrom(fundInfo.asObservable())
@@ -93,6 +94,7 @@ final class CreateFundRouter: Routable {
 
     func navigateTo(screen: Screen) {
         switch screen {
+        case .startDate: toEnterStartDate()
         case .details: toFundDetails()
         case .invites: toSelectContacts()
         }
@@ -101,6 +103,7 @@ final class CreateFundRouter: Routable {
     func didTapBackButton() {
         guard let currentScreen = Screen(rawValue: screenIndex) else { return }
         switch currentScreen {
+        case .startDate: break
         case .details:
             self.toPreviousScreen(completion: { [weak self] in
                 self?.dismiss.onNext(())
@@ -113,6 +116,14 @@ final class CreateFundRouter: Routable {
 }
 
 extension CreateFundRouter {
+    
+    private func toEnterStartDate() {
+        var vc = EnterDateViewController()
+        var vm = EnterDateViewModel(dateType: .start)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
     
     private func toFundDetails() {
         var vc = CreateFundFormViewController()
@@ -130,6 +141,14 @@ extension CreateFundRouter {
         navVc.pushViewController(vc, animated: true)
     }
 
+}
+
+extension CreateFundRouter: EnterDateViewModelDelegate {
+    
+    func didEnter(date: Date, type: EnterDateViewModel.DateType) {
+        print(date)
+    }
+    
 }
 
 extension CreateFundRouter: CreateFundFormViewModelDelegate {
