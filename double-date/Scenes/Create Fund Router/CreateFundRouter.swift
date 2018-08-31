@@ -56,7 +56,7 @@ final class CreateFundRouter: Routable {
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
-    let screenOrder: [Screen] = [.startDate, .details, .invites]
+    let screenOrder: [Screen] = [.details, .invites]
     var screenIndex = 0
     
     //MARK: - Public Props
@@ -65,7 +65,7 @@ final class CreateFundRouter: Routable {
     
     init() {
         self.fundInfo = Variable(FundInfo())
-        self.navigateTo(screen: .startDate)
+        self.navigateTo(screen: .details)
         self.navVc.isNavigationBarHidden = true
         self.createFund.asObservable()
             .withLatestFrom(fundInfo.asObservable())
