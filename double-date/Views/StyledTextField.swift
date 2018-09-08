@@ -61,12 +61,13 @@ final class StyledTextField: UIView {
          inputType: TextFieldInputType,
          clearButton: Bool,
          alignment: NSTextAlignment,
-         padding: CGFloat) {
+         padding: CGFloat,
+         height: CGFloat = 50.0) {
         self.style = style
         self.inputType = inputType
         super.init(frame: .zero)
         
-        setupTextfield(padding: padding, alignment: alignment)
+        setupTextfield(padding: padding, alignment: alignment, height: height)
         setupUnderlineView()
         setupStackView()
         if clearButton { setupClearButton() }
@@ -139,11 +140,11 @@ extension StyledTextField: UITextFieldDelegate {
 //MARK: - View Setup
 extension StyledTextField {
     
-    private func setupTextfield(padding: CGFloat, alignment: NSTextAlignment) {
+    private func setupTextfield(padding: CGFloat, alignment: NSTextAlignment, height: CGFloat) {
         textField = PaddedTextField(padding: padding)
         textField.textAlignment = alignment
         textField.delegate = self
-        textField.snp.makeConstraints { $0.height.equalTo(50) }
+        textField.snp.makeConstraints { $0.height.equalTo(height) }
     }
     
     private func setupUnderlineView() {

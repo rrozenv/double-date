@@ -47,6 +47,7 @@ final class FundSummaryTableCell: UITableViewCell {
         mainLabel.text = value.name
         dateLabel.text = "\(value.daysLeft) days left"
         rightLabel.text = "\(value.currentUserPortfolio.portfolioROI.asPercentage)"
+        rightLabel.textColor = value.currentUserPortfolio.portfolioROI >= 0 ? Palette.aqua.color : Palette.purple.color
     }
     
     func configureWith(value: NewsArticle) {
@@ -74,13 +75,6 @@ extension FundSummaryTableCell {
         contentView.addSubview(containerView)
         containerView.constrainAsShadowBox()
         containerView.snp.makeConstraints { $0.height.equalTo(80) }
-//        containerView.snp.makeConstraints { (make) in
-//            make.left.equalTo(contentView).offset(20)
-//            make.right.equalTo(contentView).offset(-20)
-//            make.top.equalTo(contentView).offset(10)
-//            make.bottom.equalTo(contentView).offset(-10)
-//            make.height.equalTo(80)
-//        }
     }
     
     private func setupNameLabelsStackView() {
@@ -106,7 +100,7 @@ extension FundSummaryTableCell {
     }
     
     private func setupRightLabel() {
-        rightLabel = UILabel().rxStyle(font: FontBook.AvenirMedium.of(size: 15), color: Palette.aqua.color, alignment: .right)
+        rightLabel = UILabel().rxStyle(font: FontBook.AvenirHeavy.of(size: 15), color: Palette.aqua.color, alignment: .right)
         
         containerView.addSubview(rightLabel)
         rightLabel.snp.makeConstraints { (make) in

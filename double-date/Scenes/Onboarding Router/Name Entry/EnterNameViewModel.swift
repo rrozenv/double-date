@@ -26,7 +26,7 @@ protocol EnterNameViewModelDelegate: BackButtonNavigatable {
 struct EnterNameViewModel {
     
     enum NameType {
-        case first, last
+        case userName, gameName
     }
     
     //MARK: - Properties
@@ -44,7 +44,7 @@ struct EnterNameViewModel {
     }
     
     var titleHeaderText: Driver<String> {
-        return Driver.of("Hi there, what's \nyour name?")
+        return Driver.of(createMainLabel(for: nameType))
     }
     
     //MARK: - Inputs
@@ -74,11 +74,20 @@ struct EnterNameViewModel {
 }
 
 extension EnterNameViewModel {
+    private func createMainLabel(for nameType: NameType) -> String {
+        switch nameType {
+        case .userName:
+            return "Hi there, what's \nyour name?"
+        case .gameName:
+            return "What will you call \nthis stock game?"
+        }
+    }
+    
     private func createVaryingFontInfoFor(nameType: NameType) -> VaryingFontInfo {
         switch nameType {
-        case .first:
+        case .userName:
             return VaryingFontInfo(originalText: "What's your first name?", fontDict: ["What's your": FontBook.AvenirMedium.of(size: 14), "first name?": FontBook.AvenirHeavy.of(size: 15)], fontColor: .black)
-        case .last:
+        case .gameName:
             return VaryingFontInfo(originalText: "What's your LAST NAME?", fontDict: ["What's your": FontBook.AvenirMedium.of(size: 14), "LAST NAME?": FontBook.AvenirBlack.of(size: 15)], fontColor: .black)
         }
     }

@@ -341,13 +341,13 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		98031FFE213621730090647A /* Game Name */ = {
+		98031FFE213621730090647A /* Enter Date */ = {
 			isa = PBXGroup;
 			children = (
 				98031FFF2136218C0090647A /* EnterFundNameViewModel.swift */,
 				98032001213627A30090647A /* EnterFundNameViewController.swift */,
 			);
-			path = "Game Name";
+			path = "Enter Date";
 			sourceTree = "<group>";
 		};
 		9805770221062B790006821E /* Create Game */ = {
@@ -429,12 +429,20 @@
 		9806647520DD9AE800951DBD /* Create Fund Router */ = {
 			isa = PBXGroup;
 			children = (
-				98031FFE213621730090647A /* Game Name */,
+				980B8D8E2142D309005E6B21 /* Game Name */,
+				98031FFE213621730090647A /* Enter Date */,
 				9806645020DD5A5400951DBD /* CreateFundRouter.swift */,
 				9805770221062B790006821E /* Create Game */,
 				986AE2DA20DDD55D00A78E42 /* Select Contacts */,
 			);
 			path = "Create Fund Router";
+			sourceTree = "<group>";
+		};
+		980B8D8E2142D309005E6B21 /* Game Name */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Game Name";
 			sourceTree = "<group>";
 		};
 		981FAA0020F43CC2005F2C22 /* Purchase Info */ = {

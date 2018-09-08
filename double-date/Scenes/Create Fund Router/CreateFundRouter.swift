@@ -42,7 +42,9 @@ final class FundInfo {
 final class CreateFundRouter: Routable {
     
     enum Screen: Int {
+        case gameName
         case startDate
+        case endDate
         case details
         case invites
     }
@@ -56,7 +58,7 @@ final class CreateFundRouter: Routable {
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
-    let screenOrder: [Screen] = [.details, .invites]
+    let screenOrder: [Screen] = [.gameName, .startDate, .endDate, .invites]
     var screenIndex = 0
     
     //MARK: - Public Props
@@ -65,7 +67,7 @@ final class CreateFundRouter: Routable {
     
     init() {
         self.fundInfo = Variable(FundInfo())
-        self.navigateTo(screen: .details)
+        self.navigateTo(screen: .gameName)
         self.navVc.isNavigationBarHidden = true
         self.createFund.asObservable()
             .withLatestFrom(fundInfo.asObservable())
@@ -94,7 +96,9 @@ final class CreateFundRouter: Routable {
 
     func navigateTo(screen: Screen) {
         switch screen {
+        case .gameName: toEnterGameName()
         case .startDate: toEnterStartDate()
+        case .endDate: toEnterEndDate()
         case .details: toFundDetails()
         case .invites: toSelectContacts()
         }
@@ -103,7 +107,12 @@ final class CreateFundRouter: Routable {
     func didTapBackButton() {
         guard let currentScreen = Screen(rawValue: screenIndex) else { return }
         switch currentScreen {
-        case .startDate: break
+        case .gameName:
+            self.toPreviousScreen(completion: { [weak self] in
+                self?.dismiss.onNext(())
+            })
+        case .startDate: self.toPreviousScreen()
+        case .endDate: self.toPreviousScreen()
         case .details:
             self.toPreviousScreen(completion: { [weak self] in
                 self?.dismiss.onNext(())
@@ -117,9 +126,33 @@ final class CreateFundRouter: Routable {
 
 extension CreateFundRouter {
     
+    private func toEnterGameName() {
+        var vc = EnterNameViewController()
+        var vm = EnterNameViewModel(nameType: .gameName)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
     private func toEnterStartDate() {
         var vc = EnterDateViewController()
         var vm = EnterDateViewModel(dateType: .start)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toEnterEndDate() {
+        var vc = EnterDateViewController()
+        var vm = EnterDateViewModel(dateType: .end)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toSelectContacts() {
+        var vc = SelectContactsViewController()
+        var vm = SelectContactsViewModel()
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: true)
@@ -133,20 +166,26 @@ extension CreateFundRouter {
         navVc.pushViewController(vc, animated: true)
     }
     
-    private func toSelectContacts() {
-        var vc = SelectContactsViewController()
-        var vm = SelectContactsViewModel()
-        vm.delegate = self
-        vc.setViewModelBinding(model: vm)
-        navVc.pushViewController(vc, animated: true)
-    }
+}
 
+extension CreateFundRouter: EnterNameViewModelDelegate {
+    
+    func didEnter(name: String, type: EnterNameViewModel.NameType) {
+        fundInfo.value.name = name
+        toNextScreen()
+    }
+    
 }
 
 extension CreateFundRouter: EnterDateViewModelDelegate {
     
     func didEnter(date: Date, type: EnterDateViewModel.DateType) {
-        print(date)
+        print("Entered date \(date)")
+        switch type {
+        case .start: fundInfo.value.startDate = date
+        case .end: fundInfo.value.endDate = date
+        }
+        toNextScreen()
     }
     
 }

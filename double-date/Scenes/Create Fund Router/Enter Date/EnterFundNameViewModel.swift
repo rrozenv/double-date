@@ -66,11 +66,10 @@ struct EnterDateViewModel {
     
     //MARK: - Properties
     private let disposeBag = DisposeBag()
-    let dayTextTest = Variable("")
-    private let dayText = Variable("")
-    private let monthText = Variable("")
-    private let yearText = Variable("")
-    private let dateFormat = "dd MM YYYY"
+    let dayText = Variable("")
+    let monthText = Variable("")
+    let yearText = Variable("")
+    private let dateFormat = "dd-MM-yyyy"
     private let dateType: DateType
     weak var delegate: EnterDateViewModelDelegate?
     
@@ -78,53 +77,56 @@ struct EnterDateViewModel {
         self.dateType = dateType
     }
     
-    var dayText$: Driver<String> {
-        return dayText.asDriver()
-    }
-    
     var isNextButtonEnabled: Driver<Bool> {
-        return Observable.combineLatest(dayTextTest.asObservable(),
+        return Observable.combineLatest(dayText.asObservable(),
                                         monthText.asObservable(),
                                         yearText.asObservable()) { (day, month, year) in
-                "\(day)" + " \(month)" + " \(year)"
+                                            "\(day)-\(month)-\(year)"
             }
             .map { $0.asDate(format: self.dateFormat) }
-            .map { $0 == nil ? false : true }
+            .do(onNext: { if let date = $0 { print(date) } })
+            .map {
+                if let validDate = $0, validDate > Date() {
+                    return true
+                } else {
+                    return false
+                }
+            }
             .asDriver(onErrorJustReturn: false)
     }
     
     var titleHeaderText: Driver<String> {
-        return Driver.of("What's the name \n of your stock game?")
+        return Driver.of("What's the name \nof your stock game?")
     }
     
     //MARK: - Inputs
-    func bindDayTextEntry(_ observable: Observable<String>) {
-        observable
-            .bind(to: dayText)
-            .disposed(by: disposeBag)
-    }
-    
-    func bindDayTextEntryTest(_ observable: Observable<String>) {
-        observable
-            .bind(to: dayText)
-            .disposed(by: disposeBag)
-    }
-    
-    func bindMonthTextEntry(_ observable: Observable<String>) {
-        observable
-            .bind(to: monthText)
-            .disposed(by: disposeBag)
-    }
-    
-    func bindYearTextEntry(_ observable: Observable<String>) {
-        observable
-            .bind(to: yearText)
-            .disposed(by: disposeBag)
-    }
+//    func bindDayTextEntry(_ observable: Observable<String>) {
+//        observable
+//            .bind(to: dayText)
+//            .disposed(by: disposeBag)
+//    }
+//
+//    func bindDayTextEntryTest(_ observable: Observable<String>) {
+//        observable
+//            .bind(to: dayText)
+//            .disposed(by: disposeBag)
+//    }
+//
+//    func bindMonthTextEntry(_ observable: Observable<String>) {
+//        observable
+//            .bind(to: monthText)
+//            .disposed(by: disposeBag)
+//    }
+//
+//    func bindYearTextEntry(_ observable: Observable<String>) {
+//        observable
+//            .bind(to: yearText)
+//            .disposed(by: disposeBag)
+//    }
     
     func bindContinueButton(_ observable: Observable<Void>) {
         observable
-            .map { "\(self.dayTextTest.value)" + " \(self.monthText.value)" + " \(self.yearText.value)" }
+            .map { "\(self.dayText.value)" + " \(self.monthText.value)" + " \(self.yearText.value)" }
             .map { $0.asDate(format: self.dateFormat) }
             .filterNil()
             .subscribe(onNext: {
