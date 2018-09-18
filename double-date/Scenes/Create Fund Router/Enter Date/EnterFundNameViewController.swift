@@ -35,11 +35,24 @@ class EnterDateViewController: UIViewController, BindableType, CustomNavBarViewa
         super.viewDidLoad()
         self.view.backgroundColor = Palette.faintGrey.color
         setupNavBar()
-        setupPageIndicator(totalPageCount: 3, currentPage: 0)
         setupMainLabel()
         setupTextField()
         setupNextButton()
+        monthTextField.textField.becomeFirstResponder()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        nextButton.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        nextButton.isHidden = true
+    }
+    
+    override var inputAccessoryView: UIView? { get { return nextButton } }
+    override var canBecomeFirstResponder: Bool { return true }
     
     deinit { print("EnterDateViewController deinit") }
     
@@ -47,6 +60,12 @@ class EnterDateViewController: UIViewController, BindableType, CustomNavBarViewa
         //MARK: - Input
         let backTapped$ = navView.backButton.rx.tap.asObservable()
         viewModel.bindBackButton(backTapped$)
+        
+        viewModel.pageIndicatorInfo
+            .drive(onNext: { [unowned self] in
+                self.setupPageIndicator(totalPageCount: $0.total, currentPage: $0.current, widthHeight: 6.0, selectedColor: Palette.aqua.color, unselectedColor: Palette.lightGrey.color)
+            })
+            .disposed(by: disposeBag)
         
         monthTextField.textField.rx.controlEvent(.editingChanged)
             .withLatestFrom(monthTextField.textOutput)
@@ -139,16 +158,16 @@ extension EnterDateViewController {
     }
     
     private func setupNextButton() {
-        nextButton = UIButton().rxStyle(title: "Next", font: FontBook.AvenirHeavy.of(size: 13), backColor: Palette.aqua.color, titleColor: .white)
-        nextButton.layer.cornerRadius = 2.0
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
-        
-        view.addSubview(nextButton)
-        nextButton.snp.makeConstraints { make in
-            make.height.equalTo(54.0)
-            make.left.right.bottom.equalTo(view)
-        }
+        nextButton = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 54)).rxStyle(title: "Next", font: FontBook.AvenirHeavy.of(size: 13), backColor: Palette.aqua.color, titleColor: .white)
+//        nextButton = UIButton().rxStyle(title: "Next", font: FontBook.AvenirHeavy.of(size: 13), backColor: Palette.aqua.color, titleColor: .white)
+//        nextButton.layer.cornerRadius = 2.0
+//
+//        view.addSubview(nextButton)
+//        nextButton.snp.makeConstraints {
+//            $0.height.equalTo(54)
+//            $0.left.right.equalTo(view)
+//            self.adjustableConstraint = $0.bottom.equalTo(view).constraint
+//        }
     }
     
     private func configureDivider(view: UIView) {

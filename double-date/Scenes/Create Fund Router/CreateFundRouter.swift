@@ -25,7 +25,7 @@ final class FundInfo {
         return name.count > 3 &&
                invitedPhoneNumbers.count > 0 &&
                maxCashBalance > 0
-                //&& startDate < endDate
+               && startDate < endDate
     }
     
     var params: [String: Any] {
@@ -43,6 +43,7 @@ final class CreateFundRouter: Routable {
     
     enum Screen: Int {
         case gameName
+        case initalInvestment
         case startDate
         case endDate
         case details
@@ -58,7 +59,7 @@ final class CreateFundRouter: Routable {
     
     //MARK: - Routable Props
     let navVc = UINavigationController()
-    let screenOrder: [Screen] = [.gameName, .startDate, .endDate, .invites]
+    let screenOrder: [Screen] = [.gameName, .initalInvestment, .startDate, .endDate, .invites]
     var screenIndex = 0
     
     //MARK: - Public Props
@@ -97,6 +98,7 @@ final class CreateFundRouter: Routable {
     func navigateTo(screen: Screen) {
         switch screen {
         case .gameName: toEnterGameName()
+        case .initalInvestment: toInitalInvestment()
         case .startDate: toEnterStartDate()
         case .endDate: toEnterEndDate()
         case .details: toFundDetails()
@@ -111,6 +113,7 @@ final class CreateFundRouter: Routable {
             self.toPreviousScreen(completion: { [weak self] in
                 self?.dismiss.onNext(())
             })
+        case .initalInvestment: self.toPreviousScreen()
         case .startDate: self.toPreviousScreen()
         case .endDate: self.toPreviousScreen()
         case .details:
@@ -129,6 +132,14 @@ extension CreateFundRouter {
     private func toEnterGameName() {
         var vc = EnterNameViewController()
         var vm = EnterNameViewModel(nameType: .gameName)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toInitalInvestment() {
+        var vc = EnterNameViewController()
+        var vm = EnterNameViewModel(nameType: .currenyAmount)
         vm.delegate = self
         vc.setViewModelBinding(model: vm)
         navVc.pushViewController(vc, animated: true)
@@ -171,7 +182,11 @@ extension CreateFundRouter {
 extension CreateFundRouter: EnterNameViewModelDelegate {
     
     func didEnter(name: String, type: EnterNameViewModel.NameType) {
-        fundInfo.value.name = name
+        switch type {
+        case .gameName: fundInfo.value.name = name
+        case .currenyAmount: fundInfo.value.maxCashBalance = Int(name)
+        default: break
+        }
         toNextScreen()
     }
     

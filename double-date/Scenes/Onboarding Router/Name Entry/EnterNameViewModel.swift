@@ -26,17 +26,29 @@ protocol EnterNameViewModelDelegate: BackButtonNavigatable {
 struct EnterNameViewModel {
     
     enum NameType {
-        case userName, gameName
+        case userName, gameName, currenyAmount
     }
     
     //MARK: - Properties
     private let disposeBag = DisposeBag()
     private let text = Variable("")
-    private let nameType: NameType
+    let nameType: NameType
     weak var delegate: EnterNameViewModelDelegate?
     
     init(nameType: NameType) {
         self.nameType = nameType
+    }
+    
+    var pageIndicatorInfo: Driver<(total:Int, current: Int)> {
+        switch nameType {
+        case .userName: return Driver.of((3, 1))
+        case .gameName: return Driver.of((5, 0))
+        case .currenyAmount: return Driver.of((5, 1))
+        }
+    }
+    
+    var textFieldType: Driver<NameType> {
+        return Driver.of(nameType)
     }
     
     var isNextButtonEnabled: Driver<Bool> {
@@ -80,6 +92,8 @@ extension EnterNameViewModel {
             return "Hi there, what's \nyour name?"
         case .gameName:
             return "What will you call \nthis stock game?"
+        case .currenyAmount:
+            return "How much starting capital \ndo players start with?"
         }
     }
     
@@ -88,6 +102,8 @@ extension EnterNameViewModel {
         case .userName:
             return VaryingFontInfo(originalText: "What's your first name?", fontDict: ["What's your": FontBook.AvenirMedium.of(size: 14), "first name?": FontBook.AvenirHeavy.of(size: 15)], fontColor: .black)
         case .gameName:
+            return VaryingFontInfo(originalText: "What's your LAST NAME?", fontDict: ["What's your": FontBook.AvenirMedium.of(size: 14), "LAST NAME?": FontBook.AvenirBlack.of(size: 15)], fontColor: .black)
+        case .currenyAmount:
             return VaryingFontInfo(originalText: "What's your LAST NAME?", fontDict: ["What's your": FontBook.AvenirMedium.of(size: 14), "LAST NAME?": FontBook.AvenirBlack.of(size: 15)], fontColor: .black)
         }
     }

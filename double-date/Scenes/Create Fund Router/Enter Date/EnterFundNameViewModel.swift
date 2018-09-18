@@ -10,50 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol EnterFundNameViewModelDelegate: BackButtonNavigatable {
-    func didEnterFund(name: String)
-}
-
-struct EnterFundNameViewModel {
-    
-    //MARK: - Properties
-    private let disposeBag = DisposeBag()
-    private let text = Variable("")
-    weak var delegate: EnterFundNameViewModelDelegate?
-    
-    var isNextButtonEnabled: Driver<Bool> {
-        return text.asDriver().map { $0.isNotEmpty }
-    }
-    
-    var titleHeaderText: Driver<String> {
-        return Driver.of("What's the name \n of your stock game?")
-    }
-    
-    //MARK: - Inputs
-    func bindTextEntry(_ observable: Observable<String>) {
-        observable
-            .bind(to: text)
-            .disposed(by: disposeBag)
-    }
-    
-    func bindContinueButton(_ observable: Observable<Void>) {
-        observable
-            .subscribe(onNext: {
-                self.delegate?.didEnterFund(name: self.text.value)
-            })
-            .disposed(by: disposeBag)
-    }
-    
-    func bindBackButton(_ observable: Observable<Void>) {
-        observable
-            .subscribe(onNext: {
-                self.delegate?.didTapBackButton()
-            })
-            .disposed(by: disposeBag)
-    }
-    
-}
-
 protocol EnterDateViewModelDelegate: BackButtonNavigatable {
     func didEnter(date: Date, type: EnterDateViewModel.DateType)
 }
@@ -77,6 +33,13 @@ struct EnterDateViewModel {
         self.dateType = dateType
     }
     
+    var pageIndicatorInfo: Driver<(total:Int, current: Int)> {
+        switch dateType {
+        case .start: return Driver.of((5, 2))
+        case .end: return Driver.of((5, 3))
+        }
+    }
+    
     var isNextButtonEnabled: Driver<Bool> {
         return Observable.combineLatest(dayText.asObservable(),
                                         monthText.asObservable(),
@@ -84,7 +47,6 @@ struct EnterDateViewModel {
                                             "\(day)-\(month)-\(year)"
             }
             .map { $0.asDate(format: self.dateFormat) }
-            .do(onNext: { if let date = $0 { print(date) } })
             .map {
                 if let validDate = $0, validDate > Date() {
                     return true
@@ -96,34 +58,10 @@ struct EnterDateViewModel {
     }
     
     var titleHeaderText: Driver<String> {
-        return Driver.of("What's the name \nof your stock game?")
+        return Driver.of("When will this \ngame \(dateType == .start ? "start" : "end")?")
     }
     
     //MARK: - Inputs
-//    func bindDayTextEntry(_ observable: Observable<String>) {
-//        observable
-//            .bind(to: dayText)
-//            .disposed(by: disposeBag)
-//    }
-//
-//    func bindDayTextEntryTest(_ observable: Observable<String>) {
-//        observable
-//            .bind(to: dayText)
-//            .disposed(by: disposeBag)
-//    }
-//
-//    func bindMonthTextEntry(_ observable: Observable<String>) {
-//        observable
-//            .bind(to: monthText)
-//            .disposed(by: disposeBag)
-//    }
-//
-//    func bindYearTextEntry(_ observable: Observable<String>) {
-//        observable
-//            .bind(to: yearText)
-//            .disposed(by: disposeBag)
-//    }
-    
     func bindContinueButton(_ observable: Observable<Void>) {
         observable
             .map { "\(self.dayText.value)" + " \(self.monthText.value)" + " \(self.yearText.value)" }

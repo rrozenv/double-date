@@ -57,11 +57,11 @@ final class StyledTextField: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(style: TextFieldStyle,
-         inputType: TextFieldInputType,
-         clearButton: Bool,
-         alignment: NSTextAlignment,
-         padding: CGFloat,
+    init(style: TextFieldStyle = .background,
+         inputType: TextFieldInputType = .regularText,
+         clearButton: Bool = false,
+         alignment: NSTextAlignment = .left,
+         padding: CGFloat = 0.0,
          height: CGFloat = 50.0) {
         self.style = style
         self.inputType = inputType

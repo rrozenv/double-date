@@ -21,6 +21,7 @@ class EnterNameViewController: UIViewController, BindableType, CustomNavBarViewa
     var pageIndicatorView: PageIndicatorView = PageIndicatorView()
     
     private var mainLabel: UILabel!
+    private var initalInvestmentFormView: CurrencyTextField!
     private var textField: StyledTextField!
     private var nextButton: UIButton!
     private var containerStackView: UIStackView!
@@ -29,24 +30,62 @@ class EnterNameViewController: UIViewController, BindableType, CustomNavBarViewa
         super.viewDidLoad()
         self.view.backgroundColor = Palette.faintGrey.color
         setupNavBar()
-        setupPageIndicator(totalPageCount: 3, currentPage: 0, widthHeight: 6.0, selectedColor: Palette.aqua.color, unselectedColor: Palette.faintBlue.color)
         setupMainLabel()
-        setupTextField()
         setupNextButton()
-        setupContainerStackView()
     }
- 
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.nextButton.isHidden = false
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.nextButton.isHidden = true
+        switch viewModel.nameType {
+        case .currenyAmount: initalInvestmentFormView.resignFirstResponder()
+        case .gameName, .userName: textField.textField.resignFirstResponder()
+        }
+    }
+    
+    override var inputAccessoryView: UIView? { get { return nextButton } }
+    override var canBecomeFirstResponder: Bool { return true }
+    
     deinit { print("EnterNameViewController deinit") }
     
     func bindViewModel() {
         let backTapped$ = navView.backButton.rx.tap.asObservable()
         viewModel.bindBackButton(backTapped$)
         
-        viewModel.bindTextEntry(textField.textOutput)
+        viewModel.pageIndicatorInfo
+            .drive(onNext: { [unowned self] in
+                self.setupPageIndicator(totalPageCount: $0.total, currentPage: $0.current, widthHeight: 6.0, selectedColor: Palette.aqua.color, unselectedColor: Palette.lightGrey.color)
+            })
+            .disposed(by: disposeBag)
         
-        let nextTapped$ = nextButton.rx.tap.asObservable()
-        let keyboardNextTapped$ = textField.textField.rx.controlEvent([.editingDidEndOnExit]).asObservable()
-        viewModel.bindContinueButton(Observable.merge(nextTapped$, keyboardNextTapped$))
+        viewModel.textFieldType
+            .drive(onNext: { [unowned self] in
+                let nextTapped$ = self.nextButton.rx.tap.asObservable()
+                switch $0 {
+                case .gameName, .userName:
+                    self.setupTextField(inputType: .regularText)
+                    self.viewModel.bindTextEntry(self.textField.textOutput)
+                    self.setupContainerStackView(subviews: [self.mainLabel, self.textField])
+                    let keyboardNextTapped$ = self.textField.textField.rx.controlEvent([.editingDidEndOnExit]).asObservable()
+                    self.viewModel.bindContinueButton(Observable.merge(nextTapped$, keyboardNextTapped$))
+                case .currenyAmount:
+                    self.setupCurrencyTextField()
+                    self.viewModel.bindTextEntry(
+                        self.initalInvestmentFormView.amount.asObservable()
+                        .filter { $0 > 0 }
+                        .map { "\($0)" }
+                    )
+                        self.setupContainerStackView(subviews: [self.mainLabel, self.initalInvestmentFormView])
+                    let keyboardNextTapped$ = self.initalInvestmentFormView.rx.controlEvent([.editingDidEndOnExit]).asObservable()
+                    self.viewModel.bindContinueButton(Observable.merge(nextTapped$, keyboardNextTapped$))
+                }
+            })
+            .disposed(by: disposeBag)
         
         viewModel.isNextButtonEnabled
             .drive(onNext: { [unowned self] in
@@ -71,8 +110,14 @@ extension EnterNameViewController {
         mainLabel.numberOfLines = 0
     }
     
-    private func setupTextField() {
-        textField = StyledTextField(style: .background, inputType: .regularText, clearButton: false, alignment: .left, padding: 0.0)
+    private func setupCurrencyTextField() {
+        initalInvestmentFormView = CurrencyTextField()
+        initalInvestmentFormView.style(placeHolder: "$0.00", font: FontBook.AvenirMedium.of(size: 14), backColor: .clear, titleColor: Palette.darkNavy.color)
+        initalInvestmentFormView.becomeFirstResponder()
+    }
+    
+    private func setupTextField(inputType: TextFieldInputType) {
+        textField = StyledTextField(style: .background, inputType: inputType, clearButton: false, alignment: .left, padding: 0.0)
         textField.styleTextField(placeHolder: "Enter Name...", placeHolderColor: Palette.lightBlue.color, font: FontBook.AvenirMedium.of(size: 14), backColor: .clear, titleColor: Palette.darkNavy.color, keyboardType: .default, returnKeyType: .done)
         textField.layer.cornerRadius = 2.0
         textField.layer.masksToBounds = true
@@ -80,21 +125,11 @@ extension EnterNameViewController {
     }
     
     private func setupNextButton() {
-        nextButton = UIButton().rxStyle(title: "Next", font: FontBook.AvenirHeavy.of(size: 13), backColor: Palette.aqua.color, titleColor: .white)
-        nextButton.layer.cornerRadius = 2.0
-        nextButton.translatesAutoresizingMaskIntoConstraints = false
-        nextButton.heightAnchor.constraint(equalToConstant: 54).isActive = true
-        
-        view.addSubview(nextButton)
-        nextButton.snp.makeConstraints { make in
-            make.height.equalTo(54.0)
-            make.left.right.bottom.equalTo(view)
-        }
+        nextButton = UIButton(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 54)).rxStyle(title: "Next", font: FontBook.AvenirHeavy.of(size: 13), backColor: Palette.aqua.color, titleColor: .white)
     }
     
-    private func setupContainerStackView() {
-        containerStackView = UIStackView(arrangedSubviews: [mainLabel,
-                                                            textField])
+    private func setupContainerStackView(subviews: [UIView]) {
+        containerStackView = UIStackView(arrangedSubviews: subviews)
         containerStackView.axis = .vertical
         containerStackView.distribution = .equalSpacing
         containerStackView.spacing = 20.0
