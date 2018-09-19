@@ -69,25 +69,32 @@ extension LoadingIndicatable where Self: UIViewController {
     }
 }
 
-class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
+class MarketViewController: UIViewController, BindableType, CustomNavBarViewable, LoadingIndicatable {
     
     let disposeBag = DisposeBag()
     var viewModel: MarketViewModel!
+    
+    var displayBackButton: Bool = false
+    var navView: BackButtonNavView = BackButtonNavView.blackArrow
+    var navBackgroundView: UIView = UIView()
+    var loadingView: LoadingView = LoadingView()
+    
     private var continueButton: UIButton!
-    var searchBarView: SearchBarView!
-    var cancelButton: UIButton!
+    private var searchBarView: SearchBarView!
+    private var cancelButton: UIButton!
     private var tableView: UITableView!
     private var refreshControl: UIRefreshControl!
     private var emptyLabelsSv: UIStackView!
-    var loadingView: LoadingView = LoadingView()
     
-    private var initalLoadTrigger = PublishSubject<Void>()
-    private var didAppearOnce = false
+    convenience init(displayBackButton: Bool) {
+        self.init()
+        self.displayBackButton = displayBackButton
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Palette.appBackground.color
-        setupSearchBarView()
+        view.backgroundColor = .white
+        setupNavSearchBar()
         setupTableView()
         setupLoadingIndicator()
         setupEmptyView()
@@ -98,9 +105,6 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
         if let index = self.tableView.indexPathForSelectedRow {
             self.tableView.deselectRow(at: index, animated: false)
         }
-        guard !didAppearOnce else { return }
-        didAppearOnce = true
-        initalLoadTrigger.onNext(())
     }
     
     deinit { print("MarketViewController deinit") }
@@ -113,7 +117,8 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
         let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }.do(onNext: { [unowned self] in
             self.searchBarView.searchTextField.text = nil
         })
-        let fetchStocks$ = Observable.of(initalLoadTrigger.asObservable(), refreshControl$).merge().share()
+        let initalLoad$ = Observable.of(())
+        let fetchStocks$ = Observable.of(initalLoad$, refreshControl$).merge().share()
         viewModel.bindFetchStocks(fetchStocks$)
         
         let stockTapped$ = tableView.rx.modelSelected(StockSummary.self).asObservable()
@@ -124,10 +129,8 @@ class MarketViewController: UIViewController, BindableType, LoadingIndicatable {
         viewModel.bindSearchText(searchText$)
         
         //Only called when accessed from fund detail
-        cancelButton.rx.tap.asObservable()
+        navView.backButton.rx.tap.asObservable()
             .subscribe(onNext: { [unowned self] in
-                self.cancelButton.isHidden = true
-                self.searchBarView.backgroundColor = Palette.faintBlue.color
                 self.navigationController?.popViewController(animated: true)
             })
             .disposed(by: disposeBag)
@@ -194,22 +197,28 @@ extension MarketViewController: UITableViewDelegate {
 
 extension MarketViewController {
     
-    private func setupSearchBarView() {
-        cancelButton = UIButton().rxStyle(title: "Cancel", font: FontBook.AvenirMedium.of(size: 11), backColor: .clear, titleColor: Palette.darkNavy.color)
-        cancelButton.isHidden = true
-        
+    private func setupNavSearchBar() {
         searchBarView = SearchBarView()
         searchBarView.style(placeHolder: "Search by ticker or company...", backColor: Palette.faintBlue.color, searchIcon: #imageLiteral(resourceName: "IC_Search_LightBlue"), clearIcon: #imageLiteral(resourceName: "IC_ClearSearch"))
         
-        let sv = UIStackView(arrangedSubviews: [searchBarView, cancelButton])
-        sv.spacing = 20.0
-        
-        view.addSubview(sv)
-        sv.snp.makeConstraints { (make) in
-            make.top.equalTo(view.snp.topMargin).offset(20)
-            make.right.equalTo(view).offset(-20)
-            make.left.equalTo(20)
-            make.height.equalTo(60)
+        if displayBackButton {
+            setupNavBar(height: 60.0, color: .white)
+            searchBarView.searchTextField.backgroundColor = .clear
+            view.addSubview(searchBarView)
+            searchBarView.snp.makeConstraints { (make) in
+                make.left.equalTo(navView.backButton.snp.right)
+                make.centerY.equalTo(navView)
+                make.right.equalTo(navView).offset(-20)
+                make.height.equalTo(56)
+            }
+        } else {
+            view.addSubview(searchBarView)
+            searchBarView.snp.makeConstraints { (make) in
+                make.top.equalTo(view.snp.topMargin).offset(20)
+                make.right.equalTo(view).offset(-20)
+                make.left.equalTo(20)
+                make.height.equalTo(60)
+            }
         }
     }
     
@@ -226,7 +235,7 @@ extension MarketViewController {
         
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
-            make.top.equalTo(searchBarView.snp.bottom).offset(10)
+            make.top.equalTo(displayBackButton ? navView.snp.bottom : searchBarView.snp.bottom).offset(5)
             make.left.right.bottom.equalTo(view)
         }
         

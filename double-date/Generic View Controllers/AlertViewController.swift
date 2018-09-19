@@ -217,7 +217,7 @@ extension AlertViewController {
         }
         
         static func acceptInvitation(invite: Invitation) -> AlertInfo  {
-            return AlertInfo(header: "Accept Invite>",
+            return AlertInfo(header: "Accept Invite",
                              message: "Would you like to accept or reject your invite to: \(invite.fundName)?",
                 okButtonTitle: "Accept",
                 cancelButtonTitle: "Reject")
@@ -254,7 +254,7 @@ final class CustomAlertView: UIView {
             setupOkButton()
             setupCancelButton()
             setupButtonStackView()
-            setupDividerView()
+            //setupDividerView()
         }
         
         setupHeaderLabel()
@@ -277,16 +277,16 @@ final class CustomAlertView: UIView {
     
     fileprivate func setupOkButton() {
         okButton = UIButton()
-        okButton.setTitleColor(Palette.aqua.color, for: .normal)
-        okButton.titleLabel?.font = FontBook.AvenirHeavy.of(size: 15)
-        okButton.backgroundColor = UIColor.white
+        okButton.backgroundColor = Palette.aqua.color
+        okButton.setTitleColor(.white, for: .normal)
+        okButton.titleLabel?.font = FontBook.AvenirHeavy.of(size: 13)
     }
     
     fileprivate func setupCancelButton() {
         cancelButton = UIButton()
-        cancelButton.setTitleColor(Palette.lightBlue.color, for: .normal)
-        cancelButton.titleLabel?.font = FontBook.AvenirHeavy.of(size: 15)
-        cancelButton.backgroundColor = UIColor.white
+        cancelButton.backgroundColor = Palette.darkNavy.color
+        cancelButton.setTitleColor(.white, for: .normal)
+        cancelButton.titleLabel?.font = FontBook.AvenirHeavy.of(size: 13)
     }
     
     fileprivate func setupButtonStackView() {
@@ -299,28 +299,29 @@ final class CustomAlertView: UIView {
         stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
         stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
         stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-        stackView.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
+        stackView.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
     
     fileprivate func setupHeaderLabel() {
         headerLabel = UILabel()
+        headerLabel.textAlignment = .left
         headerLabel.font = FontBook.AvenirHeavy.of(size: 15)
         headerLabel.textColor = Palette.darkNavy.color
     }
     
     fileprivate func setupMessageLabel() {
         messageLabel = UILabel()
+        messageLabel.textAlignment = .left
         messageLabel.numberOfLines = 0
         messageLabel.font = FontBook.AvenirMedium.of(size: 13)
-        messageLabel.textAlignment = .center
         messageLabel.textColor = Palette.lightBlue.color
     }
     
     fileprivate func setupLabelStackView(given buttonCount: AlertViewController.ButtonCount) {
         labelStackView = UIStackView(arrangedSubviews: [headerLabel, messageLabel])
         labelStackView.axis = .vertical
-        labelStackView.spacing = 15.0
-        labelStackView.alignment = .center
+        labelStackView.spacing = 12.0
+        labelStackView.alignment = .leading
         
         containerView.addSubview(labelStackView)
         labelStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -329,35 +330,35 @@ final class CustomAlertView: UIView {
         labelStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
         switch buttonCount {
         case .one:
-            labelStackView.bottomAnchor.constraint(equalTo: singleButton.topAnchor, constant: -5).isActive = true
+            labelStackView.bottomAnchor.constraint(equalTo: singleButton.topAnchor, constant: -20).isActive = true
         case .two:
-            labelStackView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -5).isActive = true
+            labelStackView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -20).isActive = true
         }
     }
     
     fileprivate func setupSingleButton() {
         singleButton = UIButton()
-        singleButton.backgroundColor = UIColor.white
+        singleButton.backgroundColor = Palette.aqua.color
         
         containerView.addSubview(singleButton)
         singleButton.translatesAutoresizingMaskIntoConstraints = false
         singleButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor).isActive = true
         singleButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor).isActive = true
         singleButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
-        singleButton.heightAnchor.constraint(equalToConstant: 60.0).isActive = true
+        singleButton.heightAnchor.constraint(equalToConstant: 50.0).isActive = true
     }
     
-    private func setupDividerView() {
-        dividerView = UIView()
-        dividerView.backgroundColor = Palette.faintGrey.color
-        
-        containerView.addSubview(dividerView)
-        dividerView.snp.makeConstraints { (make) in
-            make.centerX.equalTo(containerView)
-            make.centerY.equalTo(stackView)
-            make.width.equalTo(2)
-            make.height.equalTo(stackView).multipliedBy(0.5)
-        }
-    }
+//    private func setupDividerView() {
+//        dividerView = UIView()
+//        dividerView.backgroundColor = Palette.faintGrey.color
+//
+//        containerView.addSubview(dividerView)
+//        dividerView.snp.makeConstraints { (make) in
+//            make.centerX.equalTo(containerView)
+//            make.centerY.equalTo(stackView)
+//            make.width.equalTo(2)
+//            make.height.equalTo(stackView).multipliedBy(0.5)
+//        }
+//    }
     
 }

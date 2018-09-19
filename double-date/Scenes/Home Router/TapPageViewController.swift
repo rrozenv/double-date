@@ -84,6 +84,7 @@ final class TabPageViewController: UIViewController {
 extension TabPageViewController {
     
     private func setupTabOptionsView() {
+        tabView.dropShadow()
         view.addSubview(tabView)
         tabView.snp.makeConstraints { (make) in
             make.left.right.bottom.equalTo(view)

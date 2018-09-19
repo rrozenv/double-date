@@ -37,7 +37,7 @@ final class HomeRouter: Routable {
     }()
     
     lazy var marketVc: MarketViewController = { [unowned self] in
-        var marketVc = MarketViewController()
+        var marketVc = MarketViewController(displayBackButton: false)
         var marketVm = MarketViewModel()
         marketVm.delegate = self
         marketVc.setViewModelBinding(model: marketVm)
@@ -83,13 +83,15 @@ extension HomeRouter {
                                                             marketVc,
                                                             invitationsVc,
                                                             profileVc],
-                                          tabView: TabBarView(bttnCount: 4))
+                                          tabView: TabBarView(icons: [#imageLiteral(resourceName: "IC_Dashboard"), #imageLiteral(resourceName: "IC_Market"), #imageLiteral(resourceName: "IC_Invitations"), #imageLiteral(resourceName: "IC_Profile")]))
         navVc.pushViewController(tabVc, animated: true)
     }
     
     private func toStockSearch() {
-        marketVc.cancelButton.isHidden = false
-        marketVc.searchBarView.searchTextField.backgroundColor = .clear
+        var marketVc = MarketViewController(displayBackButton: true)
+        var marketVm = MarketViewModel()
+        marketVm.delegate = self
+        marketVc.setViewModelBinding(model: marketVm)
         navVc.pushViewController(marketVc, animated: true)
     }
     

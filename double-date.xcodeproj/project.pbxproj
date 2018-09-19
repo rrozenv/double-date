@@ -429,20 +429,11 @@
 		9806647520DD9AE800951DBD /* Create Fund Router */ = {
 			isa = PBXGroup;
 			children = (
-				980B8D8E2142D309005E6B21 /* Game Name */,
-				98031FFE213621730090647A /* Enter Date */,
 				9806645020DD5A5400951DBD /* CreateFundRouter.swift */,
-				9805770221062B790006821E /* Create Game */,
+				98031FFE213621730090647A /* Enter Date */,
 				986AE2DA20DDD55D00A78E42 /* Select Contacts */,
 			);
 			path = "Create Fund Router";
-			sourceTree = "<group>";
-		};
-		980B8D8E2142D309005E6B21 /* Game Name */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Game Name";
 			sourceTree = "<group>";
 		};
 		981FAA0020F43CC2005F2C22 /* Purchase Info */ = {
@@ -627,6 +618,7 @@
 		9836FD6121079A2E0017C3BA /* Old Stuff */ = {
 			isa = PBXGroup;
 			children = (
+				9805770221062B790006821E /* Create Game */,
 				987D54C4210542B6007B3C53 /* Date Selection */,
 				98C06E6C20DB3BAC00426EEC /* Create Fund */,
 			);

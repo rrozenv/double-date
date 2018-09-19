@@ -21,6 +21,7 @@ struct FundListViewModel {
     
     //MARK: - Properties
     private let fundService = FundService()
+    private let posService = PositionService()
     private let errorTracker: ErrorTracker
     private let _funds = Variable<[Fund]>([])
     weak var delegate: FundListViewModelDelegate?
@@ -51,6 +52,10 @@ struct FundListViewModel {
             }
             .bind(to: _funds)
             .disposed(by: disposeBag)
+//        let string$ = Observable.of("heyu")
+//        let int$ = Observable.of(1)
+//        Observable.zip(string$, int$)
+//            .
     }
     
     func bindSelectedFund(_ observable: Observable<Fund>) {
@@ -102,7 +107,7 @@ extension FundListViewModel {
     
     private func createSectionsFor(funds: [Fund]) -> [FundsListMultipleSectionViewModel] {
         var sections = [FundsListMultipleSectionViewModel]()
-        let openfunds = funds.filter { $0.status == .open }
+        let openfunds = funds.filter { $0.status != .completed }
         let closedFunds = funds.filter { $0.status == .completed }
         
         if openfunds.isNotEmpty {
@@ -111,7 +116,7 @@ extension FundListViewModel {
                                                             items: openfunds)
             )
         }
-        
+
         if closedFunds.isNotEmpty {
             sections.append(
                 FundsListMultipleSectionViewModel.closedFunds(title: "CLOSED",
@@ -123,3 +128,21 @@ extension FundListViewModel {
     }
     
 }
+
+// MARK: - Concurrent async example
+
+//func bindMultipleAsyncRequestsFunds(_ observable: Observable<Void>) {
+//    observable
+//        .flatMapLatest { _ -> Observable<([Fund], [Position])> in
+//            let allFunds$ = self.fundService.getFunds()
+//            let singleFund$ = self.posService.getAllPositions()
+//            return Observable.zip(allFunds$, singleFund$)
+//                .trackNetworkError(self.errorTracker)
+//        }
+//        .subscribe(onNext: { funds, positions in
+//            print("I got \(funds.count) funds and \(positions.count) positions")
+//        })
+//        .disposed(by: disposeBag)
+//}
+
+

@@ -9,7 +9,7 @@
 import Foundation
 
 enum FundStatus: String, Codable {
-    case open, completed
+    case open, pending, completed
 }
 
 struct Fund: Codable, Identifiable {
@@ -24,11 +24,23 @@ struct Fund: Codable, Identifiable {
 }
 
 extension Fund {
-    var daysLeft: Int {
+    var daysLeft: Int? {
+        guard status == .open else { return nil }
         let days = Calendar.current.dateComponents([.day], from: startDate, to: endDate).day
-        print("days left: \(days ?? 0)")
         return days ?? 0
     }
+    
+//    var daysUntilStart: Int? {
+//        guard !isActive else { return nil }
+//        let days = Calendar.current.dateComponents([.day], from: Date(), to: startDate).day
+//        return days ?? 0
+//    }
+    
+//    var isActive: Bool {
+//        guard let startDay = Calendar.current.dateComponents([.day], from: startDate).day,
+//              let today = Calendar.current.dateComponents([.day], from: Date()).day else { return false }
+//        return startDay >= today
+//    }
 }
 
 struct Portfolio: Codable, Identifiable {

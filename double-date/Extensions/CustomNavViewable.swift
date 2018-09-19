@@ -14,15 +14,15 @@ protocol CustomNavBarViewable: class {
     associatedtype View: UIView
     var navView: View { get set }
     var navBackgroundView: UIView { get set }
-    func setupNavBar(color: UIColor?)
+    func setupNavBar(height: CGFloat, color: UIColor?)
     func setTitleLabel(_ label: UILabel)
 }
 
 extension CustomNavBarViewable where Self: UIViewController {
     
-    func setupNavBar(color: UIColor? = nil) {
+    func setupNavBar(height: CGFloat = 50.0, color: UIColor? = nil) {
         self.navigationController?.isNavigationBarHidden = true
-        setupNavView()
+        setupNavView(height: height)
         setupNavBarBackgroundView()
         navView.backgroundColor = color
         navBackgroundView.backgroundColor = color
@@ -33,11 +33,11 @@ extension CustomNavBarViewable where Self: UIViewController {
         label.snp.makeConstraints { $0.center.equalTo(navView).offset(2) }
     }
     
-    private func setupNavView() {
+    private func setupNavView(height: CGFloat) {
         view.addSubview(navView)
         navView.snp.makeConstraints { (make) in
             make.left.right.equalTo(view)
-            make.height.equalTo(50)
+            make.height.equalTo(height)
             make.topEqualTo(view)
         }
     }

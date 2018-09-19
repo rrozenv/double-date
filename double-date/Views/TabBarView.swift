@@ -18,29 +18,27 @@ final class TabBarView: UIView, TabBarViewable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(bttnCount: Int = 3) {
+    init(icons: [UIImage]) {
         super.init(frame: .zero)
-        setupButtonsWith(count: bttnCount)
+        setupButtonsWith(icons: icons)
     }
     
     func adjustButtonStyle(selected tag: Int) {
         buttons.forEach {
-            $0.backgroundColor =
-                ($0.tag == tag) ? .red : .yellow
+            $0.imageView?.setImageColor(color: ($0.tag == tag) ? Palette.aqua.color : Palette.lightGrey.color)
         }
     }
     
-    private func setupButtonsWith(count: Int) {
+    private func setupButtonsWith(icons: [UIImage]) {
         let props = StackViewProps(axis: .horizontal, distribution: .fillEqually, spacing: 0)
-        let stackView = CustomStackView<UIButton>(number: count, stackViewProps: props)
+        let stackView = CustomStackView<UIButton>(number: icons.count, stackViewProps: props)
         self.buttons = stackView.views
-        self.buttons.enumerated().forEach {
-            $0.element.tag = $0.offset
-        }
+        self.buttons.enumerated().forEach { $0.element.tag = $0.offset }
         
-        for i in 0..<count {
-            self.buttons[i].backgroundColor = .random
-            self.buttons[i].setTitle("\(i + 1)", for: .normal)
+        for i in 0..<icons.count {
+            self.buttons[i].setImage(icons[i], for: .normal)
+            self.buttons[i].imageView?.setImageColor(color: Palette.lightGrey.color)
+            self.buttons[i].backgroundColor = .white
         }
         
         adjustButtonStyle(selected: 0)

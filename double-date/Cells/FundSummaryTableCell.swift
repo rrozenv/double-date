@@ -45,9 +45,13 @@ final class FundSummaryTableCell: UITableViewCell {
     // MARK: - Configuration
     func configureWith(value: Fund) {
         mainLabel.text = value.name
-        dateLabel.text = "\(value.daysLeft) days left"
         rightLabel.text = "\(value.currentUserPortfolio.portfolioROI.asPercentage)"
         rightLabel.textColor = value.currentUserPortfolio.portfolioROI >= 0 ? Palette.aqua.color : Palette.purple.color
+        switch value.status {
+        case .open: dateLabel.text = "\(value.daysLeft ?? 0) days left"
+        case .pending: dateLabel.text = "Starts on \(value.startDate.dayMonthYearString)"
+        case .completed: dateLabel.text = "Game completed on \(value.endDate.dayMonthYearString)"
+        }
     }
     
     func configureWith(value: NewsArticle) {

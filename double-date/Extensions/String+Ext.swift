@@ -54,7 +54,7 @@ extension Double {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 2
-        return "\(formatter.string(from: NSNumber(value: self * 100.0)) ?? "0.00")%"
+        return self != 0 ? "\(formatter.string(from: NSNumber(value: self * 100.0)) ?? "0.00")%" : "0.00%"
     }
     
 }
