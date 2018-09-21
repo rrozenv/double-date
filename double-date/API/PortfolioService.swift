@@ -27,11 +27,11 @@ struct PortfolioService {
                       parameters: ["ids": ids.joined(separator: ",")],
                       encoding: URLEncoding.queryString,
                       headers: [Secrets.tokenKeyString: token ?? ""])
-            .flatMap {
-                return self.cache.save(objects: $0)
+            .flatMap { ports in
+                return self.cache.save(objects: ports)
                     .asObservable()
-                    .mapArray(type: Portfolio.self)
-                    .concat(Observable.just($0))
+                    .map { _ in ports }
+                    //.mapArray(type: Portfolio.self)
             }
         return cachedPorts.concat(networkPorts)
     }

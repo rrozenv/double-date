@@ -22,6 +22,7 @@ struct FundListViewModel {
     //MARK: - Properties
     private let fundService = FundService()
     private let posService = PositionService()
+    private let stockService = StockService()
     private let errorTracker: ErrorTracker
     private let _funds = Variable<[Fund]>([])
     weak var delegate: FundListViewModelDelegate?
@@ -52,10 +53,6 @@ struct FundListViewModel {
             }
             .bind(to: _funds)
             .disposed(by: disposeBag)
-//        let string$ = Observable.of("heyu")
-//        let int$ = Observable.of(1)
-//        Observable.zip(string$, int$)
-//            .
     }
     
     func bindSelectedFund(_ observable: Observable<Fund>) {
@@ -133,14 +130,15 @@ extension FundListViewModel {
 
 //func bindMultipleAsyncRequestsFunds(_ observable: Observable<Void>) {
 //    observable
-//        .flatMapLatest { _ -> Observable<([Fund], [Position])> in
+//        .flatMapLatest { _ -> Observable<([Fund], [Position], [StockSummary])> in
 //            let allFunds$ = self.fundService.getFunds()
 //            let singleFund$ = self.posService.getAllPositions()
-//            return Observable.zip(allFunds$, singleFund$)
+//            let stocks$ = self.stockService.getPopularStocks()
+//            return Observable.zip(allFunds$, singleFund$, stocks$)
 //                .trackNetworkError(self.errorTracker)
 //        }
-//        .subscribe(onNext: { funds, positions in
-//            print("I got \(funds.count) funds and \(positions.count) positions")
+//        .subscribe(onNext: { funds, positions, stocks in
+//            print("I got \(funds.count) funds and \(positions.count) positions, stocks: \(stocks.count)")
 //        })
 //        .disposed(by: disposeBag)
 //}

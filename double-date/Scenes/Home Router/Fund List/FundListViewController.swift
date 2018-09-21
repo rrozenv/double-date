@@ -52,7 +52,7 @@ class FundListViewController: UIViewController, CustomNavBarViewable, BindableTy
         let refreshControl$ = refreshControl.rx.controlEvent(.valueChanged).map { _ in () }
         let fetchFunds$ = Observable.of(initialLoad$, refreshControl$).merge().share()
         viewModel.bindFetchFunds(fetchFunds$)
-        
+       
         //MARK: - Output
         dataSource = FundListViewController.dataSource()
         let sections$ = viewModel.sections.share()
