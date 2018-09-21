@@ -35,6 +35,7 @@
 		9826B470210A257800E29902 /* StockSearchTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9826B46F210A257800E29902 /* StockSearchTableCell.swift */; };
 		9826B472210A58A700E29902 /* PositionSummaryTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */; };
 		982AC28521250E9000E1C66F /* SelectFundTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982AC28421250E9000E1C66F /* SelectFundTableCell.swift */; };
+		982C6E692154791600700226 /* CustomNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982C6E682154791600700226 /* CustomNavigationController.swift */; };
 		98300A0120D1ED3C00D7C4BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */; };
 		98300A0820D1ED3C00D7C4BA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0720D1ED3C00D7C4BA /* Assets.xcassets */; };
 		98300A0B20D1ED3C00D7C4BA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98300A0920D1ED3C00D7C4BA /* LaunchScreen.storyboard */; };
@@ -185,6 +186,7 @@
 		9826B46F210A257800E29902 /* StockSearchTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockSearchTableCell.swift; sourceTree = "<group>"; };
 		9826B471210A58A700E29902 /* PositionSummaryTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionSummaryTableCell.swift; sourceTree = "<group>"; };
 		982AC28421250E9000E1C66F /* SelectFundTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFundTableCell.swift; sourceTree = "<group>"; };
+		982C6E682154791600700226 /* CustomNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavigationController.swift; sourceTree = "<group>"; };
 		983009FD20D1ED3C00D7C4BA /* double-date.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "double-date.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98300A0020D1ED3C00D7C4BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98300A0720D1ED3C00D7C4BA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -432,6 +434,7 @@
 				9806645020DD5A5400951DBD /* CreateFundRouter.swift */,
 				98031FFE213621730090647A /* Enter Date */,
 				986AE2DA20DDD55D00A78E42 /* Select Contacts */,
+				982C6E682154791600700226 /* CustomNavigationController.swift */,
 			);
 			path = "Create Fund Router";
 			sourceTree = "<group>";
@@ -1029,6 +1032,7 @@
 				98DCE832210FB81D00106F2D /* LeaderBoardTableCell.swift in Sources */,
 				9806646320DD740800951DBD /* TabBarView.swift in Sources */,
 				9826B46E210A131E00E29902 /* FundSummaryTableCell.swift in Sources */,
+				982C6E692154791600700226 /* CustomNavigationController.swift in Sources */,
 				98300A5B20D1F72900D7C4BA /* FontBook.swift in Sources */,
 				989963D920D412C300AD9F9F /* NetworkActivityLogger.swift in Sources */,
 				98300A5420D1F6B800D7C4BA /* Observable+Ext.swift in Sources */,
