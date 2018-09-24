@@ -10,26 +10,33 @@ import Foundation
 import UIKit
 import RxSwift
 
-//protocol TabBarViewable: class {
-//    var buttons: [UIButton] { get }
-//    func adjustButtonStyle(selected tag: Int)
-//}
+final class CreatFundNavigationController: UIViewController, Routable {
 
-final class CustomNavigationController: UIViewController {
+    enum Screen: Int {
+        case gameName
+        case initalInvestment
+        case startDate
+        case endDate
+        case details
+        case invites
+    }
     
-    private(set) var navBarView: UIView!
     let navVc = UINavigationController()
+    let screenOrder: [Screen] = [.gameName, .initalInvestment, .startDate, .endDate, .invites]
+    var screenIndex = 0
     
-    required init(coder aDecoder: NSCoder) { super.init(coder: aDecoder)! }
+    private(set) var navBarView = BackButtonNavView.blackArrow
     
-    override init(nibName nibNameOrNil: String!, bundle nibBundleOrNil: Bundle!) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
+    //MARK: - Public Props
+    var newFund = Variable<Fund?>(nil)
+    var dismiss = PublishSubject<Void>()
     
-    init(navView: UIView) {
-        super.init(nibName: nil, bundle: nil)
-        self.navBarView = navView
-    }
+    //MARK: - Private Props
+    let disposeBag = DisposeBag()
+    private let errorTracker = ErrorTracker()
+    private let fundInfo = Variable(FundInfo())
+    private let createFund = PublishSubject<Void>()
+    private let fundService = FundService()
     
     deinit { print("CustomNavigationController deinit") }
     
@@ -41,9 +48,149 @@ final class CustomNavigationController: UIViewController {
         setupNavVc()
     }
     
+    func bindViewModel() {
+        self.navigateTo(screen: .gameName)
+        
+        self.createFund.asObservable()
+            .withLatestFrom(fundInfo.asObservable())
+            .filter { $0.isValid }
+            .flatMapLatest { [unowned self] in
+                self.fundService.create(params: $0.params)
+                    .trackNetworkError(self.errorTracker)
+                    .asDriverOnErrorJustComplete()
+            }
+            .subscribe(onNext: { [weak self] fund in
+                self?.newFund.value = fund
+                self?.navVc.dismiss(animated: true, completion: {
+                    self?.dismiss.onNext(())
+                })
+            })
+            .disposed(by: disposeBag)
+        
+        errorTracker.asDriver()
+            .drive(onNext: {
+                print("Error: \($0)")
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func navigateTo(screen: Screen) {
+        switch screen {
+        case .gameName: toEnterGameName()
+        case .initalInvestment: toInitalInvestment()
+        case .startDate: toEnterStartDate()
+        case .endDate: toEnterEndDate()
+        case .details: toFundDetails()
+        case .invites: toSelectContacts()
+        }
+    }
+    
 }
 
-extension CustomNavigationController {
+extension CreatFundNavigationController {
+    
+    private func toEnterGameName() {
+        var vc = EnterNameViewController()
+        var vm = EnterNameViewModel(nameType: .gameName)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toInitalInvestment() {
+        var vc = EnterNameViewController()
+        var vm = EnterNameViewModel(nameType: .currenyAmount)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toEnterStartDate() {
+        var vc = EnterDateViewController()
+        var vm = EnterDateViewModel(dateType: .start)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toEnterEndDate() {
+        var vc = EnterDateViewController()
+        var vm = EnterDateViewModel(dateType: .end)
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toSelectContacts() {
+        var vc = SelectContactsViewController()
+        var vm = SelectContactsViewModel()
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+    private func toFundDetails() {
+        var vc = CreateFundFormViewController()
+        var vm = CreateFundFormViewModel()
+        vm.delegate = self
+        vc.setViewModelBinding(model: vm)
+        navVc.pushViewController(vc, animated: true)
+    }
+    
+}
+
+extension CreatFundNavigationController: EnterNameViewModelDelegate {
+
+    func didEnter(name: String, type: EnterNameViewModel.NameType) {
+        switch type {
+        case .gameName: fundInfo.value.name = name
+        case .currenyAmount: fundInfo.value.maxCashBalance = Int(name)
+        default: break
+        }
+        toNextScreen()
+    }
+    
+}
+
+extension CreatFundNavigationController: EnterDateViewModelDelegate {
+    
+    func didEnter(date: Date, type: EnterDateViewModel.DateType) {
+        print("Entered date \(date)")
+        switch type {
+        case .start: fundInfo.value.startDate = date
+        case .end: fundInfo.value.endDate = date
+        }
+        toNextScreen()
+    }
+    
+}
+
+extension CreatFundNavigationController: CreateFundFormViewModelDelegate {
+    
+    func didEnterFund(details: FundDetails) {
+        fundInfo.value.name = details.name
+        fundInfo.value.maxCashBalance = (Int(details.maxCashBalance)! / 100)
+        fundInfo.value.startDate = details.startDate
+        fundInfo.value.endDate = details.endDate
+        //print("ISO Date: \(details.startDate.dayMonthYearISO8601String)")
+        self.toNextScreen()
+    }
+    
+}
+
+extension CreatFundNavigationController: SelectContactsViewModelDelegate {
+    
+    func didSelectContacts(_ contacts: [Contact]) {
+        //print(contacts)
+        fundInfo.value.invitedPhoneNumbers = contacts.map { $0.primaryNumber ?? $0.numbers.first! }
+        fundInfo.value.invitedPhoneNumbers.append("2018354011")
+        print(fundInfo.value)
+        createFund.onNext(())
+    }
+    
+}
+
+extension CreatFundNavigationController {
     
     private func setupNavBarView() {
         view.addSubview(navBarView)
@@ -60,4 +207,5 @@ extension CustomNavigationController {
             make.top.equalTo(navBarView.snp.bottom)
         }
     }
+    
 }
