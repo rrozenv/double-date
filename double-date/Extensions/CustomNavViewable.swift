@@ -39,6 +39,7 @@ extension CustomNavBarViewable where Self: UIViewController {
             make.left.right.equalTo(view)
             make.height.equalTo(height)
             make.topEqualTo(view)
+            make.top.equalTo(view)
         }
     }
     
