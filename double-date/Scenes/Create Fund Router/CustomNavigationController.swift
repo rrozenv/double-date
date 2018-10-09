@@ -142,7 +142,6 @@ extension CreatFundNavigationController {
 extension CreatFundNavigationController: EnterNameViewModelDelegate {
     func didTapBackButton() {
     }
-    
 
     func didEnter(name: String, type: EnterNameViewModel.NameType) {
         switch type {
